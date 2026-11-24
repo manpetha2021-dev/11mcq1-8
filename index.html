@@ -1,0 +1,2634 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11 ශ්‍රේණිය - ඉතිහාසය (01 - 08 ඒකක මාර්ගගත විභාග පද්ධතිය)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Noto Sans Sinhala -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Sinhala', sans-serif;
+            background-color: #f1f5f9;
+            color: #1f2937;
+        }
+        .option-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-btn:hover {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .option-btn.selected {
+            background-color: #dbeafe;
+            border-color: #1d4ed8;
+            font-weight: 600;
+        }
+        .no-select {
+            user-select: none;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: white; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen pb-12">
+
+    <!-- Header / Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-blue-950 text-white shadow-lg border-b-4 border-amber-500 no-print">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="bg-blue-900 hover:bg-blue-800 text-amber-300 border border-blue-700 px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shrink-0" title="මුල් පිටුවට යන්න">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="hidden sm:inline">මුල් පිටුව</span>
+                </a>
+                <div>
+                    <span id="header-unit-label" class="text-xs text-amber-400 font-semibold uppercase tracking-wider block">11 ශ්‍රේණිය - ඉතිහාසය</span>
+                    <h1 id="header-lesson-title" class="text-base md:text-xl font-bold leading-tight">මාර්ගගත බහුවරණ ඇගයීම් පද්ධතිය (ඒකක 01 - 08)</h1>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <!-- Timer & Progress (Visible during Exam) -->
+                <div id="exam-status-bar" class="hidden flex items-center gap-3 bg-blue-900 px-3 py-1.5 rounded-lg border border-blue-700">
+                    <div class="flex items-center gap-1.5">
+                        <i class="fa-regular fa-clock text-amber-400 text-base"></i>
+                        <span id="timer" class="font-mono text-base md:text-lg font-bold text-amber-300">60:00</span>
+                    </div>
+                    <div class="h-6 w-px bg-blue-700"></div>
+                    <div class="text-xs">
+                        <span class="text-slate-300 block">පිළිතුරු</span>
+                        <span id="progress-text" class="font-bold text-emerald-400">0 / 40</span>
+                    </div>
+                </div>
+
+                <!-- Teacher Control Button -->
+                <button onclick="openTeacherLogin()" class="bg-amber-500 hover:bg-amber-600 text-blue-950 font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center gap-2 text-xs md:text-sm">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>ගුරු පාලනය</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 1: STUDENT LOGIN & LESSON SELECTION SCREEN                       -->
+    <!-- ===================================================================== -->
+    <section id="login-screen" class="max-w-4xl mx-auto px-4 mt-8">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-900 to-blue-800 p-6 text-white text-center border-b-4 border-amber-500">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-full mb-3 border border-white/20">
+                    <i class="fa-solid fa-graduation-cap text-3xl text-amber-400"></i>
+                </div>
+                <h2 class="text-xl md:text-2xl font-extrabold">අ.පො.ස. (සාමාන්‍ය පෙළ) - 11 ශ්‍රේණිය ඉතිහාසය</h2>
+                <p class="text-blue-200 text-sm mt-1">සම්පූර්ණ බහුවරණ ප්‍රශ්න පත්‍ර ඇගයීම් පද්ධතිය (01 - 08 ඒකක)</p>
+            </div>
+
+            <form id="student-login-form" onsubmit="startStudentExam(event)" class="p-6 md:p-8 space-y-5">
+                <div class="bg-blue-50 border-l-4 border-blue-600 p-3.5 rounded-r-lg text-xs md:text-sm text-blue-900">
+                    <i class="fa-solid fa-circle-info mr-1"></i> ප්‍රශ්න පත්‍රය ආරම්භ කිරීමට පෙර ඔබගේ නිවැරදි තොරතුරු ඇතුළත් කර අදාළ ඒකකය තෝරන්න. විභාගය අවසන් කළ පසු ලකුණු <strong>Google Sheet</strong> වෙත සහ <strong>පද්ධතිය</strong> තුළ ස්වයංක්‍රීයව සුරැකේ.
+                </div>
+
+                <!-- Student Name -->
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1.5">
+                        <i class="fa-solid fa-user text-blue-700 mr-1"></i> සිසුවාගේ සම්පූර්ණ නම <span class="text-rose-600">*</span>
+                    </label>
+                    <input type="text" id="student-name" required placeholder="උදා: කේ. ඒ. සඳුන් පෙරේරා"
+                        class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none text-slate-800 font-medium">
+                </div>
+
+                <!-- School/Class & Year Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-bold text-slate-700 mb-1.5">
+                            <i class="fa-solid fa-school text-blue-700 mr-1"></i> පාසල / පන්තිය / කණ්ඩායම <span class="text-rose-600">*</span>
+                        </label>
+                        <input type="text" id="student-school" required placeholder="උදා: සාන්ත අන්තෝනි විදුහල, කඩලාන / 11A"
+                            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none text-slate-800 font-medium">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1.5">
+                            <i class="fa-solid fa-calendar-days text-blue-700 mr-1"></i> වසර <span class="text-rose-600">*</span>
+                        </label>
+                        <input type="text" id="student-year" required value="2026" placeholder="2026"
+                            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 outline-none text-slate-800 font-bold text-center">
+                    </div>
+                </div>
+
+                <!-- Select Lesson (All 8 Units) -->
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">
+                        <i class="fa-solid fa-book-open text-blue-700 mr-1"></i> පාඩම / ඒකකය තෝරන්න (01 - 08) <span class="text-rose-600">*</span>
+                    </label>
+                    <div id="unit-radio-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected-unit" value="1" class="peer sr-only" checked>
+                            <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 hover:bg-slate-50 transition h-full">
+                                <span class="text-xs font-extrabold text-blue-700 uppercase block">01 වන ඒකකය (ප්‍රශ්න 40)</span>
+                                <span class="text-sm font-bold text-slate-800">කාර්මික විප්ලවය</span>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected-unit" value="2" class="peer sr-only">
+                            <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 hover:bg-slate-50 transition h-full">
+                                <span class="text-xs font-extrabold text-blue-700 uppercase block">02 වන ඒකකය (ප්‍රශ්න 40)</span>
+                                <span class="text-sm font-bold text-slate-800">ශ්‍රී ලංකාවේ බ්‍රිතාන්‍ය බලය පිහිටුවීම</span>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected-unit" value="3" class="peer sr-only">
+                            <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 hover:bg-slate-50 transition h-full">
+                                <span class="text-xs font-extrabold text-blue-700 uppercase block">03 වන ඒකකය (ප්‍රශ්න 40)</span>
+                                <span class="text-sm font-bold text-slate-800">ශ්‍රී ලංකාවේ ජාතික පුනරුදය</span>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected-unit" value="4" class="peer sr-only">
+                            <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 hover:bg-slate-50 transition h-full">
+                                <span class="text-xs font-extrabold text-blue-700 uppercase block">04 වන ඒකකය (ප්‍රශ්න 40)</span>
+                                <span class="text-sm font-bold text-slate-800">බ්‍රිතාන්‍යයන් යටතේ දේශපාලන වෙනස්වීම්</span>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected-unit" value="5" class="peer sr-only">
+                            <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 hover:bg-slate-50 transition h-full">
+                                <span class="text-xs font-extrabold text-blue-700 uppercase block">05 වන ඒකකය (ප්‍රශ්න 40)</span>
+                                <span class="text-sm font-bold text-slate-800">බ්‍රිතාන්‍යයන් යටතේ සමාජ පරිවර්තනය</span>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected-unit" value="6" class="peer sr-only">
+                            <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 hover:bg-slate-50 transition h-full">
+                                <span class="text-xs font-extrabold text-blue-700 uppercase block">06 වන ඒකකය (ප්‍රශ්න 40)</span>
+                                <span class="text-sm font-bold text-slate-800">ශ්‍රී ලංකාවට නිදහස ලැබීම</span>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected-unit" value="7" class="peer sr-only">
+                            <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 hover:bg-slate-50 transition h-full">
+                                <span class="text-xs font-extrabold text-blue-700 uppercase block">07 වන ඒකකය (ප්‍රශ්න 40)</span>
+                                <span class="text-sm font-bold text-slate-800">ලෝකයේ කැපී පෙනෙන විප්ලව</span>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected-unit" value="8" class="peer sr-only">
+                            <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 hover:bg-slate-50 transition h-full">
+                                <span class="text-xs font-extrabold text-blue-700 uppercase block">08 වන ඒකකය (ප්‍රශ්න 40)</span>
+                                <span class="text-sm font-bold text-slate-800">ලෝක මහා සංග්‍රාම හා සම්මුතීන්</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="pt-3">
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-base md:text-lg">
+                        <i class="fa-solid fa-play"></i>
+                        විභාගය ආරම්භ කරන්න
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 2: MAIN EXAM CONTAINER (Hidden until Login)                      -->
+    <!-- ===================================================================== -->
+    <main id="exam-screen" class="hidden max-w-5xl mx-auto px-4 mt-4">
+
+        <!-- Unit Quick Switcher Bar inside Exam -->
+        <div class="bg-blue-900 text-white rounded-xl px-4 py-2.5 mb-4 shadow flex items-center justify-between gap-2 overflow-x-auto no-print">
+            <div class="flex items-center gap-1.5">
+                <span class="text-xs text-blue-200 font-bold mr-1 shrink-0">ඒකකය මාරු කරන්න:</span>
+                <div id="unit-switcher" class="flex items-center gap-1.5"></div>
+            </div>
+            <button onclick="returnToHome()" class="bg-white/10 hover:bg-white/20 text-amber-300 px-3 py-1 rounded-lg text-xs font-bold transition shrink-0">
+                <i class="fa-solid fa-arrow-left mr-1"></i> තොරතුරු වෙනස් කරන්න
+            </button>
+        </div>
+
+        <!-- Student Info Strip -->
+        <div class="bg-white border border-slate-200 text-slate-800 rounded-xl p-4 mb-5 shadow-sm flex flex-wrap justify-between items-center gap-3 text-xs md:text-sm">
+            <div class="flex flex-wrap items-center gap-4">
+                <span><i class="fa-solid fa-user-graduate text-blue-700 mr-1"></i> <strong>නම:</strong> <span id="disp-name">-</span></span>
+                <span><i class="fa-solid fa-school text-blue-700 mr-1"></i> <strong>පාසල / පන්තිය:</strong> <span id="disp-school">-</span></span>
+                <span><i class="fa-solid fa-calendar text-blue-700 mr-1"></i> <strong>වසර:</strong> <span id="disp-year">-</span></span>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+                <i class="fa-solid fa-cloud-arrow-up mr-1"></i> ස්වයංක්‍රීය ලකුණු සුරැකීම සක්‍රීයයි
+            </span>
+        </div>
+
+        <!-- Examination Banner -->
+        <div class="bg-white rounded-xl shadow-md p-5 mb-6 border border-slate-200">
+            <div class="text-center border-b pb-4 mb-4 border-slate-200">
+                <h2 id="banner-main-title" class="text-lg md:text-xl font-bold text-slate-800">අ.පො.ස. (සාමාන්‍ය පෙළ) - 11 ශ්‍රේණිය ඉතිහාසය</h2>
+                <p id="banner-sub-title" class="text-sm font-semibold text-slate-600">කාලය: පැය එකයි</p>
+            </div>
+            <div class="text-xs md:text-sm text-slate-700 space-y-1 bg-amber-50 p-3 rounded-lg border border-amber-200">
+                <p class="font-bold text-amber-900 mb-1"><i class="fa-solid fa-circle-info mr-1"></i> උපදෙස්:</p>
+                <p>• සියලුම ප්‍රශ්න වලට පිළිතුරු සපයන්න. විභාගය අවසන් කළ පසු ඔබගේ ලකුණු <strong>Google Sheet</strong> වෙත සහ <strong>පද්ධතිය</strong> තුළ සුරැකේ.</p>
+                <p>• අංක 1 සිට 40 තෙක් ප්‍රශ්නවල, දී ඇති (1), (2), (3), (4) පිළිතුරු වලින් නිවැරදි හෝ වඩාත් ගැළපෙන පිළිතුර තෝරන්න.</p>
+            </div>
+        </div>
+
+        <!-- Quick Jump Navigation Grid -->
+        <div class="bg-white rounded-xl shadow-md p-4 mb-6 border border-slate-200 no-print">
+            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">ප්‍රශ්න වෙත ඉක්මනින් පිවිසෙන්න:</h3>
+            <div id="nav-grid" class="grid grid-cols-8 sm:grid-cols-10 md:grid-cols-20 gap-1.5">
+                <!-- Javascript will populate jump buttons here -->
+            </div>
+        </div>
+
+        <!-- Questions List Container -->
+        <div id="questions-container" class="space-y-6">
+            <!-- Questions rendered via JavaScript -->
+        </div>
+
+        <!-- Submit Button Section -->
+        <div id="submit-box" class="mt-8 text-center bg-white p-6 rounded-xl shadow-md border border-slate-200 no-print">
+            <p class="text-slate-600 mb-4 text-sm">සියලු ප්‍රශ්න සඳහා පිළිතුරු සැපයීමෙන් පසු ඔබගේ ලකුණු පරීක්ෂා කර ගැනීමට සහ සුරැකීමට පහත බොත්තම ඔබන්න.</p>
+            <button onclick="confirmSubmit()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all duration-200 flex items-center gap-2 mx-auto text-base">
+                <i class="fa-solid fa-paper-plane"></i>
+                විභාගය අවසන් කරන්න (Submit)
+            </button>
+        </div>
+
+        <!-- Results Modal / Section (Hidden by default) -->
+        <div id="results-section" class="hidden mt-8 bg-white rounded-2xl shadow-2xl border-2 border-blue-600 p-6 md:p-8">
+            <div class="text-center border-b pb-6 mb-6">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-blue-100 text-blue-800 rounded-full mb-3 shadow-inner">
+                    <i class="fa-solid fa-trophy text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-extrabold text-slate-800">ඔබගේ විභාග ප්‍රතිඵලය</h2>
+                <p id="result-unit-subtitle" class="text-slate-500 text-sm mt-1">11 ශ්‍රේණිය - ඉතිහාසය</p>
+                
+                <!-- Student Certificate Details -->
+                <div class="mt-4 inline-block bg-slate-100 border border-slate-300 rounded-xl px-5 py-2.5 text-xs md:text-sm text-slate-700">
+                    <span class="font-bold text-slate-900" id="res-student-name"></span> | 
+                    <span id="res-student-school"></span> (<span id="res-student-year"></span>)
+                </div>
+
+                <!-- Google Sheet Sync Status Badge -->
+                <div class="mt-3 block">
+                    <div id="sheet-sync-status" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <span>Google Sheet වෙත ලකුණු යවමින් පවතී...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
+                    <span class="text-xs text-blue-600 font-bold uppercase block">ලබාගත් ලකුණු</span>
+                    <span id="score-text" class="text-3xl font-black text-blue-900">0 / 40</span>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center">
+                    <span class="text-xs text-emerald-600 font-bold uppercase block">ප්‍රතිශතය</span>
+                    <span id="percentage-text" class="text-3xl font-black text-emerald-900">0%</span>
+                </div>
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-center">
+                    <span class="text-xs text-amber-600 font-bold uppercase block">සාමාර්ථය</span>
+                    <span id="grade-text" class="text-3xl font-black text-amber-900">-</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons on Result -->
+            <div class="flex flex-wrap justify-center gap-3 mb-8 no-print">
+                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-print"></i> ප්‍රතිඵල පත්‍රිකාව මුද්‍රණය කරන්න / PDF
+                </button>
+                <button onclick="returnToHome()" class="bg-blue-700 hover:bg-blue-800 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> වෙනත් ඒකකයක් තෝරන්න
+                </button>
+                <a href="index.html" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-house"></i> මුල් පිටුවට යන්න
+                </a>
+            </div>
+
+            <!-- Answer Key Matrix Table -->
+            <div class="mb-8 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <h3 class="font-bold text-slate-800 mb-3 text-center text-sm md:text-base border-b pb-2">
+                    <i class="fa-solid fa-table-cells mr-2 text-blue-700"></i> පිළිතුරු වගුව (Answer Sheet Table)
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-center text-xs md:text-sm border-collapse border border-slate-300 bg-white">
+                        <thead>
+                            <tr class="bg-slate-200 text-slate-700">
+                                <th class="border border-slate-300 p-1.5">ප්‍රශ්න අංකය</th>
+                                <th class="border border-slate-300 p-1.5">පිළිතුර</th>
+                                <th class="border border-slate-300 p-1.5">ප්‍රශ්න අංකය</th>
+                                <th class="border border-slate-300 p-1.5">පිළිතුර</th>
+                                <th class="border border-slate-300 p-1.5">ප්‍රශ්න අංකය</th>
+                                <th class="border border-slate-300 p-1.5">පිළිතුර</th>
+                                <th class="border border-slate-300 p-1.5">ප්‍රශ්න අංකය</th>
+                                <th class="border border-slate-300 p-1.5">පිළිතුර</th>
+                            </tr>
+                        </thead>
+                        <tbody id="answer-matrix-body">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Detailed Question Review Header -->
+            <div class="mb-4 flex items-center justify-between border-b pb-2">
+                <h3 class="font-bold text-lg text-slate-800">
+                    <i class="fa-solid fa-list-check text-blue-600 mr-2"></i> පිළිතුරු සවිස්තරාත්මක පරීක්ෂාව
+                </h3>
+                <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full border">Green: නිවැරදියි | Red: වැරදියි</span>
+            </div>
+
+            <!-- Question Review Detailed Cards -->
+            <div id="review-container" class="space-y-6">
+                <!-- Detailed review items generated via Javascript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- TEACHER PIN LOGIN MODAL                                               -->
+    <!-- ===================================================================== -->
+    <div id="teacher-pin-modal" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 border border-slate-200">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="font-bold text-lg text-slate-800"><i class="fa-solid fa-lock text-amber-500 mr-2"></i> ගුරු පාලන පිවිසුම</h3>
+                <button onclick="closeTeacherLogin()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <p class="text-xs text-slate-600 mb-3">ගුරු පාලන පුවරුවට පිවිසීම සඳහා රහස් අංකය (PIN) ඇතුළත් කරන්න. <br><span class="text-slate-400">(පෙරනිමි අංකය: 1234)</span></p>
+            <input type="password" id="teacher-pin-input" placeholder="PIN අංකය" onkeydown="if(event.key==='Enter') verifyTeacherPin()"
+                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-blue-600 outline-none text-center font-mono text-lg tracking-widest mb-4">
+            <div class="flex gap-2">
+                <button onclick="closeTeacherLogin()" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 rounded-xl text-sm">අවලංගු කරන්න</button>
+                <button onclick="verifyTeacherPin()" class="flex-1 bg-blue-900 hover:bg-blue-950 text-white font-bold py-2.5 rounded-xl text-sm">පිවිසෙන්න</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TEACHER CONTROL PANEL DASHBOARD MODAL                                 -->
+    <!-- ===================================================================== -->
+    <div id="teacher-panel-modal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm overflow-y-auto p-3 md:p-6 no-print">
+        <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-300 overflow-hidden my-4">
+            <!-- Panel Header -->
+            <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap justify-between items-center gap-3 border-b-4 border-amber-500">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500 text-slate-900 flex items-center justify-center font-bold text-xl">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg md:text-xl font-bold">ගුරු පාලන පුවරුව (Teacher Control Panel - ඒකක 01 - 08)</h2>
+                        <p class="text-xs text-slate-300">සිසුන්ගේ ප්‍රතිඵල විශ්ලේෂණය, පිළිතුරු පරීක්ෂාව, Google Sheet සම්බන්ධතාව සහ පද්ධති සැකසුම්</p>
+                    </div>
+                </div>
+                <button onclick="closeTeacherPanel()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-1.5">
+                    <i class="fa-solid fa-xmark"></i> වසන්න
+                </button>
+            </div>
+
+            <!-- Panel Content -->
+            <div class="p-5 md:p-6 space-y-6">
+                
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl">
+                        <span class="text-xs font-bold text-blue-700 block">මුළු වාර්තා සංඛ්‍යාව</span>
+                        <span id="tp-total-students" class="text-2xl font-black text-blue-950">0</span>
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl">
+                        <span class="text-xs font-bold text-emerald-700 block">සාමාන්‍ය ලකුණු (Average)</span>
+                        <span id="tp-avg-score" class="text-2xl font-black text-emerald-950">0 / 40</span>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
+                        <span class="text-xs font-bold text-amber-700 block">'A' සාමාර්ථ ගණන</span>
+                        <span id="tp-a-count" class="text-2xl font-black text-amber-950">0</span>
+                    </div>
+                    <div class="bg-purple-50 border border-purple-200 p-4 rounded-xl">
+                        <span class="text-xs font-bold text-purple-700 block">වැඩිම ලකුණු</span>
+                        <span id="tp-max-score" class="text-2xl font-black text-purple-950">0</span>
+                    </div>
+                </div>
+
+                <!-- Teacher Settings & Actions Bar -->
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div>
+                            <label class="text-xs font-bold text-slate-600 block mb-1">ඒකකය අනුව පෙරන්න:</label>
+                            <select id="tp-filter-unit" onchange="renderTeacherTable()" class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs md:text-sm bg-white font-semibold">
+                                <option value="all">සියලුම ඒකක (01 - 08)</option>
+                                <option value="1">01 වන ඒකකය - කාර්මික විප්ලවය</option>
+                                <option value="2">02 වන ඒකකය - බ්‍රිතාන්‍ය බලය පිහිටුවීම</option>
+                                <option value="3">03 වන ඒකකය - ජාතික පුනරුදය</option>
+                                <option value="4">04 වන ඒකකය - දේශපාලන වෙනස්වීම්</option>
+                                <option value="5">05 වන ඒකකය - සමාජ පරිවර්තනය</option>
+                                <option value="6">06 වන ඒකකය - නිදහස ලැබීම</option>
+                                <option value="7">07 වන ඒකකය - ලෝකයේ විප්ලව</option>
+                                <option value="8">08 වන ඒකකය - ලෝක මහා සංග්‍රාම</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-slate-600 block mb-1">විභාග කාලය (මිනිත්තු):</label>
+                            <div class="flex items-center gap-1">
+                                <input type="number" id="tp-exam-minutes" min="5" max="180" value="60" class="w-20 px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs md:text-sm font-bold text-center">
+                                <button onclick="saveExamSettings()" class="bg-blue-700 hover:bg-blue-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">සුරකින්න</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-slate-600 block mb-1">නව PIN අංකය:</label>
+                            <div class="flex items-center gap-1">
+                                <input type="text" id="tp-new-pin" maxlength="8" placeholder="1234" class="w-24 px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs md:text-sm font-mono text-center">
+                                <button onclick="updateTeacherPin()" class="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">වෙනස් කරන්න</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button onclick="exportResultsCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-xs md:text-sm font-bold flex items-center gap-1.5 shadow">
+                            <i class="fa-solid fa-file-excel"></i> Excel (CSV) බාගත කරන්න
+                        </button>
+                        <button onclick="clearAllResults()" class="bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300 px-3.5 py-2 rounded-lg text-xs md:text-sm font-bold flex items-center gap-1.5">
+                            <i class="fa-solid fa-trash"></i> සියලු දත්ත මකන්න
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Student Results Table -->
+                <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                    <table class="w-full text-left border-collapse text-xs md:text-sm">
+                        <thead>
+                            <tr class="bg-slate-800 text-white">
+                                <th class="p-3">#</th>
+                                <th class="p-3">සිසුවාගේ නම</th>
+                                <th class="p-3">පාසල / පන්තිය</th>
+                                <th class="p-3">වසර</th>
+                                <th class="p-3">ඒකකය</th>
+                                <th class="p-3 text-center">ලකුණු</th>
+                                <th class="p-3 text-center">ප්‍රතිශතය</th>
+                                <th class="p-3 text-center">සාමාර්ථය</th>
+                                <th class="p-3">දිනය / වේලාව</th>
+                                <th class="p-3 text-center">ක්‍රියාමාර්ග</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tp-results-body" class="divide-y divide-slate-200 bg-white">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Single Student Answer Sheet Inspection Box inside Teacher Panel -->
+                <div id="tp-student-detail-box" class="hidden bg-blue-50/60 border-2 border-blue-400 rounded-xl p-5">
+                    <div class="flex justify-between items-center border-b border-blue-200 pb-3 mb-4">
+                        <h4 class="font-bold text-blue-950 text-base" id="tp-detail-title">සිසුවාගේ පිළිතුරු විශ්ලේෂණය</h4>
+                        <button onclick="document.getElementById('tp-student-detail-box').classList.add('hidden')" class="text-xs bg-blue-900 text-white px-3 py-1 rounded-lg font-bold">වසන්න</button>
+                    </div>
+                    <div id="tp-detail-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2 text-xs"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- COMPLETE QUESTION BANK (UNITS 1 TO 8 - EXACT UNMODIFIED QUESTIONS)    -->
+    <!-- ===================================================================== -->
+    <script>
+        // Google Apps Script Web App URL for Grade 11 History Quiz Scores
+        const GOOGLE_SHEET_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwz6rbhVgmikjN0UwYmdWcnzX1owDNKShg-o_R4ni0Q8v9UEekpPtcHFG53C6igxThV9g/exec";
+
+        // Storage Keys (Preserving compatibility with Dashboard & Teacher Panel)
+        const STORAGE_DASHBOARD_KEY = 'grade11_history_scores_v1';
+        const STORAGE_RESULTS_KEY = 'ol_history_grade11_results_v1';
+        const STORAGE_SETTINGS_KEY = 'ol_history_grade11_settings_v1';
+
+        const RAW_UNITS_2_TO_5 = {
+            unit2: {
+                headerTitle: "02 වන ඒකකය - ශ්‍රී ලංකාවේ බ්‍රිතාන්‍ය බලය පිහිටුවීම (ප්‍රශ්න 40)",
+                bannerMain: "ප්‍රතිඵල සංවර්ධන වැඩසටහන - 11 ශ්‍රේණිය ඉතිහාසය",
+                bannerSub: "02 වන ඒකකය: ශ්‍රී ලංකාවේ බ්‍රිතාන්‍ය බලය පිහිටුවීම - කාලය: පැය එකයි",
+                shortName: "02 වන ඒකකය",
+                answerKey: {
+                    1: 4,  2: 3,  3: 2,  4: 1,  5: 3,  6: 4,  7: 2,  8: 1,  9: 1,  10: 2,
+                    11: 3, 12: 4, 13: 2, 14: 1, 15: 4, 16: 1, 17: 3, 18: 4, 19: 2, 20: 2,
+                    21: 3, 22: 2, 23: 4, 24: 4, 25: 2, 26: 4, 27: 3, 28: 1, 29: 4, 30: 3,
+                    31: 2, 32: 1, 33: 1, 34: 2, 35: 4, 36: 1, 37: 1, 38: 2, 39: 3, 40: 4
+                },
+                questions: [
+                    {
+                        id: 1,
+                        text: "ඉංග්‍රීසීහු ආසියාව කෙරෙහි අවධානය යොමු කිරීමට බලපෑ ප්‍රධාන හේතුව කුමක්ද?",
+                        options: ["විනෝදයට", "සංචාරය කිරීමට", "තේ වැවීමට", "පෘතුගීසීන් හා ලන්දේසීන් ලබන ලාබය නිසා"]
+                    },
+                    {
+                        id: 2,
+                        text: "පෙරදිග ඉන්දීය වෙළඳ සමාගමට ආසියාවේ වෙළඳ කටයුතු කිරීමට අවසර ලබා දුන්නේ කවුද?",
+                        options: ["විලියම් රජු", "එංගල්බෙක්", "පළමුවන එලිසබත් රැජින", "මහත්මා ගාන්ධි තුමා"]
+                    },
+                    {
+                        id: 3,
+                        text: "ලන්දේසීන් විසින් ඉංග්‍රීසීන්ව පලවා හරින ලද ආසියාතික ප්‍රදේශය කුමක්ද?",
+                        options: ["ලංකාව", "ඇම්බොයිනා දූපත", "සුමාත්‍රා දූපත", "මාලදිවයින"]
+                    },
+                    {
+                        id: 4,
+                        text: "ඉංග්‍රීසීන් විසින් පිහිටුවා ගත් ඉන්දියාවේ වෙළඳ නගරයක් නොවන්නේ,",
+                        options: ["දිල්ලි", "මදුරාසිය", "බොම්බාය", "කල්කටා"]
+                    },
+                    {
+                        id: 5,
+                        text: "ඉංග්‍රීසීන් ලංකාව කෙරෙහි අවධානය යොමු කිරීමට ප්‍රධානම හේතුවක් වන්නේ,",
+                        options: ["ලංකාව අලංකාර වීම", "ලංකාවේ වී වගා කිරීම", "ලංකාවේ පිහිටීම", "දූපතක් වීම"]
+                    },
+                    {
+                        id: 6,
+                        text: "ඉංග්‍රීසීන්ගේ අවධානයට ලක් වූ වැදගත්ම වරාය වනුයේ,",
+                        options: ["කොළඹ", "හම්බන්තොට", "ඔලුවිල්", "ත්‍රිකුණාමලය"]
+                    },
+                    {
+                        id: 7,
+                        text: "යුරෝපීය වෙළඳ පළේ ඉහළම ඉල්ලුම සහිත ලංකාවේ නිෂ්පාදනය කුමක්ද?",
+                        options: ["මැණික්", "කුරුඳු", "මුතු", "ගම්මිරිස්"]
+                    },
+                    {
+                        id: 8,
+                        text: "ජෝන් පයිබස් උඩරටට පැමිණෙන විට උඩරට සිටි පාලකයා වන්නේ,",
+                        options: ["කීර්ති ශ්‍රී රාජසිංහ රජු", "රාජාධිරාජසිංහ රජු", "විමලධර්මසූරිය රජු", "දුටුගැමුණු රජු"]
+                    },
+                    {
+                        id: 9,
+                        text: "ප්‍රංශ විප්ලවය සිදු වූ වර්ෂය වන්නේ,",
+                        options: ["ක්‍රි.ව. 1789", "ක්‍රි.ව. 1779", "ක්‍රි.ව. 1764", "ක්‍රි.ව. 1786"]
+                    },
+                    {
+                        id: 10,
+                        text: "ඕලන්ද පාලකයා වන V විලියම් රජු පලා ගිය රට වන්නේ,",
+                        options: ["ප්‍රංශය", "බ්‍රිතාන්‍යය", "ඔස්ට්‍රියාව", "ඉන්දියාව"]
+                    },
+                    {
+                        id: 11,
+                        text: "කිව් ලිපිය ලියන ලද්දේ,",
+                        options: ["පෝලිමක සිටය", "කිවිඳියකගේ නිවසේදීය", "කිව් නම් මාලිගයේදීය", "කියවන විටය"]
+                    },
+                    {
+                        id: 12,
+                        text: "ෆන් එංගල්බෙක් යනු,",
+                        options: ["පෘතුගීසි ආණ්ඩුකාරවරයෙකි", "ඉන්දියානු ගායකයෙකි", "එංගලන්ත ආණ්ඩුකාරවරයෙකි", "ඕලන්ද ආණ්ඩුකාරවරයෙකි"]
+                    },
+                    {
+                        id: 13,
+                        text: "ඉංග්‍රීසීන් විසින් ශ්‍රී ලංකාවේ මුහුදුබඩ ප්‍රදේශ පාලනයට පත් කළ නිලධාරියා නම්,",
+                        options: ["රෙසිඩන්ට්වරයා", "කලෙක්ටර්වරයා", "අවුමිල්දාර්වරයා", "අද්මිරාල්වරයා"]
+                    },
+                    {
+                        id: 14,
+                        text: "ඉංග්‍රීසි වෙළඳ සමාගමට එරෙහිව මුල්ම කැරැල්ල ඇති වූයේ,",
+                        options: ["පොල් ගස් බද්ද නිසා", "බලු බද්ද නිසා", "රා රේන්ද බද්ද නිසා", "ඇඟ බද්ද නිසා"]
+                    },
+                    {
+                        id: 15,
+                        text: "එම කැරැල්ල පිළිබඳ තොරතුරු සෙවීමට පත් කළ කොමිෂම නම්,",
+                        options: ["ඩොනමෝර් කොමිෂම", "සොල්බරි කොමිෂම", "මියුරන් කොමිෂම", "මැනින් කොමිෂම"]
+                    },
+                    {
+                        id: 16,
+                        text: "මෙරට පාලනය ගෙන ගිය ප්‍රථම ආණ්ඩුකාරවරයා වන්නේ,",
+                        options: ["ෆෙඩ්රික් නෝර්ත්", "හියු බොයිඩ්", "ජෝන් ඩොයිලි", "බ්‍රවුන්රිග්"]
+                    },
+                    {
+                        id: 17,
+                        text: "ඉංග්‍රීසීන් තම යුද ශක්තිය පෙන්වා උඩරට රජු සමඟ දූත සබඳතා පැවැත්වීමට ගියේ,",
+                        options: ["ෆෙඩ්රික් නෝර්ත්", "ජෝන් ඩොයිලි", "මැක්ඩොවල්", "මේට්ලන්ඩ්"]
+                    },
+                    {
+                        id: 18,
+                        text: "ඉංග්‍රීසීන් මුල්වරට උඩරට ආක්‍රමණය කළ වර්ෂය,",
+                        options: ["ක්‍රි.ව. 1798", "ක්‍රි.ව. 1795", "ක්‍රි.ව. 1815", "ක්‍රි.ව. 1803"]
+                    },
+                    {
+                        id: 19,
+                        text: "ඉංග්‍රීසීන්ගේ ප්‍රථම උඩරට ආක්‍රමණය අසාර්ථක වීමට හේතුවක් නොවන්නේ,",
+                        options: ["වැසි සමය උදාවීම", "හමුදා බලය අඩුවීම", "ලෙඩ රෝග වැළඳීම", "ආහාර හිඟය"]
+                    },
+                    {
+                        id: 20,
+                        text: "උඩරට ආක්‍රමණය සඳහා උපායශීලී ක්‍රමයක් ලෙස ජෝන් ඩොයිලි යෙදවීම සිදු කළේ,",
+                        options: ["තෝමස් මෙට්ලන්ඩ්", "ෆෙඩ්රික් නෝර්ත්", "බ්‍රවුන්රිග්", "ජෙනරාල් ඩි මියුරන්"]
+                    },
+                    {
+                        id: 21,
+                        text: "ඉංග්‍රීසීන්ට උඩරට ආක්‍රමණය කිරීමට හේතු වූ ප්‍රධාන කරුණ නම්,",
+                        options: ["හමුදා බලය වැඩිවීම", "නවීන අවි ආයුධ තිබීම", "රජු හා මහජනතාව අතර අසමගිය", "උඩරට පිළිබඳ මනා දැනුමක් ලැබීම"]
+                    },
+                    {
+                        id: 22,
+                        text: "ක්‍රි.ව. 1815 දී උඩරට ගිවිසුම අත්සන් කරන ලද්දේ,",
+                        options: ["මහනුවර නගරයේදීය", "මහනුවර මඟුල් මඩුවේදීය", "රාජසිංහ වලව්වේදීය", "පත්තිරිප්පුවේදීය"]
+                    },
+                    {
+                        id: 23,
+                        text: "ගිවිසුම අත්සන් කිරීමට පෙර ඉංග්‍රීසි කොඩිය එසවූ නිසා එය පහත හෙළා යළිත් සිංහ කොඩිය එසවූයේ,",
+                        options: ["මිගෙට්ටුවත්තේ ගුණානන්ද හිමි", "එස්. මහින්ද හිමි", "දොරේසාමි", "පූජ්‍ය වාරියපොළ සුමංගල හිමි"]
+                    },
+                    {
+                        id: 24,
+                        text: "1818 නිදහස් සටනට තුඩු දුන් හේතුවක් නොවන කරුණ කුමක්ද?",
+                        options: ["රජෙකු නැති වීමේ කනස්සල්ල", "ඉංග්‍රීසීන්ගේ තාඩන පීඩන", "ආගම හා සංස්කෘතිය පිළිබඳ ගැටලු", "උඩරට ප්‍රභූන්ට පහර වැදීම"]
+                    },
+                    {
+                        id: 25,
+                        text: "ඉංග්‍රීසීන් විසින් මුහන්දිරම් තනතුරට පත් කළ මුස්ලිම් ජාතිකයා,",
+                        options: ["දොරේ අප්පා", "හජ්ජි මරික්කාර්", "හජ්ජි මුහන්දිරම්", "කන්දසාමි"]
+                    },
+                    {
+                        id: 26,
+                        text: "ශ්‍රී වික්‍රම රාජසිංහ රජු හා ජනතාව අතර ඇති වූ මත භේදයට හේතු වූ කරුණක් නොවන්නේ,",
+                        options: ["භික්ෂු ඝාතනය", "ඇහැලේපොලගේ පවුලේ අය ඝාතනය", "සබරගමුවේ කැරැල්ල මර්දනය", "ආරක්ෂිත ස්ථානයක සැඟවී සිටීම"]
+                    },
+                    {
+                        id: 27,
+                        text: "උඩරට ඉංග්‍රීසි පාලන සමයේ බදුල්ලේ ඒජන්ත ලෙස කටයුතු කළේ කවුද?",
+                        options: ["කොහුකුඹුරේ රටේරාළ", "කැප්පෙටිපොල නිලමේ", "ඩග්ලස් විල්සන්", "හජ්ජි මුහන්දිරම්"]
+                    },
+                    {
+                        id: 28,
+                        text: "1818 නිදහස් සටනේදී ඉංග්‍රීසීන් විසින් හිස ගසා මරණයට පත් කළ සිංහල රදලවරුන් වන්නේ,",
+                        options: ["කැප්පෙටිපොල හා මඩුගල්ලේ", "ඇහැලේපොල හා දොරේසාමි", "මොල්ලිගොඩ හා එන්නැලිගොඩ", "ගලගෙදර මොහොට්ටාල හා බුටෑවේ රටේරාළ"]
+                    },
+                    {
+                        id: 29,
+                        text: "1818 නිදහස් සටනේදී ඉංග්‍රීසීන් අනුගමනය කළ මර්දනකාරී ක්‍රමයක් නොවන්නේ,",
+                        options: ["දැඩි මර්දනකාරී ප්‍රතිපත්තිය", "රෝග පැතිරීමට සැලැස්වීම", "අමතර හමුදා ගෙන්වීම", "මොල්ලිගොඩගේ සහයෝගය"]
+                    },
+                    {
+                        id: 30,
+                        text: "වසර 30 ක් නොකඩවා භුක්ති විඳි බවට පිළිගත හැකි සාක්ෂි නොමැති ඉඩම් රජයට පවරා ගැනීමේ නීතිය හැඳින්වූයේ,",
+                        options: ["තේසවලාමේ නීතිය", "ඉංග්‍රීසි නීතිය", "මුඩුබිම් පනත", "ඉඩම් පවරා ගැනීමේ නීතිය"]
+                    },
+                    {
+                        id: 31,
+                        header: "පහත වගුවේ A සිට F තෙක් තොරතුරු ඇසුරෙන් 31 සහ 32 ප්‍රශ්න වලට පිළිතුරු සපයන්න.<div class='overflow-x-auto my-3'><table class='w-full text-xs md:text-sm border border-slate-300 text-left'><thead class='bg-slate-100'><tr><th class='border p-2'>බලපෑ හේතුව</th><th class='border p-2'>නායකයා</th><th class='border p-2'>ආණ්ඩුකාරවරයා</th></tr></thead><tbody><tr><td class='border p-2'>A - රජයේ බදු ප්‍රතිපත්තිය</td><td class='border p-2'>C - කැප්පෙටිපොල දිසාව</td><td class='border p-2'>E - ටොරින්ටන් සාමි</td></tr><tr><td class='border p-2'>B - රජෙකු නැති වීම පිළිබඳ පසුතැවිල්ල</td><td class='border p-2'>D - ගොංගාලේගොඩ බණ්ඩා</td><td class='border p-2'>F - සර් රොබට් බ්‍රවුන්රිග්</td></tr></tbody></table></div>",
+                        text: "ක්‍රි.ව. 1818 නිදහස් සටන හා සම්බන්ධ වන තොරතුරු දැක්වෙන පිළිතුර කුමක්ද?",
+                        options: ["A, C, E", "B, C, F", "A, D, F", "B, D, E"]
+                    },
+                    {
+                        id: 32,
+                        text: "ක්‍රි.ව. 1848 නිදහස් සටන හා සම්බන්ධ වන තොරතුරු දැක්වෙන පිළිතුර කුමක්ද?",
+                        options: ["A, D, E", "B, D, E", "A, C, F", "B, C, F"]
+                    },
+                    {
+                        id: 33,
+                        text: "ක්‍රි.ව. 1833 දී කෝල්බෲක් ප්‍රතිසංස්කරණවල බලපෑමක් ලෙස සැලකිය නොහැකි කරුණක් වූයේ,",
+                        options: ["ගම් සභාව ක්‍රියාත්මක කිරීම", "නව බදු ප්‍රතිපත්තිය", "රජයේ ඉඩම් ප්‍රතිපත්ති", "රාජකාරි ශ්‍රම ක්‍රමය අහෝසි කිරීම"]
+                    },
+                    {
+                        id: 34,
+                        text: "ඉංග්‍රීසි ආණ්ඩුව විසින් සම්පාදනය කරන සංඛ්‍යාලේඛන සංග්‍රහය වනුයේ,",
+                        options: ["ලේඛන සංග්‍රහය", "නිල් පොත", "සංඛ්‍යාලේඛන සංග්‍රහය", "රතු පොත"]
+                    },
+                    {
+                        id: 35,
+                        text: "කෝල්බෲක් ප්‍රතිසංස්කරණ අනුව පැනවූ නව බදු වර්ගයක් නොවන්නේ,",
+                        options: ["තුවක්කු බද්ද", "ඇඟ බද්ද", "බලු බද්ද", "පොල් ගස් බද්ද"]
+                    },
+                    {
+                        id: 36,
+                        text: "සෑම වැඩිහිටි පිරිමි අයෙකුම වසරකට දින 6 ක් නොමිලේ පාරවල්වල වැඩ නොකළොත් අය කරන බද්ද කුමක්ද?",
+                        options: ["මහා මාර්ග බද්ද", "පුද්ගලික බද්ද", "ඇඟ බද්ද", "රාජකාරි බද්ද"]
+                    },
+                    {
+                        id: 37,
+                        text: "1848 දී දඹුලු විහාරයේදී රාජාභිෂේක කළ සිංහල නායකයා වනුයේ,",
+                        options: ["ගොංගාලේගොඩ බණ්ඩා", "වීර පුරන් අප්පු", "ඩිංගිරාළ", "දොරේසාමි"]
+                    },
+                    {
+                        id: 38,
+                        text: "1848 සටනේ ප්‍රධාන මධ්‍යස්ථානය පිහිටියේ,",
+                        options: ["කුරුණෑගල", "මාතලේ", "මහනුවර", "හඟුරන්කෙත"]
+                    },
+                    {
+                        id: 39,
+                        text: "මෙම සටනේදී වැඩි වග විභාගයකින් තොරව වෙඩි තබා මරණයට පත් කළේ කවුද?",
+                        options: ["ගොංගාලේගොඩ බණ්ඩා", "වීර පුරන් අප්පු", "කඩහපොල හිමි", "දොරේසාමි"]
+                    },
+                    {
+                        id: 40,
+                        text: "1818 සටනේ ප්‍රතිඵලයක් නොවන්නේ,",
+                        options: ["සටනේ නායකයන් ඝාතනයට ලක්වීම", "පක්ෂපාති අයට ත්‍යාග දීම", "රදලයන් සතු බලය සීමා කිරීම", "රදලයන් සමූල ඝාතනය කිරීම"]
+                    }
+                ]
+            },
+            unit3: {
+                headerTitle: "03 වන පාඩම - ශ්‍රී ලංකාවේ ජාතික පුනරුදය (ප්‍රශ්න 40)",
+                bannerMain: "අ.පො.ස. (සාමාන්‍ය පෙළ) - 11 ශ්‍රේණිය ඉතිහාසය",
+                bannerSub: "03 වන පාඩම: ශ්‍රී ලංකාවේ ජාතික පුනරුදය - කාලය: පැය එකයි",
+                shortName: "03 වන පාඩම",
+                answerKey: {
+                    1: 1,  2: 3,  3: 4,  4: 2,  5: 3,  6: 2,  7: 4,  8: 3,  9: 2,  10: 4,
+                    11: 2, 12: 4, 13: 1, 14: 2, 15: 2, 16: 1, 17: 3, 18: 3, 19: 3, 20: 4,
+                    21: 3, 22: 1, 23: 1, 24: 2, 25: 2, 26: 1, 27: 2, 28: 4, 29: 3, 30: 1,
+                    31: 1, 32: 2, 33: 1, 34: 1, 35: 1, 36: 4, 37: 3, 38: 1, 39: 3, 40: 4
+                },
+                questions: [
+                    {
+                        id: 1,
+                        text: "කිතුණු දහම මෙරට පැතිරවීමට ක්‍රියා කළ විදේශීය සංවිධාන හඳුන්වන නම කුමක් ද?",
+                        options: ["මිෂනාරී සංවිධාන", "ආගමික සංවිධාන", "ජාතික පුනරුදය", "කතෝලික සභාව"]
+                    },
+                    {
+                        id: 2,
+                        text: "ලන්ඩන් මිෂනාරී සමාගම ශ්‍රී ලංකාවට පැමිණියේ කුමන වර්ෂයේ දී ද?",
+                        options: ["ක්‍රි.ව. 1803", "ක්‍රි.ව. 1804", "ක්‍රි.ව. 1805", "ක්‍රි.ව. 1806"]
+                    },
+                    {
+                        id: 3,
+                        text: "වෙස්ලියන් මිෂනාරී සංවිධානය මෙරටට පැමිණියේ කුමන වර්ෂයේ දී ද?",
+                        options: ["ක්‍රි.ව. 1810", "ක්‍රි.ව. 1812", "ක්‍රි.ව. 1811", "ක්‍රි.ව. 1814"]
+                    },
+                    {
+                        id: 4,
+                        text: "ඇමරිකන් මිෂනාරී සංවිධානය මෙරටට පැමිණියේ කුමන වර්ෂයේ දී ද?",
+                        options: ["ක්‍රි.ව. 1808", "ක්‍රි.ව. 1816", "ක්‍රි.ව. 1817", "ක්‍රි.ව. 1818"]
+                    },
+                    {
+                        id: 5,
+                        text: "කොළඹ මධ්‍යස්ථානය කොටගෙන ක්‍රියාත්මක වූයේ කුමන මිෂනාරී සංවිධානයද?",
+                        options: ["ලන්ඩන් මිෂනාරී සමාගම", "වෙස්ලියන් මිෂනාරී සංවිධානය", "චර්ච් මිෂනාරී සංවිධානය", "බැප්ටිස්ට් මිෂනාරී සංවිධානය"]
+                    },
+                    {
+                        id: 6,
+                        text: "වෙස්ලියන්වරු ශ්‍රී ලංකාවේ කුමන ප්‍රදේශවල ක්‍රියාත්මක වූයේ ද?",
+                        options: ["උතුරු හා නැගෙනහිර ප්‍රදේශ", "කොළඹ, ගාල්ල", "කල්පිටිය, මන්නාරම", "මහනුවර"]
+                    },
+                    {
+                        id: 7,
+                        text: "මිෂනාරීන් ලංකාවේ තම ආගම පැතිරවීමේ දී උපයෝගී කරගත් මාධ්‍යයක් නොවන්නේ කුමක්ද?",
+                        options: ["ලේඛනය", "දේශනය", "අධ්‍යාපනය", "සංචාරක"]
+                    },
+                    {
+                        id: 8,
+                        text: "'මාසික තෑග්ග' ප්‍රකාශනය මුද්‍රණය කළ සංවිධානය කුමක් ද?",
+                        options: ["ලන්ඩන් මිෂනාරී සමාගම", "වෙස්ලියන් මිෂනාරී සංවිධානය", "චර්ච් මිෂනාරී සංවිධානය", "බැප්ටිස්ට් මිෂනාරී සංවිධානය"]
+                    },
+                    {
+                        id: 9,
+                        text: "1840 දී මුද්‍රණය කළ ප්‍රකාශනය කුමක් ද?",
+                        options: ["ලංකානිධානය", "මාසික තෑග්ග", "උරගල", "උදයභානු"]
+                    },
+                    {
+                        id: 10,
+                        text: "'ලංකානිධානය' මුද්‍රණය කරන ලද්දේ කුමන සංවිධානය ද?",
+                        options: ["මිෂනාරී සංවිධානය", "ආගමික පුස්තිකා සංගමය", "පරමවිඥානාර්ථ සමාගම", "බැප්ටිස්ට් මිෂනාරී සංවිධානය"]
+                    },
+                    {
+                        id: 11,
+                        text: "බැප්ටිස්ට් සමාගම 'උරගල' නැමැති ප්‍රකාශනය මුද්‍රණය කරන ලද්දේ කුමන වර්ෂයේ දී ද?",
+                        options: ["1840", "1841", "1842", "1843"]
+                    },
+                    {
+                        id: 12,
+                        text: "මිෂනාරී පූජකවරු තම ආගම ප්‍රචාරය කිරීමට යොදාගත් උපක්‍රමයක් නොවන්නේ,",
+                        options: ["ලේඛනය", "දේශනය", "අධ්‍යාපනය", "ආක්‍රමණ"]
+                    },
+                    {
+                        id: 13,
+                        text: "වලානේ සිද්ධාර්ථ හිමි විසින් නිර්මාණය කළ පිරිවෙන කුමක් ද?",
+                        options: [
+                            "රත්මලානේ පරම ධම්ම චේතිය පිරිවෙන",
+                            "මාළිගාකන්දේ විද්‍යෝදය පිරිවෙන",
+                            "පෑලියගොඩ විද්‍යාලංකාර පිරිවෙන",
+                            "පැපිළියාන සුනෙත්‍රාදේවි පිරිවෙන"
+                        ]
+                    },
+                    {
+                        id: 14,
+                        text: "බෞද්ධයින් සඳහා පිහිටවූ ප්‍රථම මුද්‍රණාලය කුමක් ද?",
+                        options: [
+                            "ලංකාභිනව විශ්‍රැත මුද්‍රණය",
+                            "ගාල්ලේ ලංකෝපකාර මුද්‍රණාලය",
+                            "කවට කතික මුද්‍රණය",
+                            "සුදර්ශන මුද්‍රණය"
+                        ]
+                    },
+                    {
+                        id: 15,
+                        text: "ලංකෝපකාර මුද්‍රණාලය පිහිටවූයේ කවුරුන් විසින් ද?",
+                        options: [
+                            "බුලත්ගම ධම්මාලංකාර සිරිසුමන තිස්ස හිමි විසින්",
+                            "හික්කඩුවේ ශ්‍රී සුමංගල හිමි විසින්",
+                            "රත්මලානේ ධම්මාලෝක හිමි විසින්",
+                            "වස්කඩුවේ සුභූති හිමි විසින්"
+                        ]
+                    },
+                    {
+                        id: 16,
+                        text: "පෑලියගොඩ විද්‍යාලංකාර පිරිවෙන පිහිටවන ලද්දේ කිනම් වර්ෂයේ දී ද?",
+                        options: ["ක්‍රි.ව. 1875", "ක්‍රි.ව. 1876", "ක්‍රි.ව. 1878", "ක්‍රි.ව. 1879"]
+                    },
+                    {
+                        id: 17,
+                        text: "බෞද්ධයන් පිහිටවූ මුද්‍රණාලයක් නොවන්නේ මින් කුමක්ද?",
+                        options: ["ලංකාභිනව විශ්‍රැත", "කවට කතික", "සිංහල බෞද්ධයා", "සුදර්ශන"]
+                    },
+                    {
+                        id: 18,
+                        text: "බෞද්ධ මුද්‍රණාල මගින් මුද්‍රණය වූ ප්‍රකාශන සඳහන් කරන්න.",
+                        options: ["ලක්මිණි පහන", "ලංකාලෝකය", "සරසවි සඳරැස", "ලංකානිධානය"]
+                    },
+                    {
+                        id: 19,
+                        text: "පූජ්‍ය මිගෙට්ටුවත්තේ ගුණානන්ද හිමියන් වැඩ වාසය කළේ කුමන ආරාමයේ ද?",
+                        options: [
+                            "රත්මලානේ පරම ධම්ම චේතිය පිරිවෙන",
+                            "මාළිගාකන්දේ විද්‍යෝදය පිරිවෙන",
+                            "කොටහේනේ දීපදුත්තමාරාමය",
+                            "පෑලියගොඩ විද්‍යාලංකාර පිරිවෙන"
+                        ]
+                    },
+                    {
+                        id: 20,
+                        text: "පංච මහා වාද අතුරින් ජාත්‍යන්තර ප්‍රසිද්ධියට පත් වූයේ කුමන වාදය ද?",
+                        options: ["බද්දේගම වාදය", "වරාගොඩ වාදය", "ගම්පොළ වාදය", "පානදුරා වාදය"]
+                    },
+                    {
+                        id: 21,
+                        text: "පානදුරා වාදය පැවැත්වූයේ කුමන වර්ෂයේ දී ද?",
+                        options: ["ක්‍රි.ව. 1872", "ක්‍රි.ව. 1873", "ක්‍රි.ව. 1874", "ක්‍රි.ව. 1875"]
+                    },
+                    {
+                        id: 22,
+                        text: "පානදුරා වාදයේ දී බෞද්ධ පක්ෂය නියෝජනය කරමින් වාද කළ භික්ෂූන් වහන්සේ කවුද?",
+                        options: [
+                            "මිගෙට්ටුවත්තේ ගුණානන්ද හිමි",
+                            "රත්මලානේ ධම්මාලෝක හිමි",
+                            "පූජ්‍ය පොතුවිල ඉන්ද්‍රජෝති හිමි",
+                            "පූජ්‍ය වස්කඩුවේ සුභූති හිමි"
+                        ]
+                    },
+                    {
+                        id: 23,
+                        text: "බද්දේගම වාදය පැවැත්වූයේ කිනම් වර්ෂයේ දී ද?",
+                        options: ["ක්‍රි.ව. 1864", "ක්‍රි.ව. 1865", "ක්‍රි.ව. 1875", "ක්‍රි.ව. 1885"]
+                    },
+                    {
+                        id: 24,
+                        text: "1865 දී පැවැත්වූ වාදය කුමක්ද?",
+                        options: ["වරාගොඩ වාදය", "උදන්විට වාදය", "ගම්පොළ වාදය", "පානදුරා වාදය"]
+                    },
+                    {
+                        id: 25,
+                        text: "ගම්පොළ වාදය පැවැත්වූයේ කිනම් වර්ෂයේදී ද?",
+                        options: ["ක්‍රි.ව. 1870", "ක්‍රි.ව. 1871", "ක්‍රි.ව. 1872", "ක්‍රි.ව. 1873"]
+                    },
+                    {
+                        id: 26,
+                        text: "පරම විඥානාර්ථ සමාගම පිහිටවූයේ කවදා ද?",
+                        options: [
+                            "ක්‍රි.ව. 1880 වර්ෂයේ ජූලි මාසයේදීය.",
+                            "ක්‍රි.ව. 1880 වර්ෂයේ ජූනි මාසයේදීය.",
+                            "ක්‍රි.ව. 1881 වර්ෂයේ ජූනි මාසයේදීය.",
+                            "ක්‍රි.ව. 1881 වර්ෂයේ ජූලි මාසයේදීය."
+                        ]
+                    },
+                    {
+                        id: 27,
+                        text: "බෞද්ධ පාසල් පිහිටුවීමට ක්‍රියාකාරී වූ පුද්ගලයා නම් කරන්න.",
+                        options: [
+                            "ජෙරමියෙස් දියෙස් මහතා",
+                            "හෙන්රි ස්ටීල් ඕල්කට් තුමා",
+                            "පියදාස සිරිසේන මහතා",
+                            "ජෝන් ද සිල්වා මහතා"
+                        ]
+                    },
+                    {
+                        id: 28,
+                        text: "මෙරට පිහිටවූ බෞද්ධ පාසල් කිහිපයක් නම් කරන්න.",
+                        options: [
+                            "මහනුවර ධර්මරාජ විද්‍යාලය",
+                            "ගාල්ලේ මහින්ද විද්‍යාලය",
+                            "මාතලේ විජය විද්‍යාලය",
+                            "ඉහත සියල්ලම"
+                        ]
+                    },
+                    {
+                        id: 29,
+                        text: "හෙන්රි ස්ටීල් ඕල්කට් තුමාගේ ප්‍රධානත්වයෙන් බෞද්ධ පුනරුද සමයේ සිදු වූ වැදගත් සිදුවීමක් නොවන්නේ,",
+                        options: [
+                            "වෙසක් පොහොය දිනය නිවාඩු දිනයක් කිරීම",
+                            "බෞද්ධ කොඩිය නිර්මාණය කිරීම",
+                            "පරම විඥානාර්ථ සමාගම පිහිටුවීම",
+                            "පැරණි පිරිවෙන් අධ්‍යාපන ක්‍රමය යළි ආරම්භ කිරීම."
+                        ]
+                    },
+                    {
+                        id: 30,
+                        text: "ශ්‍රී ලාංකිකයන් විචාරයකින් තොරව බටහිර සංස්කෘතිය වැළඳ ගැනීම නවකතා තුළින් විවේචනය කළ පුද්ගලයා කවුරුන්ද?",
+                        options: [
+                            "පියදාස සිරිසේන මහතා",
+                            "වලිසිංහ හරිශ්චන්ද්‍ර තුමා",
+                            "අනගාරික ධර්මපාල තුමා",
+                            "ජෝන් ද සිල්වා මහතා"
+                        ]
+                    },
+                    {
+                        id: 31,
+                        text: "පියදාස සිරිසේන මහතා ඇරඹි පුවත්පත කුමක් ද?",
+                        options: ["සිංහල බෞද්ධයා", "මහා බෝධි සඟරාව", "සිංහල ජාතිය", "ලක්මිණි පහන"]
+                    },
+                    {
+                        id: 32,
+                        text: "ඓතිහාසික මූලාශ්‍ර සොයා එළි දැක්වීමට ක්‍රියා කළ පුද්ගලයින් කවුරුන් ද?",
+                        options: ["ජෝර්ජ් ටර්නර් මහතා", "රිස් ඩේවිඩ්ස් මහතා", "එච්.සී.පී. බෙල් මහතා", "රවින්ද්‍රනාත් තාගෝර් මහතා"]
+                    },
+                    {
+                        id: 33,
+                        text: "අනුරාධපුරයේ පූජනීය ස්ථාන රැක ගැනීමට ව්‍යාපාර ආරම්භ කළේ කවුද?",
+                        options: [
+                            "වලිසිංහ හරිශ්චන්ද්‍ර තුමා",
+                            "අනගාරික ධර්මපාල තුමා",
+                            "හෙන්රි ස්ටීල් ඕල්කට් තුමා",
+                            "පියදාස සිරිසේන මහතා"
+                        ]
+                    },
+                    {
+                        id: 34,
+                        text: "නාවලර් තුමා විසින් ආරම්භ කළ පුවත්පත කුමක්ද?",
+                        options: ["ලංකාලෝකය", "උදයභානු", "ස්කන්ද පුරාණම්", "මුස්ලිම් නේසන්"]
+                    },
+                    {
+                        id: 35,
+                        text: "1919 වර්ෂයේ දී පිහිටවූ සංගමය කුමක් ද?",
+                        options: [
+                            "ලංකා ජාතික සංගමය",
+                            "දේශානුරාගය හා ජාත්‍යාලය වර්ධනය කිරීමේ ව්‍යාපාරය",
+                            "අමද්‍යප ව්‍යාපාරය",
+                            "පරම විඥානාර්ථ සමාගම"
+                        ]
+                    },
+                    {
+                        id: 36,
+                        text: "හින්දු පුනරුද ව්‍යාපාරයට නායකත්වය සපයන ලද්දේ කවුද?",
+                        options: [
+                            "පොන්නම්බලම් අරුණාචලම්",
+                            "පොන්නම්බලම් රාමනාදන්",
+                            "ටී. බී. ජයා මහතා",
+                            "ආරුමුග නාවලර් තුමා"
+                        ]
+                    },
+                    {
+                        id: 37,
+                        text: "ආරුමුග නාවලර් තුමා කළ සේවාවක් වන්නේ,",
+                        options: [
+                            "මුස්ලිම් ජනතාව තුළ අධ්‍යාපන ප්‍රබෝධයක් ඇති කිරීම",
+                            "ඉතිහාසය පිළිබඳව පොත්පත් ලිවීම ආරම්භ කිරීම.",
+                            "හින්දු ජනතාව වෙනුවෙන් පාසල් පිහිටුවීම.",
+                            "මිෂනාරී පාසලක මූලික අධ්‍යාපනය ලබා තිබීම."
+                        ]
+                    },
+                    {
+                        id: 38,
+                        text: "ඊජිප්තුවේ සිට පැමිණ ඉස්ලාම් පුනරුද ව්‍යාපාරයට කැපවී කටයුතු කළ පුද්ගලයා කවුද?",
+                        options: ["ඔරාබි පාෂා මහතා", "ටී. බී. ජයා මහතා", "ඇම්. සී. සිද්දි ලෙබ්බේ මහතා", "ආරුමුග නාවලර් තුමා"]
+                    },
+                    {
+                        id: 39,
+                        text: "සිද්දි ලෙබ්බේ මහතාගේ ප්‍රධානත්වයෙන් ආරම්භ වූ පාසල කුමක් ද?",
+                        options: [
+                            "යාපනයේ ශිවප්‍රකාශ විද්‍යාලය",
+                            "හින්දු විද්‍යාලය",
+                            "කොළඹ සහිරා විද්‍යාලය",
+                            "ගම්පොළ ජිනරාජ විද්‍යාලය"
+                        ]
+                    },
+                    {
+                        id: 40,
+                        text: "සිද්දි ලෙබ්බේ මහතාට පසුව මුස්ලිම් ප්‍රබෝධය ඇති කළේ කවුරුන්ද?",
+                        options: [
+                            "ශ්‍රීමත් පොන්නම්බලම් රාමනාදන්",
+                            "පොන්නම්බලම් අරුණාචලම්",
+                            "නටේසන් අයියර්",
+                            "ටී. බී. ජයා මහතා"
+                        ]
+                    }
+                ]
+            },
+            unit4: {
+                headerTitle: "04 වන ඒකකය - බ්‍රිතාන්‍යයන් යටතේ ශ්‍රී ලංකාවේ දේශපාලන වෙනස්වීම් (ප්‍රශ්න 40)",
+                bannerMain: "අ.පො.ස. (සාමාන්‍ය පෙළ) - 11 ශ්‍රේණිය ඉතිහාසය",
+                bannerSub: "04 වන ඒකකය: බ්‍රිතාන්‍යයන් යටතේ ශ්‍රී ලංකාවේ දේශපාලන වෙනස්වීම් - කාලය: පැය එකයි",
+                shortName: "04 වන ඒකකය",
+                answerKey: {
+                    1: 2,  2: 4,  3: 3,  4: 2,  5: 1,  6: 1,  7: 3,  8: 2,  9: 1,  10: 1,
+                    11: 2, 12: 1, 13: 3, 14: 4, 15: 4, 16: 1, 17: 3, 18: 3, 19: 2, 20: 2,
+                    21: 2, 22: 3, 23: 2, 24: 2, 25: 4, 26: 3, 27: 2, 28: 4, 29: 3, 30: 1,
+                    31: 3, 32: 4, 33: 3, 34: 1, 35: 2, 36: 3, 37: 2, 38: 4, 39: 1, 40: 2
+                },
+                questions: [
+                    {
+                        id: 1,
+                        text: "කෝල්බෲක් ආණ්ඩුක්‍රම ප්‍රතිසංස්කරණය මෙරටට හඳුන්වා දුන් වර්ෂය වූයේ,",
+                        options: ["1910", "1833", "1829", "1920"]
+                    },
+                    {
+                        id: 2,
+                        text: "ලංකාවේ එවකට පැවති අධිකරණ හා නීතිමය තත්ත්වය පිළිබඳ සොයා බැලීමට කෝල්බෲක් කමිටුව තුළින් පත් කළ නිලධාරියා වූයේ,",
+                        options: ["විලියම් කෝල්බෲක්", "විලියම් මැනිං", "හෙන්රි මැකලම්", "චාල්ස් හේ කැමරන්"]
+                    },
+                    {
+                        id: 3,
+                        text: "කෝල්බෲක් යෝජනා අතර ආණ්ඩුකාරවරයාට සහය වීම සඳහා ඉදිරිපත් කරන ලද යෝජනාව වන්නේ,",
+                        options: [
+                            "දිවයින පළාත් 5කට බෙදීම",
+                            "අනිවාර්ය සේවා රාජකාරි ක්‍රමය අහෝසි කිරීම",
+                            "ව්‍යවස්ථාදායක හා විධායක සභා පිහිටුවීම",
+                            "රජයේ වෙළඳ ඒකාධිකාරය අහෝසි කිරීම"
+                        ]
+                    },
+                    {
+                        id: 4,
+                        text: "කෝල්බෲක් විධායක සභාවට විලියම් කෝල්බෲක් විසින් යෝජනා කළ පිරිසට අයත් නොවිය යුතු කෙනෙකු වන්නේ,",
+                        options: ["යටත් විජිත ලේකම්", "රාජ්‍ය ලේකම්", "භාණ්ඩාගාරික", "ගණකාධිකාරි"]
+                    },
+                    {
+                        id: 5,
+                        text: "උද්ඝෝෂණවල ප්‍රතිඵලයක් ලෙස 1889 වසරේදී කෝල්බෲක් ව්‍යවස්ථාවේ නිල නොලත් පිරිසට නව මන්ත්‍රීවරු දෙදෙනෙක් ඇතුළත් විය. ඒ සඳහා අවස්ථාව ලැබුණේ,",
+                        options: [
+                            "සිංහල හා දෙමළ මන්ත්‍රීවරයෙකුට",
+                            "දෙමළ හා මුස්ලිම් මන්ත්‍රීවරයෙකුට",
+                            "සිංහල මන්ත්‍රීන් දෙදෙනෙකුට",
+                            "සිංහල හා මුස්ලිම් මන්ත්‍රීවරයෙකුට"
+                        ]
+                    },
+                    {
+                        id: 6,
+                        text: "ජෝර්ජ් වෝල්ගේ නායකත්වයෙන් යුතුව 1865දී බිහිවූ සංගමය කුමක්ද?",
+                        options: ["ලංකා සංගමය", "ලංකා ජාතික සංගමය", "හලාවත සංගමය", "යාපනය සංගමය"]
+                    },
+                    {
+                        id: 7,
+                        text: "1908 දෙසැම්බර් මාසයේ ආණ්ඩුක්‍රම ප්‍රතිසංස්කරණයක් ඉල්ලා විධිමත් පෙත්සමක් ඉදිරිපත් කළේ කවුද?",
+                        options: ["ඊ. ඩබ්. පෙරේරා මහතා", "එෆ්. ආර්. සේනානායක මහතා", "ජේම්ස් පීරිස් මහතා", "එන්. එම්. පෙරේරා මහතා"]
+                    },
+                    {
+                        id: 8,
+                        text: "කෲ - මැකලම් ආණ්ඩුක්‍රමය ආරම්භ වූ වර්ෂය වූයේ,",
+                        options: ["1839", "1910", "1920", "1931"]
+                    },
+                    {
+                        id: 9,
+                        text: "කෲ - මැකලම් ආණ්ඩුක්‍රම ප්‍රතිසංස්කරණයේ ලක්ෂණයක් වන්නේ මින් කුමක්ද?",
+                        options: [
+                            "ප්‍රථම වරට ඡන්ද බලයෙන් නියෝජිතයන් පත් කිරීම",
+                            "රාජකාරි ක්‍රමය අහෝසි කිරීම",
+                            "සර්ව ජන ඡන්ද බලය හඳුන්වා දීම",
+                            "නව උසාවි පද්ධතියක් හඳුන්වා දීම"
+                        ]
+                    },
+                    {
+                        id: 10,
+                        text: "කෲ - මැකලම් ආණ්ඩුක්‍රමයෙන් උගත් ලාංකිකයන් වෙනුවෙන් පත් වූ මන්ත්‍රීවරයා කවුද?",
+                        options: [
+                            "පොන්නම්බලම් අරුණාචලම් මහතා",
+                            "ඩී. එස්. සේනානායක මහතා",
+                            "පොන්නම්බලම් රාමනාදන් මහතා",
+                            "සී. ඩබ්. ඩබ්. කන්නන්ගර මහතා"
+                        ]
+                    },
+                    {
+                        id: 11,
+                        text: "රජයේ සුරාබදු පනතට එරෙහිව පැන නැගුණ උද්ඝෝෂණවල ප්‍රබලම ප්‍රතිඵලය වූයේ කුමක්ද?",
+                        options: [
+                            "සුරා බදු වලට එරෙහිව නිදහස් කැරැල්ලක් ඇති වීම",
+                            "අමද්‍යප ව්‍යාපාරයට බොහෝ නායකයන් සම්බන්ධ වී මෙරට සමාජය මුදවා ගැනීමට ක්‍රියා කිරීම",
+                            "සුරා පානය සියලු ජනයා නවතා දැමීම",
+                            "සුරා සැල් සෑම එකක්ම ගිනි තබා විනාශ කිරීම"
+                        ]
+                    },
+                    {
+                        id: 12,
+                        text: "අමද්‍යප සංගමයේ ප්‍රථම සභාපතිවරයා කවුද?",
+                        options: [
+                            "එෆ්. ආර්. සේනානායක මහතා",
+                            "කොල්වින් ආර්. ද සිල්වා මහතා",
+                            "එස්. ඒ. වික්‍රමසිංහ මහතා",
+                            "ඩී. ඇස්. සේනානායක මහතා"
+                        ]
+                    },
+                    {
+                        id: 13,
+                        text: "මහනුවර ප්‍රදේශයේ සිංහල - මුස්ලිම් කෝලාහලය ඇති වූ වර්ෂය වූයේ,",
+                        options: ["1912", "1914", "1915", "1920"]
+                    },
+                    {
+                        id: 14,
+                        text: "ඉන්දියානු ජාතික ව්‍යාපාරයේ නායකයෙකු නොවන්නේ,",
+                        options: ["සුරේන්ද්‍රනාත් බැනර්ජි මහතා", "බාල් ගංගාධර් තිලක් මහතා", "මහත්මා ගාන්ධිතුමා", "අර්වින් ඉන්ද්‍රජිත් මහතා"]
+                    },
+                    {
+                        id: 15,
+                        text: "මහත්මා ගාන්ධිතුමා ලංකාවට පැමිණි වර්ෂය කුමක්ද?",
+                        options: ["1889", "1915", "1921", "1927"]
+                    },
+                    {
+                        id: 16,
+                        text: "1919 දෙසැම්බර් මාසයේ ආරම්භ වූ ලංකා ජාතික සංගමයේ ප්‍රථම සභාපතිවරයා කවුද?",
+                        options: [
+                            "පොන්නම්බලම් අරුණාචලම් මහතා",
+                            "පොන්නම්බලම් රාමනාදන් මහතා",
+                            "ඩී. ඇස්. සේනානායක මහතා",
+                            "එෆ්. ආර්. සේනානායක මහතා"
+                        ]
+                    },
+                    {
+                        id: 17,
+                        text: "1920 ආරම්භ වූ මැනිං ආණ්ඩුක්‍රමයේ ව්‍යවස්ථාදායක සභාවේ මුළු සාමාජිකයන් ගණන වූයේ,",
+                        options: ["15", "21", "37", "49"]
+                    },
+                    {
+                        id: 18,
+                        text: "මැනිං ආණ්ඩුක්‍රම ප්‍රතිසංස්කරණයේ ලක්ෂණයක් නොවන්නේ,",
+                        options: [
+                            "ව්‍යවස්ථාදායක සභාවේ මුල් වරට නිල නොලත් බහුතරයක් වීම",
+                            "පළාත්බද නියෝජන ක්‍රමය හඳුන්වා දීම",
+                            "සීමිත ඡන්ද බලය මුල් වරට හඳුන්වා දීම",
+                            "නාමකරණයෙන් 7 දෙනෙකුව ව්‍යවස්ථාදායකයට පත් කිරීම"
+                        ]
+                    },
+                    {
+                        id: 19,
+                        text: "මැනිං - ඩෙවොන්ෂයර් ආණ්ඩුක්‍රමය ආරම්භ වූ වර්ෂය කුමක්ද?",
+                        options: ["1920", "1924", "1931", "1947"]
+                    },
+                    {
+                        id: 20,
+                        text: "විලියම් මැනිං ආණ්ඩුකාරවරයාට පසුව මෙරට ආණ්ඩුකාරධූරයට පත් වූයේ කවුද?",
+                        options: ["හෙන්රි මැකලම්", "හියු ක්ලිෆර්ඩ්", "වෙස්ට් රිජ්වේ", "විලියම් ග්‍රෙගරි"]
+                    },
+                    {
+                        id: 21,
+                        text: "ඩොනමෝර් ආණ්ඩුක්‍රමය මගින් ව්‍යවස්ථාදායකයත් විධායකයත් එක්කොට නිර්මාණය කළ සභාව කුමක්ද?",
+                        options: ["පාර්ලිමේන්තුව", "රාජ්‍ය මන්ත්‍රණ සභාව", "ජාතික සභාව", "ලංකා සභාව"]
+                    },
+                    {
+                        id: 22,
+                        text: "එම සභාවේ මුලසුන හොබවන ලද්දේ කවුරුන් විසින්ද?",
+                        options: ["ආණ්ඩුකාරවරයා", "බ්‍රිතාන්‍ය රැජින", "කථානායක", "රාජ්‍ය ලේකම්"]
+                    },
+                    {
+                        id: 23,
+                        text: "සර්ව ජන ඡන්ද බලයෙන් ප්‍රථම වරට ඡන්ද බලය ලැබුණේ,",
+                        options: [
+                            "අවුරුදු 18ට වැඩි ස්ත්‍රී පුරුෂ පුරවැසියන්ට",
+                            "අවුරුදු 21ට වැඩි ස්ත්‍රී පුරුෂ පුරවැසියන්ට",
+                            "අවුරුදු 18ට වැඩි පිරිමි පුරවැසියන්ට",
+                            "අවුරුදු 21ට වැඩි කාන්තාවන්ට පමණි"
+                        ]
+                    },
+                    {
+                        id: 24,
+                        text: "ඩොනමෝර් ආණ්ඩු ක්‍රමය තුළින් හඳුන්වා දුන් විධායක කාරක සභා ගණන,",
+                        options: ["6කි", "7කි", "10කි", "15කි"]
+                    },
+                    {
+                        id: 25,
+                        text: "අධ්‍යාපන කටයුතු පිළිබඳ විධායක කාරක සභාවෙන් මෙරටට හඳුන්වා දුන් වැදගත්ම දායාදය කුමක්ද?",
+                        options: [
+                            "ඉංග්‍රීසි අධ්‍යාපනය",
+                            "බෞද්ධ පාසල් පිහිටුවීම",
+                            "අධ්‍යාපන කොමිසම පත් කිරීම",
+                            "නිදහස් අධ්‍යාපනය හඳුන්වා දීම"
+                        ]
+                    },
+                    {
+                        id: 26,
+                        text: "අධ්‍යාපන හා කෘෂිකර්ම කටයුතු පිළිබඳ විධායක කාරක සභාවල විෂයභාර ඇමතිවරුන් පිළිවෙලින් සඳහන් පිළිතුර වන්නේ,",
+                        options: [
+                            "සී.ඩබ්.ඩබ්. කන්නන්ගර මහතා - සී. බටුවන්තුඩාව මහතා",
+                            "ඩී. ඇස්. සේනානායක මහතා - පොන්නම්බලම් රාමනාදන් මහතා",
+                            "සී.ඩබ්.ඩබ්. කන්නන්ගර මහතා - ඩී. ඇස්. සේනානායක මහතා",
+                            "ඩී.බී. ජයතිලක මහතා - ඩී. ඇස්. සේනානායක මහතා"
+                        ]
+                    },
+                    {
+                        id: 27,
+                        text: "ඩොනමෝර් ආණ්ඩුක්‍රමය යටතේ රාජ්‍ය නිලධාරීන් තිදෙනාට පැවරුණු කාර්යයක් නොවන්නේ,",
+                        options: ["ආරක්ෂක කටයුතු", "සංස්කෘතික කටයුතු", "මුදල් කටයුතු", "නීති කටයුතු"]
+                    },
+                    {
+                        id: 28,
+                        text: "ඩොනමෝර් ආණ්ඩුක්‍රමය සංශෝධනය කර පාලන බලතල ලාංකිකයන්ට ගැනීම සඳහා උද්ඝෝෂණ නොකළ කණ්ඩායම කුමක්ද?",
+                        options: [
+                            "ඇමති මණ්ඩලය",
+                            "රාජ්‍ය මන්ත්‍රණ සභාව",
+                            "ලංකා ජාතික සංගමය",
+                            "පහතරට වැවිලිකරුවන්ගේ සංගමය"
+                        ]
+                    },
+                    {
+                        id: 29,
+                        text: "මෙරට නිදහස වෙනුවෙන් විප්ලවකාරී ලෙස ක්‍රියා කළ පිරිස හැඳින්වූ නම වූයේ,",
+                        options: ["ලිබරල්වාදීන්", "මාඕවාදීන්", "වාමාංශිකයන්", "මාක්ස්වාදීන්"]
+                    },
+                    {
+                        id: 30,
+                        text: "I වන ලෝක සංග්‍රාමයෙන් ආබාධිත බ්‍රිතාන්‍ය සොල්දාදුවන් හා ඔවුන්ගේ පවුල්වලට ආධාර පිණිස මෙරට ගෙන ගිය ව්‍යාපාරය කුමක්ද?",
+                        options: ["පොපි මල් ව්‍යාපාරය", "නෙළුම් මල් ව්‍යාපාරය", "සූරිය මල් ව්‍යාපාරය", "නා මල් ව්‍යාපාරය"]
+                    },
+                    {
+                        id: 31,
+                        text: "පළමු ලෝක යුද්ධ සමාදාන දිනය ලෙස සැලකුවේ කවදාද?",
+                        options: ["දෙසැම්බර් 20", "නොවැම්බර් 01", "නොවැම්බර් 11", "ඔක්තෝබර් 10"]
+                    },
+                    {
+                        id: 32,
+                        text: "සූරිය මල් ව්‍යාපාරයට මැදිහත් වී කටයුතු කළේ කවුරුන්ද?",
+                        options: ["මෙරට සාමාන්‍ය ජනතාව", "ඉංග්‍රීසි රජය", "ලාංකේය ව්‍යාපාරිකයන්", "වාමාංශික නායකයන්"]
+                    },
+                    {
+                        id: 33,
+                        text: "දෙවන ලෝක මහා සංග්‍රාමය ආරම්භ වූ වර්ෂය කුමක්ද?",
+                        options: ["1914", "1925", "1939", "1945"]
+                    },
+                    {
+                        id: 34,
+                        text: "දෙවන ලෝක යුද්ධ සමයේදී මෙරට ආරම්භ කළ විශේෂ මණ්ඩලය කුමක්ද?",
+                        options: ["ආරක්ෂක මණ්ඩලය", "ප්‍රවාහන මණ්ඩලය", "සංස්කෘතික මණ්ඩලය", "පාලක මණ්ඩලය"]
+                    },
+                    {
+                        id: 35,
+                        text: "සෝල්බරි කොමිසම මෙරටට පත් කර එවන්නේ කුමන වර්ෂයේද?",
+                        options: ["1947", "1944", "1941", "1939"]
+                    },
+                    {
+                        id: 36,
+                        text: "සෝල්බරි ආණ්ඩුක්‍රමය මගින් මෙරට දේශපාලනයට ලැබුණු වැදගත්ම දායාදය වූයේ,",
+                        options: ["රාජ්‍ය මන්ත්‍රණ සභාව", "කථානායක ධූරය", "පාර්ලිමේන්තු ක්‍රමය", "සමානුපාතික නියෝජනය"]
+                    },
+                    {
+                        id: 37,
+                        text: "සෝල්බරි ආණ්ඩුක්‍රමය මගින් ආණ්ඩුකාර ධූරය වෙනුවට කිරීටයේ නියෝජිතයා ලෙස පත් කරනු ලැබුවේ,",
+                        options: ["අගමැතිවරයාව", "අග්‍රාණ්ඩුකාරවරයාව", "කථානායකවරයාව", "මහ ඇමතිවරයාව"]
+                    },
+                    {
+                        id: 38,
+                        text: "සෝල්බරි ආණ්ඩුක්‍රමයට පෙර පැවැත්වූ ඡන්දයෙන් ජයගත් දේශපාලන පක්ෂය කුමක්ද?",
+                        options: ["ලංකා සමසමාජ පක්ෂය", "කම්කරු පක්ෂය", "ෆෙඩරල් පක්ෂය", "එක්සත් ජාතික පක්ෂය"]
+                    },
+                    {
+                        id: 39,
+                        text: "සෝල්බරි ආණ්ඩුක්‍රමයේ ද්වි මණ්ඩලය වූයේ,",
+                        options: [
+                            "මහජන මන්ත්‍රී මණ්ඩලය හා සෙනෙට් සභාව",
+                            "මහජන මන්ත්‍රී මණ්ඩලය හා ආරක්ෂක සභාව",
+                            "මහජන මන්ත්‍රී මණ්ඩලය හා මහ සභාව",
+                            "මහජන මන්ත්‍රී මණ්ඩලය හා රාජ්‍ය සභාව"
+                        ]
+                    },
+                    {
+                        id: 40,
+                        text: "සෝල්බරි ආණ්ඩුක්‍රමය තුළින් මෙරට ප්‍රථම අගමැති ධූරයට පත් වූ නායකයා වූයේ,",
+                        options: [
+                            "එෆ්. ආර්. සේනානායක මහතා",
+                            "ඩී. ඇස්. සේනානායක මහතා",
+                            "එස්. ඩබ්. ආර්. ඩී. බණ්ඩාරනායක මහතා",
+                            "සිරිමාවෝ බණ්ඩාරනායක මහත්මිය"
+                        ]
+                    }
+                ]
+            },
+            unit5: {
+                headerTitle: "05 වන ඒකකය - බ්‍රිතාන්‍යයන් යටතේ ශ්‍රී ලංකාවේ සමාජ පරිවර්තනය (ප්‍රශ්න 40)",
+                bannerMain: "අ.පො.ස. (සාමාන්‍ය පෙළ) - 11 ශ්‍රේණිය ඉතිහාසය",
+                bannerSub: "05 වන ඒකකය: බ්‍රිතාන්‍යයන් යටතේ ශ්‍රී ලංකාවේ සමාජ පරිවර්තනය - කාලය: පැය එකයි",
+                shortName: "05 වන ඒකකය",
+                answerKey: {
+                    1: 2,  2: 1,  3: 4,  4: 1,  5: 3,  6: 2,  7: 3,  8: 1,  9: 3,  10: 2,
+                    11: 3, 12: 3, 13: 1, 14: 3, 15: 1, 16: 3, 17: 3, 18: 2, 19: 4, 20: 3,
+                    21: 4, 22: 2, 23: 4, 24: 1, 25: 3, 26: 1, 27: 4, 28: 1, 29: 2, 30: 2,
+                    31: 3, 32: 2, 33: 2, 34: 4, 35: 4, 36: 2, 37: 1, 38: 1, 39: 2, 40: 3
+                },
+                questions: [
+                    {
+                        id: 1,
+                        text: "පෘතුගීසීන් යටතේ පැවති මුහුදුබඩ ප්‍රදේශවල කෘෂිකර්මාන්තය අඩපණ වූයේ මක්නිසාද?",
+                        options: [
+                            "එම ප්‍රදේශ ධීවර කර්මාන්තයට සුදුසු වීමෙන්",
+                            "වෙළඳාමට වැඩි අවධානයක් දීම හේතුවෙන්",
+                            "එම ප්‍රදේශ කෘෂිකාර්මික ප්‍රදේශ නොවීම හේතුවෙන්",
+                            "වෙළඳ භාණ්ඩ වගා කිරීම හේතුවෙන්"
+                        ]
+                    },
+                    {
+                        id: 2,
+                        text: "ලන්දේසීන් අපනයනය ඉලක්ක කරගෙන මෙරට ආරම්භ කළ වගාවන් මොනවාද?",
+                        options: ["කුරුඳු, සාදික්කා", "ගම්මිරිස්, සාදික්කා", "කුරුඳු, ගම්මිරිස්", "කරාබුනැටි, කුරුඳු"]
+                    },
+                    {
+                        id: 3,
+                        text: "බ්‍රිතාන්‍යයන් මෙරටට පැමිණෙන විට මෙරට පැවති ආර්ථික ක්‍රමය වන්නේ,",
+                        options: ["මිශ්‍ර ආර්ථිකයක්", "විවෘත ආර්ථිකයක්", "යැපුම් ආර්ථිකයක්", "ස්වයංපෝෂිත ආර්ථිකයක්"]
+                    },
+                    {
+                        id: 4,
+                        text: "අත්තම් ක්‍රමය යනු කුමක්ද?",
+                        options: [
+                            "ශ්‍රමය එක් එක් අයගේ ගොවිතැන් කටයුතු සඳහා යෙදවීම.",
+                            "වැටුපට වැඩ කිරීම.",
+                            "එක් කාල සීමාවකට වැඩ කිරීම.",
+                            "කාලය හා මුදල් වැය කර ගොවිතැන් කිරීම"
+                        ]
+                    },
+                    {
+                        id: 5,
+                        text: "පොදු කටයුතු මෙහෙයවන ලද්දේ කුමක් මගින්ද?",
+                        options: ["ප්‍රාදේශීය සභාව", "නගර සභාව", "ගම් සභාව", "ගම් මුලාදෑනි"]
+                    },
+                    {
+                        id: 6,
+                        text: "1815 වන විට මෙරට පැවති රාජකාරි ක්‍රමයේ කොටස් දෙක මොනවාද?",
+                        options: [
+                            "ඉඩම් භුක්තිය හා සුළු රාජකාරි",
+                            "ඉඩම් භුක්තිය හා අනිවාර්ය සේවා",
+                            "අනිවාර්ය සේවා හා සුළු රාජකාරි",
+                            "අනිවාර්ය සේවා හා දෛනික රාජකාරි"
+                        ]
+                    },
+                    {
+                        id: 7,
+                        text: "කෝල්බෲක් කොමිසම මෙරටට එවන ලද්දේ කුමක් නිසාද?",
+                        options: [
+                            "පෞද්ගලික ව්‍යවසායකයින් දිරි ගැන්වීමට",
+                            "අනිවාර්ය සේවා රාජකාරි ක්‍රමය අහෝසි කිරීමට",
+                            "ආදායමට වඩා වියදම වැඩි වීම සොයා බැලීමට",
+                            "ලංකාවට සුදුසු ජීවන ක්‍රමයක් සොයා බැලීමට"
+                        ]
+                    },
+                    {
+                        id: 8,
+                        text: "කෝල්බෲක් කොමිසමෙන් පෞද්ගලික ව්‍යවසායකයන්ට ධනය ආයෝජනය කිරීමට පසුබිම සැකසුණේ කෙසේද?",
+                        options: [
+                            "රජයේ ඉඩම් විකිණීමෙන් ප්‍රතිපත්ති ක්‍රියාත්මක කිරීම.",
+                            "රාජකාරි ක්‍රමය ක්‍රියාත්මක කිරීම.",
+                            "ව්‍යාපාර ආරම්භ කිරීමට උපදෙස් ලබා දීම.",
+                            "ව්‍යාපාර සඳහා ප්‍රතිපත්ති හඳුන්වා දීම."
+                        ]
+                    },
+                    {
+                        id: 9,
+                        text: "අනිවාර්ය සේවා රාජකාරි ක්‍රමය අහෝසි කිරීමට කෝල්බෲක් යෝජනා කළේ මක්නිසාද?",
+                        options: [
+                            "ඉංග්‍රීසීන්ගේ යුගයේ රජවරු නොසිටි බැවින්.",
+                            "ස්වදේශිකයන්ට කැමති පරිදි ඉඩම් මිලදී ගැනීම.",
+                            "ශ්‍රමය යම් මුදලකට මිලදී ගැනීමට සැලැස්වීම.",
+                            "රට සංවර්ධනය කිරීමට."
+                        ]
+                    },
+                    {
+                        id: 10,
+                        text: "කෝල්බෲක් මෙරටට පැමිණෙන විට මෙරට රජයේ වෙළඳ ඒකාධිකාරිය පැවතියේ,",
+                        options: ["කුළුබඩු හා ලුණු", "ලුණු හා මැණික්", "කුළුබඩු හා මැණික්", "කුරුඳු හා ලුණු"]
+                    },
+                    {
+                        id: 11,
+                        text: "රජයේ ආදායම වැඩි කිරීමට කෝල්බෲක් යෝජනා කළ බදු වර්ග වූයේ,",
+                        options: ["මාළු, ඉඩම්, මත්පැන්", "ඉඩම්, කුරුඳු, කුළුබඩු", "ලුණු, මත්පැන්, මැණික්", "ලුණු, ඉඩම්, කුරුඳු"]
+                    },
+                    {
+                        id: 12,
+                        text: "ලංකාවට පැමිණි විදේශිකයන් ධනය ආයෝජනය කළේ,",
+                        options: [
+                            "දේශීය වෙළඳාමෙන් ලාභ ලැබිය හැකි ව්‍යාපාරික කෘෂිකර්මාන්තය කෙරෙහි.",
+                            "දේශීය වෙළඳාමෙන් ලාභ ලැබිය හැකි සාම්ප්‍රදායික කෘෂිකර්මාන්තය කෙරෙහි.",
+                            "විදේශීය වෙළඳාමෙන් ලාභ ලැබිය හැකි ව්‍යාපාරික කෘෂිකර්මාන්තය කෙරෙහි.",
+                            "විදේශීය වෙළඳාමෙන් ලාභ ලැබිය හැකි සාම්ප්‍රදායික කෘෂිකර්මාන්තය කෙරෙහි."
+                        ]
+                    },
+                    {
+                        id: 13,
+                        text: "කෝපි වගාවේ උන්නතිය ඇති වූ කාල වකවානුව වූයේ,",
+                        options: ["19 වන සියවස", "20 වන සියවස", "18 වන සියවස", "17 වන සියවස"]
+                    },
+                    {
+                        id: 14,
+                        text: "කෝපි වගාවට අය කළ අපනයන බද්ද අඩු කරන ලද්දේ කුමන ආණ්ඩුකාරවරයාද?",
+                        options: ["ෆෙඩ්රික් නෝර්ත්", "තෝමස් මෙට්ලන්ඩ්", "එඩ්වඩ් බාන්ස්", "ජේම්ස් ටේලර්"]
+                    },
+                    {
+                        id: 15,
+                        text: "1845 වන විට මෙරට කෝපි වතු කොපමණ ප්‍රමාණයක් තිබුණිද?",
+                        options: ["අක්කර 600කට වැඩියෙන්", "අක්කර 700කට වැඩියෙන්", "අක්කර 500කට වැඩියෙන්", "අක්කර 400කට වැඩියෙන්"]
+                    },
+                    {
+                        id: 16,
+                        text: "ලෝක ආර්ථික පරිහානිය සිදු වූයේ කුමන අවුරුද්දේ ද?",
+                        options: ["1867", "1800", "1847", "1890"]
+                    },
+                    {
+                        id: 17,
+                        text: "මෙරට කෝපි වගාව පරිහානියට පත්වීමට බලපෑ ප්‍රධානම හේතුව මොකක්ද?",
+                        options: [
+                            "පොහොර භාවිතා නොකිරීම.",
+                            "අධික පිරිවැයක් දරා සිටුවීමට සිදුවීම.",
+                            "දිලීර රෝගයක් වැළඳීම.",
+                            "විදේශීය වෙළඳපොළ මිලදී නොගැනීම."
+                        ]
+                    },
+                    {
+                        id: 18,
+                        text: "කෝපි වගාව අසාර්ථක වීමෙන් වගාකරුවන් වගා කිරීමට යොමු වූ සිංකෝනා වගාව අසාර්ථක වූයේ ඇයි?",
+                        options: [
+                            "එය වගාවට වැඩි කාලයක් ගතවීම නිසා.",
+                            "බෙහෙත් පැළෑටියක් වීම නිසා.",
+                            "ඒ සඳහා සුදුසු පරිසරයක් ලංකාවේ නොවීම.",
+                            "ගොවීන් පුරුදු පුහුණුව නොසිටීම."
+                        ]
+                    },
+                    {
+                        id: 19,
+                        text: "කොකෝවා වගාව ඉතා සාර්ථක වූයේ කුමන ප්‍රදේශයේද?",
+                        options: ["මොනරාගල", "මාතර", "මීගමුව", "මාතලේ"]
+                    },
+                    {
+                        id: 20,
+                        text: "තේ වගාව මෙරටට හඳුන්වා දුන්නේ කවුරුන්ද?",
+                        options: ["නෝර්ත් ආණ්ඩුකාරවරයා", "බාන්ස් ආණ්ඩුකාරවරයා", "ජේම්ස් ටේලර් මහතා", "තෝමස් මෙට්ලන්ඩ් ආණ්ඩුකාරවරයා"]
+                    },
+                    {
+                        id: 21,
+                        text: "තේ පර්යේෂණායතනය පිහිටියේ කොහේද?",
+                        options: ["අගලවත්ත", "නුවරඑළිය", "ලුණුවිල", "තලවාකැලේ"]
+                    },
+                    {
+                        id: 22,
+                        text: "1920 පොල් අපනයනයෙන් කොපමණ විදේශ විනිමයක් උපයන ලද්දේ ද?",
+                        options: ["20%", "27%", "35%", "10%"]
+                    },
+                    {
+                        id: 23,
+                        text: "පොල් පර්යේෂණ ආයතනය පිහිටියේ කොහේද?",
+                        options: ["අගලවත්ත", "කුරුණෑගල", "කෑගල්ල", "ලුණුවිල"]
+                    },
+                    {
+                        id: 24,
+                        text: "රබර් ගස මෙරටට හඳුන්වා දෙන ලද්දේ කුමන වසරකද?",
+                        options: ["1877", "1870", "1875", "1900"]
+                    },
+                    {
+                        id: 25,
+                        text: "බ්‍රිතාන්‍ය සමයේ මෙරට සිදු වූ ප්‍රධාන සිදුවීම කුමක්ද?",
+                        options: [
+                            "මධ්‍යම පන්තියේ අභාවය",
+                            "පැරණි ප්‍රභූ පන්තිය බලයට පැමිණීම",
+                            "පැරණි ප්‍රභූ පන්තියේ අභාවය",
+                            "මධ්‍යම පන්තියට තනතුරු ලැබීම"
+                        ]
+                    },
+                    {
+                        id: 26,
+                        text: "මෙරට ධනවාදී ආර්ථික රටාවකට පදනම දැමුවේ,",
+                        options: [
+                            "කෝල්බෲක් ප්‍රතිසංස්කරණයෙන්",
+                            "කෲ - මැකලම් ප්‍රතිසංස්කරණයෙන්",
+                            "මැනිං ප්‍රතිසංස්කරණයෙන්",
+                            "සෝල්බරි ප්‍රතිසංස්කරණයෙන්"
+                        ]
+                    },
+                    {
+                        id: 27,
+                        text: "එලෙස හඳුන්වා දුන් ආර්ථික රටාවකට ස්වදේශිකයන්ට ධනය ආයෝජනය කළ හැකි මාර්ගයක් නොවූයේ,",
+                        options: ["මිනිරන් කර්මාන්තය", "අරක්කු නිෂ්පාදනය හා බෙදා හැරීම", "පොල් කර්මාන්තය", "වී ගොවිතැන"]
+                    },
+                    {
+                        id: 28,
+                        text: "බ්‍රිතාන්‍ය පාලන සමයේ මධ්‍යම පන්තිය ලෙස හඳුන්වනු ලැබුවේ,",
+                        options: [
+                            "ඉංග්‍රීසි උගත් හා නව ධනෝපාය මාර්ග වලින් මුදල් උපයාගත් පිරිස",
+                            "ඉංග්‍රීසි උගත් හා රදල ප්‍රධානීන්",
+                            "ඉංග්‍රීසි උගත් හා පාරම්පරික ධනපතීන්",
+                            "ඉංග්‍රීසි උගත් හා දේශපාලන බලවතුන්"
+                        ]
+                    },
+                    {
+                        id: 29,
+                        text: "මෙරට සාම්ප්‍රදායික පාලනය යටතේ අනිවාර්ය සේවා රාජකාරි ක්‍රමය නිසා,",
+                        options: [
+                            "වැටුපට වැඩ කරන පිරිසක් බිහිවීම.",
+                            "වැටුපට වැඩ කරන පිරිසක් බිහි නොවීම.",
+                            "තම වගාවන් පමණක් කළ පිරිසක් බිහිවීම.",
+                            "රජයට සේවය කළ පිරිසක් බිහිවීම."
+                        ]
+                    },
+                    {
+                        id: 30,
+                        text: "බ්‍රිතාන්‍යයින් ආරම්භ කළ වතු වැඩ කිරීමට යොදවා ගත්තේ කවුරුන්ද?",
+                        options: ["උතුරු ඉන්දීය කම්කරුවන්", "දකුණු ඉන්දීය කම්කරුවන්", "පහතරට කම්කරුවන්", "උඩරට කම්කරුවන්"]
+                    },
+                    {
+                        id: 31,
+                        text: "අලුතින් ඇති වූ ආර්ථික වෙනස්කම් නිසා නගර ආශ්‍රිතව බිහිවූ සේවාවන් වනුයේ,",
+                        options: [
+                            "කෘෂි උපකරණ නිෂ්පාදනය",
+                            "නව කර්මාන්ත බිහි වීම",
+                            "බඩු පැටවීම, රෙදි සේදීම, ප්‍රවාහනය",
+                            "කෘෂිකාර්මික සේවාවන් බිහි වීම"
+                        ]
+                    },
+                    {
+                        id: 32,
+                        text: "කම්කරු වෘත්තීය සංගම් බිහිවූයේ කෙසේද?",
+                        options: [
+                            "වැඩ කරන පැය ගණන වැඩිකර ගැනීමට",
+                            "කම්කරුවන්ගේ ශුභ සාධනයට හා එකමුතුකම වර්ධනයට",
+                            "කම්කරු රක්ෂණය ලබා ගැනීමට",
+                            "කම්කරුවන්ගේ තත්ත්වය වර්ධනය කර ගැනීමට"
+                        ]
+                    },
+                    {
+                        id: 33,
+                        text: "20 වන සියවස මුල් භාගයේ ආරම්භ වූ වැඩ වර්ජන මොනවාද?",
+                        options: [
+                            "මුද්‍රණකරුවන්ගේ, රෙදි නිෂ්පාදකයින්ගේ වර්ජනය",
+                            "මුද්‍රණකරුවන්ගේ, රෙදි සෝදන්නන්ගේ හා කරත්තකරුවන්ගේ",
+                            "රෙදි නිෂ්පාදකයින්ගේ හා කරත්තකරුවන්ගේ",
+                            "මුද්‍රණකරුවන්ගේ හා රෙදි නිෂ්පාදකයින්ගේ"
+                        ]
+                    },
+                    {
+                        id: 34,
+                        text: "කම්කරුවන් සංවිධානය කිරීමට වෙහෙස වූයේ කවුරුන්ද?",
+                        options: ["නඩේස අයියර්", "කොල්වින් ආර්. ද සිල්වා", "සර් ජෝන් කොතලාවල", "ඒ. ඊ. ගුණසිංහ"]
+                    },
+                    {
+                        id: 35,
+                        text: "1922 ලංකා කම්කරු සංගමය පිහිටුවූයේ කවුරුන්ද?",
+                        options: ["නඩේස අයියර්", "කොල්වින් ආර්. ද සිල්වා", "එන්. එම්. පෙරේරා", "ඒ. ඊ. ගුණසිංහ"]
+                    },
+                    {
+                        id: 36,
+                        text: "වතු කම්කරුවන් උදෙසා වෘත්තීය සමිති පිහිටුවීමට නායකත්වය දෙන ලද්දේ කවුද?",
+                        options: ["එන්. එම්. පෙරේරා", "නඩේස අයියර්", "ඒ. ඊ. ගුණසිංහ", "කොල්වින් ආර්. ද සිල්වා"]
+                    },
+                    {
+                        id: 37,
+                        text: "මේ සමයේ පාසල් තුළ බටහිර සංස්කෘතිය පැතිර යාමට හේතු වූයේ කුමක්ද?",
+                        options: [
+                            "පාසල තුළ විදේශිකයින් ඉගැන්වීම හේතුවෙන්",
+                            "ඉංග්‍රීසි භාෂාවට ආදරය කළ පිරිසක් සිටීම නිසා",
+                            "රජයේ වැඩ ඉංග්‍රීසීන් කිරීම නිසා",
+                            "බටහිර සංස්කෘතිය පමණක් භාවිතා කිරීම නිසා"
+                        ]
+                    },
+                    {
+                        id: 38,
+                        text: "බ්‍රිතාන්‍ය පාලනය නිසා මෙරටට උරුම වූ යහපත් දෑ අතරට අයත් වන්නේ මින් කුමක්ද?",
+                        options: [
+                            "මහා මාර්ග හා දුම්රිය මාර්ග පද්ධති සංවර්ධනය වීම",
+                            "සාම්ප්‍රදායික ග්‍රාමීය ආර්ථිකය බිඳ වැටීම",
+                            "පැරණි ප්‍රභූ පන්තියේ අභාවය",
+                            "මත්පැන් පානය ව්‍යාප්ත වීම"
+                        ]
+                    },
+                    {
+                        id: 39,
+                        text: "බ්‍රිතාන්‍ය පාලනය නිසා මෙරටට උරුම වූ අයහපත් ප්‍රතිඵලයක් වන්නේ,",
+                        options: [
+                            "තැපැල් හා ටෙලිග්‍රාෆ් සේවා ආරම්භ වීම",
+                            "සාම්ප්‍රදායික යැපුම් කෘෂිකර්මාන්තය අඩපණ වීම",
+                            "නව රැකියා අවස්ථා බිහි වීම",
+                            "වෘත්තීය සමිති ව්‍යාපාර බිහි වීම"
+                        ]
+                    },
+                    {
+                        id: 40,
+                        text: "බ්‍රිතාන්‍යයන් යටතේ ශ්‍රී ලංකාවේ සිදු වූ සමාජ පරිවර්තනය පිළිබඳ වඩාත් නිවැරදි ප්‍රකාශය කුමක්ද?",
+                        options: [
+                            "සමාජයේ කිසිදු පන්ති භේදයක් හෝ වෙනසක් ඇති නොවීය.",
+                            "රාජකාරි ක්‍රමය තවදුරටත් ශක්තිමත්ව පැවතිණි.",
+                            "නව මධ්‍යම පන්තියක් හා කම්කරු පන්තියක් බිහි වී සමාජ ව්‍යුහය වෙනස් විය.",
+                            "වතු වගාවන් සියල්ල වහාම අහෝසි කරන ලදී."
+                        ]
+                    }
+                ]
+            }
+        };
+
+        const ALL_UNITS_DATA = {
+            1: {
+                id: 1,
+                number: "01",
+                title: "කාර්මික විප්ලවය",
+                totalQuestions: 40,
+                durationSeconds: 3600,
+                answerKey: {
+                    1: 2,  2: 3,  3: 2,  4: 1,  5: 4,  6: 3,  7: 4,  8: 2,  9: 3,  10: 3,
+                    11: 2, 12: 1, 13: 3, 14: 2, 15: 3, 16: 1, 17: 2, 18: 4, 19: 2, 20: 4,
+                    21: 4, 22: 2, 23: 3, 24: 4, 25: 2, 26: 1, 27: 4, 28: 4, 29: 4, 30: 1,
+                    31: 1, 32: 1, 33: 1, 34: 1, 35: 1, 36: 2, 37: 1, 38: 1, 39: 3, 40: 3
+                },
+                questions: [
+                    { id: 1, text: "ක්‍රි.ව. දහඅටවන සියවසේ අගභාගයේ කාර්මික විප්ලවය ආරම්භ වූයේ මින් කවර රාජ්‍යයක ද?", options: ["ප්‍රංශය", "බ්‍රිතාන්‍යය", "ජර්මනිය", "ස්පාඤ්ඤය"] },
+                    { id: 2, text: "කාර්මික විප්ලවය බ්‍රිතාන්‍යයෙන් ආරම්භ වීමට බලපෑ ප්‍රධාන භෞතික සාධකයක් ලෙස සැලකෙන්නේ,", options: ["වෙළඳාම", "කුරුස යුද්ධය", "ගල් අඟුරු සුලභ වීම", "ආගමික බලපෑම්"] },
+                    { id: 3, text: "කාර්මික විප්ලවය සම්බන්ධයෙන් එකඟ විය නොහැකි ප්‍රකාශය තෝරන්න.", options: ["මිනිසා සිය දෑතේ සවියෙන් භාණ්ඩ නිෂ්පාදනය කිරීම වෙනුවට යන්ත්‍ර සූත්‍ර යොදා ගැනීමක් මෙහිදී සිදු විය.", "ආරම්භයේදීම යුරෝපය පුරාම මෙය ව්‍යාප්ත වූ අතර සෙසු රටවලට ව්‍යාප්ත වූයේ ක්‍රි.ව. 19 වන සියවස අගභාගයේදී ය.", "කාර්මික විප්ලවය අදටත් නොනවතින ක්‍රියාවලියක් බවට පත්ව තිබේ.", "ක්‍රි.ව. 18 වන සියවස වන විට බ්‍රිතාන්‍යය හැරුණු විට ප්‍රංශය, පෘතුගාලය හා ස්පාඤ්ඤය වැනි රටවල් ද යටත් විජිත පිහිටුවාගෙන සිටිය ද කාර්මික විප්ලවය ආරම්භ වූයේ බ්‍රිතාන්‍යයෙන් ය."] },
+                    { id: 4, text: "කාර්මික විප්ලවය ප්‍රධාන ක්ෂේත්‍ර තුනක් යටතේ ආරම්භ විය. ඊට අයත් නොවන්නේ මින් කුමක් ද?", options: ["ගල් අඟුරු කර්මාන්තය", "පේෂ කර්මාන්තය", "ප්‍රවාහන ක්ෂේත්‍රය", "යකඩ හා වානේ කර්මාන්තය"] },
+                    { id: 5, header: "A - යකඩ හා වානේ වැනි සම්පත් බ්‍රිතාන්‍යය සතුව තිබීම.<br>B - බ්‍රිතාන්‍යයේ වෙළඳාම පුළුල්ව පැවතීම.<br>C - බ්‍රිතාන්‍යයේ ජනගහන වර්ධනය අඩු වීම.<br>D - ඉඩම් කොටු කිරීමේ ව්‍යාපාරය තහනම් කිරීම.<br>E - බ්‍රිතාන්‍යයේ දේශපාලන ස්ථාවරත්වයක් පැවතීම.", text: "ඉහත සාධක අතුරින් කාර්මික විප්ලවය බ්‍රිතාන්‍යයෙන් ආරම්භ වීමට අදාළ නොවන ඒවා පමණක් ඇතුළත් පිළිතුර තෝරන්න.", options: ["BC", "BE", "AD", "CD"] },
+                    { id: 6, text: "බ්‍රිතාන්‍යයේ ක්‍රියාත්මක වූ 'ඉඩම් කොටු කිරීමේ ව්‍යාපාරය' යනුවෙන් හඳුන්වන ලද්දේ කුමක්ද?", options: ["රජය විසින් සියලුම ඉඩම් නව පනතක් හරහා රජයට පවරා ගැනීම.", "මහා පරිමාණ ඉඩම් කුඩා කොටස් වලට වෙන් කර සුළු ගොවියන්ට වගාව සඳහා ලබාදීම.", "ඉඩම් හිමියන් විසින් සුළු ගොවියන් සතුව තිබූ කුඩා ඉඩම් කැබලි එකතු කර විශාල ගොවිපළවල් සකස් කිරීම.", "ගොවියන්ගේ සියලුම ඉඩම් කැබලි මායිම් ලකුණු කර වෙන් කිරීම."] },
+                    { id: 7, text: "\"යුරෝපයේ සෙසු රටවල් හා සසඳන කළ බ්‍රිතාන්‍යය තුළ කාර්මික විප්ලවය සඳහා සුදුසු පසුබිමක් පැවතුණි.\" ඉහත ප්‍රකාශය තහවුරු කිරීමට ඉදිරිපත් කළ නොහැකි සාධකය මින් කුමක් ද?", options: ["බ්‍රිතාන්‍යය දූපතක් වීම.", "ලන්ඩන් නගරය අමුද්‍රව්‍ය, ප්‍රාග්ධනය, නිෂ්පාදිත ද්‍රව්‍ය බෙදාහරින මධ්‍යස්ථානයක් වීම.", "අභ්‍යන්තර වශයෙන් රටපුරා විහිදුණු පොදු වෙළඳපොළක් ගොඩනගා ගැනීමට හැකිවීම.", "බ්‍රිතාන්‍යයේ ජනගහනය ඉතා පහළ මට්ටමක පැවතීම."] },
+                    { id: 8, text: "රෙදි විවීම සඳහා යොදාගත් 'දුවන නඩාව' (Flying Shuttle) නිපදවනු ලැබුවේ,", options: ["ජේම්ස් හාග්‍රීව්ස් විසින් ය.", "ජෝන් කේ විසින් ය.", "රිචඩ් ආක්රයිට් විසින් ය.", "හම්ප්‍රි ඩේව් විසින් ය."] },
+                    { id: 9, header: "<div class='overflow-x-auto my-2'><table class='w-full text-xs md:text-sm border border-slate-300 text-left'><thead class='bg-slate-100'><tr><th class='border p-2'>I තීරුව</th><th class='border p-2'>II තීරුව</th></tr></thead><tbody><tr><td class='border p-2'>1. ජෙනී යන්ත්‍රය</td><td class='border p-2'>A - ජෝන් ලොගී බෙයාඩ්</td></tr><tr><td class='border p-2'>2. ආපදා රහිත ලාම්පුව</td><td class='border p-2'>B - ජෝර්ජ් ස්ටීවන්සන්</td></tr><tr><td class='border p-2'>3. වාෂ්ප එන්ජිම</td><td class='border p-2'>C - ජේම්ස් වොට්</td></tr><tr><td class='border p-2'>4. රූපවාහිනිය</td><td class='border p-2'>D - ජේම්ස් හාග්‍රීව්ස් / E - හම්ප්‍රි ඩේව්</td></tr></tbody></table></div>", text: "පහත I තීරුවේ සඳහන් නව නිපැයුම් II තීරුවේ ඇති පුද්ගලයන් හා නිවැරදිව ගැලපූ විට අදාළ පිළිතුර කුමක් ද?", options: ["BECA", "DCBE", "DECA", "CEBD"] },
+                    { id: 10, text: "බ්‍රිතාන්‍යයෙන් ආරම්භ වූ කාර්මික විප්ලවය මුල් කාලයේ දී යුරෝපයේ සෙසු රටවලට ව්‍යාප්ත නොවීමට ඉවහල් වූ හේතුවක් වන්නේ,", options: ["යුරෝපයේ සෙසු රටවලට යටත් විජිත නොමැති වීම ය.", "එම රටවල ඉඩම් කොටු කිරීමේ ව්‍යාපාරය දැඩි ලෙස සිදු කිරීම ය.", "යුරෝපයේ සෙසු රටවල් කාර්මීකරණය කෙරෙහි අවධානය යොමු නොකිරීම ය.", "බ්‍රිතාන්‍යය ස්වකීය නිෂ්පාදන බාහිර ලෝකයට විවෘත නොකිරීම ය."] },
+                    { id: 11, header: "A - තෝමස් නිව්කොමන් &nbsp;&nbsp; B - රිචඩ් ආක්රයිට් &nbsp;&nbsp; C - හෙන්රි බෙසමර්<br>D - ඒබ්‍රහම් ඩර්බි &nbsp;&nbsp; E - ජේම්ස් වොට් &nbsp;&nbsp; F - හෙන්රි කෝට්", text: "පහත සඳහන් පුද්ගලයන් අතුරින් යකඩ හා වානේ කර්මාන්තය ආශ්‍රිතව නව නිපැයුම් සිදු කළ අය පමණක් ඇතුළත් වන්නේ කිනම් පිළිතුරේ ද?", options: ["BCF", "CDF", "ADE", "BCE"] },
+                    { id: 12, text: "කාර්මික විප්ලවය සමයේ දී බ්‍රිතාන්‍යයේ දකුණු වේල්ස්, යෝක්ෂයර් හා ලැන්කෂයර් යන ප්‍රදේශ වඩාත් වැදගත් වූයේ මින් කුමක් සම්බන්ධයෙන් ද?", options: ["ගල් අඟුරු", "කපු රෙදි", "යපස්", "ඛණිජ තෙල්"] },
+                    { id: 13, text: "කාර්මික විප්ලවය සමඟ ගල් අඟුරු කර්මාන්තයේ සිදු වූ දියුණුව නිසා ඇති වූ අතුරු ප්‍රතිලාභයක් නොවන්නේ කුමක් ද?", options: ["මහා මාර්ග ඉදිකිරීමට ගල් තාර යොදා ගත හැකි වීම.", "රෙදි සායම් කිරීමට අවශ්‍ය සායම් වර්ග නිෂ්පාදනය කිරීම.", "පොහොර නිපදවීමට යොදා ගැනීම.", "බල ශක්තියක් ලෙස යොදා ගැනීම."] },
+                    { id: 14, text: "තෝමස් නිව්කොමන්ගේ වාෂ්ප එන්ජිම වැඩි දියුණු කොට සියලුම කර්මාන්තවලට යොදාගත හැකි කාර්යක්ෂම එන්ජිමක් නිපදවන ලද්දේ කවරෙකු විසින් ද?", options: ["හම්ප්‍රි ඩේව්", "ජේම්ස් වොට්", "විලියම් සීමන්ස්", "ජෝර්ජ් ස්ටීවන්සන්"] },
+                    { id: 15, text: "ජෝර්ජ් ස්ටීවන්සන්, ඩෙම්ලර්, රොබට් ෆුල්ටන්, හෙන්රි බෙල් යන අය සම්බන්ධයෙන් පොදු ප්‍රකාශය තෝරන්න.", options: ["ගල් අඟුරු කර්මාන්තයට අදාළ නව සොයා ගැනීම් සිදු කළ පුද්ගලයන් ය.", "බ්‍රිතාන්‍යයේ පේෂ කර්මාන්තයේ දියුණුවට පුරෝගාමී වූවන් ය.", "ප්‍රවාහන ක්ෂේත්‍රයේ නව සොයා ගැනීම් කළ පුද්ගලයන් ය.", "නව සන්නිවේදන ක්‍රම හඳුන්වාදුන් පුද්ගලයන් ය."] },
+                    { id: 16, text: "ආරක්ෂිත ලාම්පුව (Safety Lamp) නිපදවන ලද්දේ කවුරුන් විසින් ද?", options: ["හම්ප්‍රි ඩේව්", "ජෝන් මැකඩම්", "ජේම්ස් වොට්", "හෙන්රි බෙල්"] },
+                    { id: 17, text: "ලොකු ගල් හා පස් අතුරා කරන ලද ශක්තිමත් අත්තිවාරමක් මත කුඩා කළු ගල් කැබලි අතුරා තලා මට්ටම් කොට මහා මාර්ග තැනවීමේ ක්‍රමය හඳුන්වා දෙන ලද්දේ,", options: ["රොබට් ෆුල්ටන් විසින් ය.", "ජෝන් මැකඩම් විසින් ය.", "ඩෙම්ලර් විසින් ය.", "සැමුවෙල් මෝස් විසින් ය."] },
+                    { id: 18, text: "පහත සඳහන් නාම යුගල අතුරින් නිවැරදි සම්බන්ධතාවක් නොමැති නාම යුගලය තෝරන්න.", options: ["රයිට් සහෝදරයන් - ගුවන් යානය", "ඇලෙක්සැන්ඩර් ග්‍රැහැම් බෙල් - දුරකථනය", "ජෝන් ලොගී බෙයාඩ් - රූපවාහිනිය", "හෙන්රි බෙල් - දුම් නැව"] },
+                    { id: 19, header: "A - දුම්රිය එන්ජිම සොයා ගනිමින් ප්‍රවාහන ක්ෂේත්‍රයේ විප්ලවයක් කිරීම.<br>B - ගුවන් විදුලි තරංග මගින් පණිවුඩ යැවීමේ ක්‍රමය සොයා ගැනීම.<br>C - ලාභදායී වෙළඳපොළක් පිළිබඳ මත ඉදිරිපත් කිරීම.<br>D - පතල් කම්කරුවන්ට ආරක්ෂිත ලාම්පුව නිපදවීම.", text: "ඉහත A, B, C, D ප්‍රකාශවලට අදාළ පුද්ගලයන් පිළිවෙලින් දැක්වෙන්නේ කිනම් පිළිතුරේ ද?", options: ["මාර්කෝනි, ජෝර්ජ් ස්ටීවන්සන්, ඇඩම් ස්මිත්, හම්ප්‍රි ඩේව්", "ජෝර්ජ් ස්ටීවන්සන්, මාර්කෝනි, ඇඩම් ස්මිත්, හම්ප්‍රි ඩේව්", "ජෝර්ජ් ස්ටීවන්සන්, හම්ප්‍රි ඩේව්, මාර්කෝනි, ඇඩම් ස්මිත්", "හම්ප්‍රි ඩේව්, මාර්කෝනි, ඇඩම් ස්මිත්, ජෝර්ජ් ස්ටීවන්සන්"] },
+                    { id: 20, text: "කාර්මික විප්ලවයට සමගාමීව කෘෂි ක්ෂේත්‍රයේ ද විශාල වර්ධනයක් ඇති වීමට බලපෑ හේතුවක් ලෙස සැලකිය නොහැක්කේ මින් කුමක් ද?", options: ["නව කෘෂිකාර්මික ක්‍රම හා උපකරණ භාවිතය.", "මහා පරිමාණ ගොවිබිම් ආරම්භ කිරීම.", "ශෂ්‍ය මාරු ක්‍රමය යොදා ගැනීම.", "ඉඩම් කොටු කිරීමේ ව්‍යාපාරය අහෝසි කිරීම."] },
+                    { id: 21, header: "A - ලොව පුරා ජනගහනය සීඝ්‍රයෙන් ඉහළ යාම.<br>B - ප්‍රංශයේ වූ අභ්‍යන්තර තීරු බදු ක්‍රමය.<br>C - ප්‍රංශයේ හා ජර්මනියේ ගල් අඟුරු සොයා ගැනීම.<br>D - යුරෝපය තුළ ගමනාගමන හා ප්‍රවාහන කටයුතු වර්ධනය.<br>E - නැපෝලියන්ගේ යුද මාලාව අවසන් වීම.", text: "ක්‍රි.ව. 19 වන සියවසේ දී බ්‍රිතාන්‍යයෙන් බැහැරව වෙනත් රටවලට කාර්මිකරණය ව්‍යාප්ත වීමට බලපෑ හේතු පමණක් ඇතුළත් වන්නේ කුමන පිළිතුරේ ද?", options: ["ABE", "BCD", "ACE", "CDE"] },
+                    { id: 22, text: "ක්‍රි.ව. 20 වන සියවස මුල් දශක කිහිපය තුළ කාර්මික ක්ෂේත්‍රයේ අතිවිශාල ප්‍රගතියක් උදාකරගත් ආසියාතික රාජ්‍යය වූයේ,", options: ["චීනයයි.", "ජපානයයි.", "කොරියාවයි.", "ඉන්දියාවයි."] },
+                    { id: 23, text: "උපරිම ලාභ ලැබීම අරමුණු කොටගෙන මුදල් ආයෝජනය කළ ධනපති පන්තියක් හා ශ්‍රමය විකුණන නිර්ධන පන්තියක් ලෙස සමාජ ස්ථර දෙකක් බිහි වූයේ මින් කවර හේතුවක් නිසා ද?", options: ["වැඩවසම් ක්‍රමය බිඳ වැටීම.", "පුනරුදය", "කාර්මික විප්ලවය", "යටත් විජිතවාදය"] },
+                    { id: 24, header: "A - ලිබරල්වාදය හා සමාජවාදය වැනි දේශපාලන දර්ශනවල ව්‍යාප්තිය.<br>B - කාර්මික නිෂ්පාදන පුළුල් වීම.<br>C - පන්ති සහිත සමාජයක් බිහිවීම.<br>D - නව අධිරාජ්‍යවාදය<br>E - සමාජ අපචාර වර්ධනය වීම.", text: "පහත සඳහන් ඒවායින් කාර්මික විප්ලවය නිසා සිදු වූ සමාජයීය වෙනස්කම් පමණක් ඇතුළත් වන්නේ කිනම් පිළිතුරේ ද?", options: ["AC", "BE", "CD", "CE"] },
+                    { id: 25, header: "A - නව රැකියා අවස්ථා බිහි වීම. &nbsp;&nbsp; B - නව අධිරාජ්‍යවාදයට මග පෑදීම.<br>C - නිර්ධන පන්තියක් බිහිවීම. &nbsp;&nbsp; D - වෘත්තීය සංගම් බිහිවීම.<br>E - ස්වයංපෝෂිත ආර්ථික ක්‍රමය බිඳවැටී, වැටුප මත සේවය කරන කම්කරු පිරිසක් බිහිවීම.<br>F - නව ව්‍යාපාර සංවිධාන ක්‍රම බිහිවීම.", text: "මේ අතුරින් යහපත් ප්‍රතිඵල ලෙස පිළිගත නොහැකි ඒවා පමණක් ඇතුළත් වන්නේ කිනම් පිළිතුරේ ද?", options: ["ADF", "BCD", "CDE", "BCE"] },
+                    { id: 26, text: "කාර්මික විප්ලවයේ හිතකර / භෞතික වර්ධන ප්‍රතිඵලයක් වන්නේ මින් කුමක් ද?", options: ["නාගරීකරණය වේගවත් වීම.", "පන්ති සහිත සමාජයක් බිහිවීම.", "ලිබරල්වාදය හා සමාජවාදය වැනි දේශපාලන දර්ශනවල ව්‍යාප්තියක් සිදුවීම.", "නව අධිරාජ්‍යවාදයට මග පෑදීම."] },
+                    { id: 27, text: "කාර්මික විප්ලවය හරහා බිහි වූ ධනපති පන්තිය අයත් වූ කොටස් දෙක නිවැරදිව දැක්වෙන්නේ කිනම් වරණයේ ද?", options: ["ඉඩම් හිමියන් හා කම්කරුවන්", "ඉඩම් හිමියන් හා මධ්‍යම පන්තික ව්‍යාපාර හිමියන්", "ඉංජිනේරුවන් හා වෙළෙන්දන්", "මධ්‍යම පන්තික ව්‍යාපාර හිමියන් හා ධනවත් වෙළෙන්දන්"] },
+                    { id: 28, text: "කාර්මික විප්ලවයේ ප්‍රතිඵලයක් ලෙස බිහි වූ නිර්ධන පන්තිය සම්බන්ධයෙන් සාවද්‍ය ප්‍රකාශය තෝරන්න.", options: ["ජීවත්වීම සඳහා මෙම පවුල්වල ස්වාමියා හා බිරිඳ ද රැකියාවල නිරත වූ අතර ඇතැම් විට සිය දරුවන් පවා සේවයේ යෙදවීම සිදුවිය.", "ඔවුන්ට උරුම වූයේ පහත් ජීවන මට්ටමකි.", "මෙම ජනතාවගේ භෞතික ජීවන තත්ත්වය බෙහෙවින් අසතුටුදායක විය.", "නිර්ධන පන්තිය සමාජයේ සුළුතරයකි."] },
+                    { id: 29, text: "මහා මාර්ග තැනීමේ මැකඩම් ක්‍රමය ශ්‍රී ලංකාවට හඳුන්වාදෙන ලද්දේ කිනම් වර්ෂයකදී ද?", options: ["ක්‍රි.ව. 1804", "ක්‍රි.ව. 1885", "ක්‍රි.ව. 1867", "ක්‍රි.ව. 1858"] },
+                    { id: 30, text: "ශ්‍රී ලංකාවේ දුම්රිය මාර්ග තැනීමට පුරෝගාමී වූ බ්‍රිතාන්‍ය ආණ්ඩුකාරවරයා වූයේ,", options: ["හෙන්රි වෝඩ් ය.", "රොබට් බ්‍රවුන්රිග් ය.", "වෙස්ට් රිජ්වේ ය.", "එඩ්වඩ් බාන්ස් ය."] },
+                    { id: 31, text: "කොළඹ සිට මහනුවර දක්වා දුම්රිය මාර්ගය ඉදිකිරීමේ කටයුතු ආරම්භ කළේ,", options: ["1858", "1758", "1658", "1958"] },
+                    { id: 32, text: "ප්‍රථම වරට කොළඹ සිට මහනුවර දක්වා දුම්රියක් ධාවනය කළේ,", options: ["1867", "1767", "1667", "1557"] },
+                    { id: 33, text: "ශ්‍රී ලංකාවේ ප්‍රථම තැපැල් මුද්දරය නිකුත් කළේ,", options: ["1857", "1757", "1657", "1557"] },
+                    { id: 34, text: "ශ්‍රී ලංකාවේ කෝපි කෙටීමේ මෝලක් ආරම්භ කළේ,", options: ["ෆෙඩ්රික් නෝර්ත්", "රොබට් බ්‍රවුන්රිග්", "තෝමස් මෙට්ලන්ඩ්", "හෙන්රි වෝඩ්"] },
+                    { id: 35, text: "ලොව බොහෝ රටවල කාර්මික නගර බිහිවීමට හේතුව වූයේ,", options: ["කර්මාන්තශාලා ව්‍යාප්තිය", "ජනගහන වර්ධනය", "ඉඩම් කොටු කිරීමේ ව්‍යාපාරය", "යන්ත්‍ර සූත්‍ර බිහිවීම"] },
+                    { id: 36, text: "කාර්මීකරණයේ ප්‍රධාන සමාජ ප්‍රතිඵලයක් වූයේ,", options: ["පරිසර දූෂණය වැඩිවීම.", "පන්ති සහිත සමාජයක් බිහිවීම.", "කර්මාන්තශාලා ව්‍යාප්තිය", "විදේශ වෙළෙඳාම දියුණුවීම."] },
+                    { id: 37, text: "මුලින්ම නිපදවූ රසායනික පොහොර වූ 'ගුවානෝ' (Guano) නිපදවූයේ,", options: ["එංගලන්තයේ", "ජපානයේ", "දකුණු ඇමරිකාවේ (පේරු)", "ප්‍රංශයේ"] },
+                    { id: 38, text: "'රාජ්‍ය නිර්බාධවාදය' (Laissez-faire) නම් සංකල්පය ඉදිරිපත් කළේ,", options: ["ඇඩම් ස්මිත්", "තෝමස් නිව්කොමන්", "හෙන්රි වෝඩ්", "ජෝන් මැකඩම්"] },
+                    { id: 39, text: "ග්‍රාමීය ජනතාව නගර කරා ඇදී ඒමට ප්‍රධාන හේතුව වූයේ,", options: ["ඉහළ වැටුපක් ලැබීම.", "යන්ත්‍ර සූත්‍ර බහුලවීම.", "කර්මාන්තශාලා ව්‍යාප්තිය", "කම්කරුවන්ගේ ජීවන තත්ත්වය උසස්වීම."] },
+                    { id: 40, text: "'ටෙලිග්‍රාප්' (විදුලි පණිවුඩ) නම් පණිවිඩ යැවීමේ සේවය ලංකාවට හඳුන්වා දුන්නේ,", options: ["1685", "1785", "1858", "1758"] }
+                ]
+            },
+            2: {
+                id: 2,
+                number: "02",
+                title: "ශ්‍රී ලංකාවේ බ්‍රිතාන්‍ය බලය පිහිටුවීම",
+                totalQuestions: 40,
+                durationSeconds: 3600,
+                answerKey: RAW_UNITS_2_TO_5.unit2.answerKey,
+                questions: RAW_UNITS_2_TO_5.unit2.questions
+            },
+            3: {
+                id: 3,
+                number: "03",
+                title: "ශ්‍රී ලංකාවේ ජාතික පුනරුදය",
+                totalQuestions: 40,
+                durationSeconds: 3600,
+                answerKey: RAW_UNITS_2_TO_5.unit3.answerKey,
+                questions: RAW_UNITS_2_TO_5.unit3.questions
+            },
+            4: {
+                id: 4,
+                number: "04",
+                title: "බ්‍රිතාන්‍යයන් යටතේ ශ්‍රී ලංකාවේ දේශපාලන වෙනස්වීම්",
+                totalQuestions: 40,
+                durationSeconds: 3600,
+                answerKey: RAW_UNITS_2_TO_5.unit4.answerKey,
+                questions: RAW_UNITS_2_TO_5.unit4.questions
+            },
+            5: {
+                id: 5,
+                number: "05",
+                title: "බ්‍රිතාන්‍යයන් යටතේ ශ්‍රී ලංකාවේ සමාජ පරිවර්තනය",
+                totalQuestions: 40,
+                durationSeconds: 3600,
+                answerKey: RAW_UNITS_2_TO_5.unit5.answerKey,
+                questions: RAW_UNITS_2_TO_5.unit5.questions
+            },
+            6: {
+                id: 6,
+                number: "06",
+                title: "ශ්‍රී ලංකාවට නිදහස ලැබීම",
+                totalQuestions: 40,
+                durationSeconds: 3600,
+                answerKey: {
+                    1: 3,  2: 4,  3: 1,  4: 4,  5: 2,  6: 1,  7: 1,  8: 1,  9: 1,  10: 3,
+                    11: 2, 12: 1, 13: 1, 14: 1, 15: 2, 16: 1, 17: 3, 18: 4, 19: 1, 20: 1,
+                    21: 1, 22: 1, 23: 2, 24: 3, 25: 2, 26: 2, 27: 3, 28: 1, 29: 1, 30: 2,
+                    31: 1, 32: 2, 33: 2, 34: 2, 35: 3, 36: 3, 37: 1, 38: 1, 39: 2, 40: 2
+                },
+                questions: [
+                    { id: 1, text: "මෙරට ඉතිහාසයේ වැදගත් සන්ධිස්ථානයක් වන නිදහස ලැබීම සිදු වූ නිවැරදි වර්ෂය වන්නේ,", options: ["ක්‍රි.ව. 1938", "ක්‍රි.ව. 1848", "ක්‍රි.ව. 1948", "ක්‍රි.ව. 1958"] },
+                    { id: 2, text: "ශ්‍රී ලංකාවේ ආණ්ඩුක්‍රම ප්‍රතිසංස්කරණ පිළිබඳ සොයා බලා නිර්දේශ ඉදිරිපත් කිරීමට බ්‍රිතාන්‍ය ආණ්ඩුව විසින් පත් කරනු ලැබූයේ,", options: ["කෝල්බෲක් කොමිසම", "ඩොනමෝර් කොමිසම", "කෲ - මැකලම් කොමිසම", "සෝල්බරි කොමිසම"] },
+                    { id: 3, text: "මෙරට ප්‍රථම පාර්ලිමේන්තු මැතිවරණය පැවති වර්ෂය හා ජයග්‍රහණය ලැබූ පක්ෂය වන්නේ,", options: ["1947 - එක්සත් ජාතික පක්ෂය", "1945 - මහජන එක්සත් පෙරමුණ", "1947 - ද්‍රවිඩ එක්සත් පෙරමුණ", "1946 - සමගි පෙරමුණ"] },
+                    { id: 4, text: "මෙරට බිහි වූ ප්‍රථම අගමැතිවරයා වන්නේ,", options: ["එස්. ඩබ්. ආර්. ඩී. බණ්ඩාරනායක මහතා", "ෆීලික්ස් ඩයස් බණ්ඩාරනායක මහතා", "සිරිමාවෝ බණ්ඩාරනායක මැතිනිය", "ඩී. එස්. සේනානායක මහතා"] },
+                    { id: 5, text: "බ්‍රිතාන්‍ය විසින් මෙරට විදේශ කටයුතු පාලන වගකීම ලාංකිකයන්ට පවරා දීමට අකමැති වූයේ,", options: ["වාසි ලබා ගැනීමට නොහැකි වන නිසාය", "දිවයිනේ භූගෝලීය පිහිටීම, ආරක්ෂක හා යුද්ධ කටයුතු සඳහා වැදගත් වන නිසාය", "සුන්දර රටක අසිරිය නොලැබෙන නිසාය", "තමන්ට යටත් වූ රටක් අහිමි වී යන නිසාය"] },
+                    { id: 6, text: "ඩී. එස්. සේනානායක මහතා බ්‍රිතාන්‍ය ආණ්ඩුව සමඟ අත්සන් තැබූ ගිවිසුම් දෙක වන්නේ,", options: ["ආරක්ෂක හා බාහිර කටයුතු පිළිබඳ ගිවිසුමක්", "ආරක්ෂක හා ආර්ථික කටයුතු පිළිබඳ ගිවිසුමක්", "බාහිර කටයුතු හා සමාජ සේවා කටයුතු පිළිබඳ ගිවිසුමකි", "ආර්ථික හා සංස්කෘතික කටයුතු පිළිබඳ ගිවිසුමකි"] },
+                    { id: 7, text: "ශ්‍රී ලංකාවේ නිදහස් දිනය බවට පත් වූයේ,", options: ["පෙබරවාරි 04 දිනය", "පෙබරවාරි 08 වන දිනය", "ජනවාරි 04 දිනය", "මාර්තු 01 දිනය"] },
+                    { id: 8, text: "ප්‍රථම පාර්ලිමේන්තු මැතිවරණයේ දී එක්සත් ජාතික පක්ෂය ජයග්‍රහණය කළ ආසන සංඛ්‍යාව වන්නේ,", options: ["42", "52", "48", "38"] },
+                    { id: 9, text: "සෝල්බරි ආණ්ඩුක්‍රම යටතේ රජයේ කටයුතු ගෙන යාම සඳහා පත් කළ ආයතන සංඛ්‍යාව,", options: ["3", "4", "5", "2"] },
+                    { id: 10, text: "සෝල්බරි ව්‍යවස්ථාව යටතේ රැජිනගේ මෙරට නියෝජිතයා වශයෙන් කටයුතු කරනු ලැබූයේ,", options: ["ආණ්ඩුකාරවරයාය", "අධිකරණ නායකයා", "අග්‍රාණ්ඩුකාරවරයා", "අගමැතිවරයාය"] },
+                    { id: 11, text: "සෝල්බරි ආණ්ඩුක්‍රමය අනුව පාර්ලිමේන්තුවේ නිල කාල සීමාව වූයේ,", options: ["අවුරුදු 4කි.", "අවුරුදු 5කි.", "අවුරුදු 2කි.", "අවුරුදු 6කි."] },
+                    { id: 12, text: "සෝල්බරි ආණ්ඩුක්‍රමය අනුව කැබිනට් මණ්ඩලයේ ප්‍රධානියා වූයේ,", options: ["අගමැතිවරයාය", "ආණ්ඩුකාරවරයාය", "අග්‍රාණ්ඩුකාරවරයාය", "මන්ත්‍රීවරයාය"] },
+                    { id: 13, text: "සෝල්බරි ආණ්ඩුක්‍රමයට අනුව විනිශ්චයකාරවරුන්ගේ පාලන කටයුතු මෙහෙයවනු ලැබූයේ,", options: ["අධිකරණ සේවා කොමිසම මඟින්", "අගමැති විසින්", "ආණ්ඩුකාරයා විසින්", "අග්‍රාණ්ඩුකාරයා විසින්"] },
+                    { id: 14, text: "දේශපාලන පක්ෂ දෙකක් දක්නට ලැබෙන රටක් වන්නේ,", options: ["එංගලන්තය", "ලංකාව", "ප්‍රංශය", "ඉන්දියාව"] },
+                    { id: 15, text: "ලංකාවේ වඩාත් පැරණිම දේශපාලන පක්ෂය වන්නේ,", options: ["එක්සත් ජාතික පක්ෂය", "ලංකා සම සමාජ පක්ෂය", "ශ්‍රී ලංකා නිදහස් පක්ෂය", "ෆෙඩරල් පක්ෂය"] },
+                    { id: 16, text: "ලංකා සම සමාජ පක්ෂය පිහිටුවූ වර්ෂය හා නායකයා නිවැරදිව දැක්වෙන්නේ,", options: ["ක්‍රි.ව. 1935 - ආචාර්ය ඇන්. ඇම්. පෙරේරා මහතා", "ක්‍රි.ව. 1947 - ඩී. එස්. සේනානායක මහතා", "ක්‍රි.ව. 1935 - එස්. ඩබ්. ආර්. ඩී. බණ්ඩාරනායක මහතා", "ක්‍රි.ව. 1948 - ෆීලික්ස් පෙරේරා මහතා"] },
+                    { id: 17, text: "ක්‍රි.ව. 1943 දී ලංකා කොමියුනිස්ට් පක්ෂය පිහිටවනු ලැබූයේ,", options: ["එන්. එම්. පෙරේරා මහතා", "කොල්වින් ආර්. ද සිල්වා මහතා", "දොස්තර එස්. ඒ. වික්‍රමසිංහ මහතා", "පිලිප් ගුණවර්ධන මහතා"] },
+                    { id: 18, text: "මෙරට මධ්‍යස්ථ දේශපාලනඥයන් සඳහා දේශපාලන පක්ෂයක් පිහිටවනු ලැබූයේ,", options: ["ක්‍රි.ව. 1956 දී - ලංකා ජාතික සංගමය විසිනි", "ක්‍රි.ව. 1946 දී - සිරිමාවෝ බණ්ඩාරනායක මැතිනිය විසිනි", "ක්‍රි.ව. 1947 දී - එන්. එම්. පෙරේරා මහතා විසිනි", "ක්‍රි.ව. 1946 දී - ඩී. එස්. සේනානායක මහතා විසිනි"] },
+                    { id: 19, text: "එස්. ඩබ්. ආර්. ඩී. බණ්ඩාරනායක මහතා ශ්‍රී ලංකා නිදහස් පක්ෂය පිහිටවනු ලැබූයේ,", options: ["ක්‍රි.ව. 1951 දීය.", "ක්‍රි.ව. 1952 දීය.", "ක්‍රි.ව. 1948 දීය.", "ක්‍රි.ව. 1938 දීය."] },
+                    { id: 20, text: "ක්‍රි.ව. 1956 සිට 1959 දක්වා කාලය තුළ මෙරට අගමැතිවරයා වශයෙන් කටයුතු කළේ,", options: ["එස්. ඩබ්. ආර්. ඩී. බණ්ඩාරනායක මහතාය.", "එන්. එම්. පෙරේරා මහතාය.", "පිලිප් ගුණවර්ධන මහතාය.", "දොස්තර එස්. ඒ. වික්‍රමසිංහ මහතාය."] },
+                    { id: 21, text: "කම්කරු පක්ෂය මෙරට බිහි කළ නායකයා වන්නේ,", options: ["ඒ. ඊ. ගුණසිංහ මහතාය.", "පිලිප් ගුණවර්ධන මහතාය.", "ඩී. එස්. සේනානායක මහතාය.", "එස්. ඩබ්. ආර්. ඩී. බණ්ඩාරනායක මහතාය."] },
+                    { id: 22, text: "ක්‍රි.ව. 1949 දී එස්. ජේ. වී. චෙල්වනායගම් මහතා පිහිටුවූ පක්ෂය හැඳින්වූයේ,", options: ["ෆෙඩරල් පක්ෂය නමින්", "මහජන පෙරමුණ නමින්", "සමගි පෙරමුණ නමින්", "එක්සත් ජාතික පක්ෂය නමින්"] },
+                    { id: 23, text: "නිදහසින් පසුව ශ්‍රී ලංකාවේ විශාල සමාජ පෙරළියක් ඇති කිරීමට සමත් වූයේ කුමන පාලකයාගේ කාලයේද?", options: ["ඩී. එස්. සේනානායක මහතා", "එස්. ඩබ්. ආර්. ඩී. බණ්ඩාරනායක මහතා", "එස්. ජේ. වී. චෙල්වනායගම් මහතා", "ජේ. ආර්. ජයවර්ධන මහතා"] },
+                    { id: 24, text: "හර්තාල් ව්‍යාපාරය නිසා අගමැති තනතුරින් ඉල්ලා අස්වූයේ,", options: ["ජේ. ආර්. ජයවර්ධන මහතා", "ජෝන් කොතලාවල මහතා", "ඩඩ්ලි සේනානායක මහතා", "පොන්නම්බලම් රාමනාදන් මහතා"] },
+                    { id: 25, text: "ක්‍රි.ව. 1956 පැවති මහ මැතිවරණයෙන් බලයට පත්වූයේ කුමන පක්ෂයද?", options: ["එක්සත් ජාතික පක්ෂය", "මහජන එක්සත් පෙරමුණ", "ලංකා සම සමාජ පක්ෂය", "ද්‍රවිඩ එක්සත් විමුක්ති පෙරමුණ"] },
+                    { id: 26, text: "ක්‍රි.ව. 1956 මැතිවරණයෙන් මහජන එක්සත් පෙරමුණ පක්ෂයට වැඩි ජයග්‍රහණයක් ලබා ගත හැකි වූයේ,", options: ["නිවැරදි පුද්ගලයන් සිටීම නිසාය.", "පංච මහා බලවේගවල වැඩි සහය ලැබීම නිසාය.", "වාමාංශික ඡන්ද තරගයෙන් ඉවත් වූ නිසාය.", "එක්සත් ජාතික පක්ෂයේ දුර්වලතා නිසාය."] },
+                    { id: 27, text: "දේශීයත්වය අගය කළ ප්‍රතිපත්තියක් ක්‍රියාත්මක කිරීම, එතෙක් නොදියුණු පොදු ජන ගැටලු කෙරේ අවධානය යොමු කිරීම සිදු වූයේ කුමන මැතිවරණ ජයග්‍රහණය තුළින් ද?", options: ["ක්‍රි.ව. 1952 දීය.", "ක්‍රි.ව. 1947 දීය.", "ක්‍රි.ව. 1956 දීය.", "ක්‍රි.ව. 1972 දීය."] },
+                    { id: 28, text: "මෙරටට ලැබුණු නිදහස අංගසම්පූර්ණ නොවූ බැවින් එය සම්පූර්ණ කර ගැනීමට ක්‍රියා කළ දේශපාලන පක්ෂය වන්නේ,", options: ["ලංකා සම සමාජ පක්ෂය", "එක්සත් ජාතික පක්ෂය", "සමගි පෙරමුණ", "ලංකා කොමියුනිස්ට් පක්ෂය"] },
+                    { id: 29, text: "ශ්‍රී ලංකා නව ආණ්ඩුක්‍රම ව්‍යවස්ථාවක් හඳුන්වා දෙනු ලැබූයේ,", options: ["ක්‍රි.ව. 1972 මැයි 22 දිනය", "ක්‍රි.ව. 1972 මැයි 02 දිනය", "ක්‍රි.ව. 1975 මැයි 22 දිනය", "ක්‍රි.ව. 1972 අගෝස්තු 02 දිනය"] },
+                    { id: 30, text: "1972 නව ජනරජ ආණ්ඩුක්‍රම ව්‍යවස්ථාව හඳුන්වා දීමේ ගෞරවය හිමිවන්නේ,", options: ["ජේ. ආර්. ජයවර්ධන මහතාටය.", "අගමැති සිරිමාවෝ බණ්ඩාරනායක මැතිනියටය.", "ඩී. එස්. සේනානායක මහතාටය.", "අගමැති රනිල් වික්‍රමසිංහ මහතාටය."] },
+                    { id: 31, text: "1972 නව ජනරජ ආණ්ඩුක්‍රම ව්‍යවස්ථාවෙන් ඉවත් කොට අලුතින් ඇතුළත් කළ තනතුර වූයේ,", options: ["අග්‍රාණ්ඩුකාර තනතුර - නාමික ජනාධිපති තනතුර", "අගමැති තනතුර - අග්‍රාණ්ඩුකාර තනතුර", "ආණ්ඩුකාර තනතුර - විධායක ජනාධිපති තනතුර", "අගමැති තනතුර - නාමික ජනාධිපති තනතුර"] },
+                    { id: 32, text: "ක්‍රි.ව. 1972 ආණ්ඩුක්‍රම ව්‍යවස්ථාවට අනුව පාර්ලිමේන්තුව හඳුන්වනු ලැබූයේ,", options: ["ව්‍යවස්ථාදායක සභාව", "ජාතික රාජ්‍ය සභාව", "පාර්ලිමේන්තුව", "මහජන සභාව"] },
+                    { id: 33, text: "ක්‍රි.ව. 1972 ආණ්ඩුක්‍රම ව්‍යවස්ථාවට අනුව අමාත්‍ය මණ්ඩලයේ ප්‍රධානියා වූයේ,", options: ["ජනාධිපතිවරයාය", "අගමැතිවරයාය", "කැබිනට් ඇමතිවරුය", "අග්‍රාණ්ඩුකාරවරයාය"] },
+                    { id: 34, text: "1972 ආණ්ඩුක්‍රම ව්‍යවස්ථාවට අනුව අධිකරණ පද්ධතියේ ප්‍රධානම ආයතන දෙක වූයේ,", options: ["ශ්‍රේෂ්ඨාධිකරණය - දිසා අධිකරණය", "ශ්‍රේෂ්ඨාධිකරණය - මහාධිකරණය", "මහේස්ත්‍රාත් අධිකරණ - දිසා අධිකරණය", "ආණ්ඩුක්‍රම ව්‍යවස්ථා අධිකරණය - දිසා අධිකරණය"] },
+                    { id: 35, text: "ක්‍රි.ව. 1977 ජූලි මාසයේ පැවති මැතිවරණයෙන් ජයගත් පක්ෂය හා එහි නායකයා වන්නේ,", options: ["මහජන පෙරමුණ - එස්. ඩබ්. ආර්. ඩී. බණ්ඩාරනායක මහතා", "සමගි ජාතික පක්ෂය - සිරිමාවෝ බණ්ඩාරනායක මැතිනිය", "එක්සත් ජාතික පක්ෂය - ජේ. ආර්. ජයවර්ධන මහතා", "ද්‍රවිඩ එක්සත් විමුක්ති පෙරමුණ - චෙල්වනායගම් මහතා"] },
+                    { id: 36, text: "ලංකා, ශ්‍රී ලංකා ප්‍රජාතාන්ත්‍රික සමාජවාදී ජනරජය යනුවෙන් හඳුන්වන ඒකීය රාජ්‍යයක් බවට පත් කළේ කුමන ආණ්ඩුක්‍රම ව්‍යවස්ථාවද?", options: ["ක්‍රි.ව. 1972", "ක්‍රි.ව. 1947", "ක්‍රි.ව. 1978", "ක්‍රි.ව. 1920"] },
+                    { id: 37, text: "1978 ආණ්ඩුක්‍රම ව්‍යවස්ථාවේ 3 වන වගන්තියට අනුව ශ්‍රී ලංකා ජනරජයේ ප්‍රධානියා වන්නේ,", options: ["විධායක ජනාධිපතිවරයාය", "අගමැතිවරයාය", "නාමික ජනාධිපතිවරයාය", "මන්ත්‍රීවරයාය"] },
+                    { id: 38, text: "1978 ව්‍යවස්ථාවට අනුව ජනාධිපතිවරයාගේ ධූර කාලය වන්නේ,", options: ["වසර 6කි.", "වසර 5කි.", "වසර 4කි.", "වසර 3කි."] },
+                    { id: 39, text: "පාර්ලිමේන්තුව කැඳවීම, ආණ්ඩුවේ ප්‍රතිපත්ති ප්‍රකාශනය ඉදිරිපත් කිරීම, පාර්ලිමේන්තුව විසුරුවා හැරීම යන බලතල ජනාධිපතිට අයත් වන්නේ,", options: ["විධායක බලතලයටය", "ව්‍යවස්ථාදායක බලතලයටය", "නාමික බලතලයටය", "අධිකරණ බලතලයටය"] },
+                    { id: 40, text: "අගමැති පත් කිරීම, ඇමතිවරුන්ට විෂය කාර්ය පැවරීම ජනාධිපති සතු,", options: ["ව්‍යවස්ථාදායක බලතලයකි", "විධායක බලතලයකි", "අධිකරණ බලතලයකි", "සාමාන්‍ය බලතලයකි"] }
+                ]
+            },
+            7: {
+                id: 7,
+                number: "07",
+                title: "ලෝකයේ කැපී පෙනෙන විප්ලව",
+                totalQuestions: 40,
+                durationSeconds: 3600,
+                answerKey: {
+                    1: 2,  2: 2,  3: 2,  4: 4,  5: 4,  6: 3,  7: 1,  8: 2,  9: 2,  10: 2,
+                    11: 2, 12: 1, 13: 2, 14: 3, 15: 3, 16: 4, 17: 4, 18: 1, 19: 2, 20: 3,
+                    21: 2, 22: 3, 23: 3, 24: 2, 25: 2, 26: 1, 27: 2, 28: 3, 29: 1, 30: 2,
+                    31: 3, 32: 1, 33: 2, 34: 3, 35: 4, 36: 2, 37: 3, 38: 4, 39: 2, 40: 3
+                },
+                questions: [
+                    { id: 1, text: "යුරෝපයෙන් බටහිර දෙසට යාත්‍රා කරමින් එහි බලය පිහිටුවීමට කටයුතු කළ නාවිකයා නම් කරන්න.", options: ["වස්කෝ ද ගාමා", "ක්‍රිස්ටෝෆර් කොළොම්බස්", "කැබේ සහෝදරයෝ", "නාවික හෙන්රි"] },
+                    { id: 2, text: "ඇමරිකාවේ බලය පිහිටුවීමට කටයුතු කළ පුද්ගලයා වූයේ,", options: ["ඇමරිගෝ වෙස්පුචි", "ක්‍රිස්ටෝෆර් කොළොම්බස්", "වස්කෝ ද ගාමා", "බර්තෝලමියු ඩයස්"] },
+                    { id: 3, text: "ඇමරිකාවේ බලය පිහිටුවීමට කටයුතු නොකළ රට හඳුනාගෙන නම් කරන්න.", options: ["ප්‍රංශය", "රුසියාව", "බ්‍රිතාන්‍යය", "ස්පාඤ්ඤය"] },
+                    { id: 4, text: "යුරෝපීයයන් ඇමරිකාවේ ජනපද පිහිටුවීමට ප්‍රබල හේතුවක් නොවන්නේ,", options: ["යුරෝපයේ ආගමික ගැටුම් ඇතිවීම", "ජනජීවිතය සෞභාග්‍යවත් කිරීම", "පාලකයන්ගේ කීර්තිය වර්ධනය කිරීම", "තේ වගාව දියුණු කිරීම"] },
+                    { id: 5, text: "1607 දී බ්‍රිතාන්‍යයන් ඇමරිකාවේ පිහිටවූ මුල් ජනපදය නම් කරන්න.", options: ["නිව්යෝර්ක්", "නිව්ජර්සි", "මේරිලන්ඩ්", "වර්ජිනියා"] },
+                    { id: 6, text: "බ්‍රිතාන්‍යයන් පිහිටුවූ අවසාන ජනපදය වූයේ කුමක් ද?", options: ["ඩෙලවෙයාර්", "කනෙටිකට්", "ජෝර්ජියා", "දකුණු කැරොලිනා"] },
+                    { id: 7, text: "බ්‍රිතාන්‍යයන් ඇමරිකාවේ පාලන කටයුතු මෙහෙය වූයේ කුමන පුද්ගලයෙකු මගින් ද?", options: ["ආණ්ඩුකාරයෙකු", "කපිතාන්වරයෙකු", "හමුදා නිලධාරියෙකු", "විඩෝද පසෙන්දා"] },
+                    { id: 8, text: "ජනපදවාසීන් බ්‍රිතාන්‍යයන්ට පමණක් අලෙවි කළ යුතු වෙළෙඳ ද්‍රව්‍යයක් නොවන්නේ,", options: ["මී ඉටි", "පුවක්", "දුම්කොළ", "තිරිඟු"] },
+                    { id: 9, text: "බ්‍රිතාන්‍යයන් හා ප්‍රංශයන් අතර සිදු වූ යුද්ධය හඳුන්වනුයේ,", options: ["තිස් අවුරුදු යුද්ධය", "හත් අවුරුදු යුද්ධය", "ප්‍රංශ විප්ලවය", "පළමු ලෝක යුද්ධය"] },
+                    { id: 10, text: "ජනපදවලින් හා අනෙකුත් බදු වර්ග අයකිරීම දැඩිව ක්‍රමානුකූලව අයකළ යුතු බව ප්‍රකාශ කළ බ්‍රිතාන්‍ය අගමැතිවරයා වනුයේ,", options: ["ලොයිඩ් ජෝර්ජ්", "ජෝර්ජ් ග්‍රැන්විල්", "වුඩ්රෝ විල්සන්", "ක්ලෙමන්ෂෝ"] },
+                    { id: 11, text: "1764 - 1765 කාලවකවානුවලදී ඇමරිකානු ජනපදවාසීන්ට බ්‍රිතාන්‍යයන් විසින් පනවනු ලැබූ බදු පනතක් නොවන්නේ,", options: ["සීනි පනත", "තුවක්කු බදු පනත", "මුද්දර පනත", "මුදල් නෝට්ටු පනත"] },
+                    { id: 12, text: "තේ බද්දට එරෙහිව තේ පෙට්ටි 342 මුහුදට විසිකර දැමූ වරාය වූයේ,", options: ["බොස්ටන් වරාය", "ඇම්ස්ටර්ඩෑම්", "ලිස්බන්", "ලන්ඩන්"] },
+                    { id: 13, text: "ප්‍රථම මහද්වීපික සම්මේලනය කැඳවනු ලැබූ නගරය කුමක් ද?", options: ["ජෝර්ජියා", "ෆිලඩෙල්ෆියා", "දණ්ඩි දිවයින", "නිව් ජර්සි"] },
+                    { id: 14, text: "මහද්වීපික හමුදාවේ ප්‍රධානියා ලෙස කටයුතු කළ තැනැත්තා නම් කරන්න.", options: ["ලොයිඩ් ජෝර්ජ්", "ලාෆායෙට්", "ජෝර්ජ් වොෂින්ටන්", "ජෝන් මාෂල්"] },
+                    { id: 15, text: "ඇමරිකාවට නිදහස ප්‍රදානය කිරීම වෙනුවෙන් බ්‍රිතාන්‍යය හා පැවති සම්මේලනය පැවැත්වූ නගරය කුමක් ද?", options: ["ලන්ඩන්", "වොෂින්ටන්", "පැරිස්", "මැඩ්රිඩ්"] },
+                    { id: 16, text: "ඇමරිකා එක්සත් ජනපදයේ ප්‍රථම ජනාධිපතිවරයා වූයේ,", options: ["ජෝර්ජ් ස්ටීව්", "ජෝන් මාෂල්", "පැරිස්", "ජෝර්ජ් වොෂින්ටන්"] },
+                    { id: 17, text: "ඇමරිකානු නිදහස් සටනේ ප්‍රතිඵලවලට අයත් නොවන්නේ පහත කරුණුවලින් කුමක් ද?", options: ["ලෝකයේ ප්‍රථම සංවෘත/ලිඛිත ව්‍යවස්ථාව එළි දැක්වීම.", "මූලික අයිතිවාසිකම් කෙරෙහි උනන්දුවක් ඇතිවීම.", "ස්වාධීනත්වය ප්‍රකාශ කිරීම.", "කථානායක ධූරයේ ආරම්භය සිදුවීම."] },
+                    { id: 18, text: "ප්‍රංශ විප්ලවය ඇති වූ වර්ෂය ලෙස සැලකෙන්නේ කුමන වර්ෂය ද?", options: ["1789", "1889", "1989", "1891"] },
+                    { id: 19, text: "ප්‍රංශ විප්ලවය සිදුවන විට ප්‍රංශයේ රජු වූයේ කවරෙකු ද?", options: ["14 වන ලුවී රජු", "16 වන ලුවී රජු", "13 වන ලුවී රජු", "15 වන ලුවී රජු"] },
+                    { id: 20, text: "ප්‍රංශ විප්ලවයේ ප්‍රධාන තේමාව වූයේ මින් කුමක් ද?", options: ["නිදහස, සාමය, සමානාත්මතාව", "ඉඩම්, නිදහස, සමානාත්මතාව", "සමානාත්මතාව, සහෝදරත්වය, නිදහස", "ආහාර, ඉඩම්, නිදහස"] },
+                    { id: 21, text: "ප්‍රංශ විප්ලව සමයේ ප්‍රංශය පාලනය කළ රජ පරම්පරාව හැඳින්වූ නම කුමක් ද?", options: ["හොහෙන්සොලන්", "බුර්බන්", "රොමානොව්", "ටියුඩර්"] },
+                    { id: 22, text: "'රාජ්‍යය නම් මමය' යනුවෙන් ප්‍රකාශ කර බලය කේන්ද්‍රගත කළ පුද්ගලයා නම් කරන්න.", options: ["පිලිප් රජු", "16 වන ලුවී රජු", "14 වන ලුවී රජු", "18 වන ලුවී රජු"] },
+                    { id: 23, text: "ප්‍රංශයේ අසාධාරණ ලෙස පුද්ගලයන් රඳවා සිටි සිරගෙය හැඳින්වූයේ,", options: ["කාසල්", "ටවර්", "බැස්ටිල්", "වර්සෙල්ස්"] },
+                    { id: 24, text: "අසාධාරණ ප්‍රකාශ නිකුත් කළ 16 වන ලුවී රජුගේ බිසව හැඳින්වූ නම කුමක් ද?", options: ["එළිසබෙත් බිසව", "මාරි ඇන්ටුවානෙට්", "ඈන් බොලීන්", "මේරි ටියුඩර්"] },
+                    { id: 25, text: "රාජාණ්ඩුව ශක්තිමත් කිරීම සඳහා 14 වන ලුවී රජු පත් කරනු ලැබූ ප්‍රාදේශීය නිලධාරීන් හැඳින්වූ නම කුමක් ද?", options: ["රදලයන්", "ඉන්ටෙන්ඩාන්ට්වරු", "බෙස්පිට්රිල්වරු", "හියුගිනෝවරු"] },
+                    { id: 26, text: "ප්‍රංශ විප්ලව සමයේ ප්‍රංශය බෙදී පැවති ප්‍රධාන ස්ථර මොනවාද?", options: ["පූජක, රදල, ගොවි හා කම්කරු", "පතල්කරුවන්, ඇමතිවරු, පුරෝහිත", "පූජක, පුරෝහිත, ගොවි, කම්කරු", "ගොවියන්, කම්කරුවන්, සත්ත්ව පාලකයන්, රදලයන්"] },
+                    { id: 27, text: "'ටේල්' බද්ධ ලෙස හැඳින්වූ බදු වර්ගය කුමක් ද?", options: ["ලුණු බද්ධ", "ගෙවල් හා ඉඩම්වලින් අයකළ බද්ධ", "වැඩිහිටියන්ගෙන් අයකළ බද්ධ", "නිවාස බද්ධ"] },
+                    { id: 28, text: "මොන්ටෙස්කියු විසින් රචනා කරනු ලැබූ ග්‍රන්ථය වූයේ,", options: ["සමාජ සම්මුතිය", "යුරෝපියා", "නීතියේ ආත්මය / හරය", "ඉලියඩ් හා ඔඩිසි"] },
+                    { id: 29, text: "ඇමරිකානු නිදහස් සටනට නායකත්වය ලබාදුන් ප්‍රංශ ජාතික හමුදාපතිවරයා නම් කරන්න.", options: ["ලාෆායෙට්", "රූසෝ", "වෝල්ටෙයාර්", "කොල්බෙයාර්"] },
+                    { id: 30, text: "ප්‍රංශ විප්ලවයේ ප්‍රතිඵලයක් නොවන්නේ මින් කුමක් ද?", options: ["ප්‍රංශ රාජාණ්ඩු ක්‍රමය බිඳවැටීම.", "ප්‍රංශයේ දේශපාලන ස්ථාවරභාවයක් ඇතිවීම.", "ගොවි ජනතාවට සහන ලැබීම.", "මානව අයිතිවාසිකම් පිළිබඳව ලොව පුරා හඬක් ඇතිවීම."] },
+                    { id: 31, text: "විප්ලවයෙන් පසුව බලයට පත්වූ හමුදා නිලධාරියා වූයේ කවුද?", options: ["ලාෆායෙට්", "හිරොඩින්", "නැපෝලියන් බොනපාට්", "ලුනෙවිල්"] },
+                    { id: 32, text: "රුසියානු විප්ලව සමයේ එහි පාලනය ගෙනගිය රාජ පරපුර වූයේ,", options: ["රොමානොව්", "ලුවී", "බුර්බන්", "ටියුඩර්වරු"] },
+                    { id: 33, text: "රුසියාවේ බෝල්ෂෙවික් පක්ෂයේ නායකත්වයට පත්වූ පුද්ගලයා වූයේ,", options: ["ජෝසප් ස්ටාලින්", "ව්ලැඩිමීර් ලෙනින්", "ට්‍රොට්ස්කි", "ගැරිබෝල්ඩ්"] },
+                    { id: 34, text: "රුසියානු විප්ලවයේ ප්‍රධාන තේමාව වූයේ කුමක් ද?", options: ["සාමය, සහෝදරත්වය, ආහාර", "සාමය, සමඟිය, ඉඩම්", "ඉඩම්, ආහාර, සාමය", "ඉඩම්, සමඟිය, ආහාර"] },
+                    { id: 35, text: "කොමියුනිස්ට් වාදය පිළිගත් බෝල්ෂෙවික්වරුන්ගේ ප්‍රධාන අරමුණ වූයේ කුමක් ද?", options: ["රුසියාවේ ධනවාදය ඇති කිරීම.", "පන්ති සහිත සමාජයක් ඇති කිරීම.", "තරඟකාරී වෙළෙඳ පොළක් ගොඩනැගීම.", "පන්ති රහිත සමාජ ක්‍රමයක් ඇති කිරීම."] },
+                    { id: 36, text: "\"නියම අවස්ථාවේ අපි බලය අල්ලා නොගතහොත් ඉතිහාසය අපට සමාව නොදෙනු ඇත.\" යන ප්‍රසිද්ධ කියමන ඉදිරිපත් කළ රුසියානු නායකයා වූයේ,", options: ["ලියෝන් ට්‍රොට්ස්කි", "ව්ලැඩිමීර් ලෙනින්", "කෙරෙන්ස්කි", "ජෝසප් ස්ටාලින්"] },
+                    { id: 37, text: "සමාජවාදී දර්ශනය පිළිගත් රටවල් අතරට අයත් නොවන රට කුමක් ද?", options: ["චීනය", "කියුබාව", "එංගලන්තය", "පෝලන්තය"] },
+                    { id: 38, text: "ජනතාව 1917 ඔක්තෝම්බර් විප්ලවයට සම්බන්ධවීමට බලපෑ ප්‍රබලතම හේතුව වූයේ කුමක් ද?", options: ["ව්‍යාපාර බිඳවැටීම", "රක්ෂණ ක්‍රමය අවිධිමත්වීම", "වී නිෂ්පාදනය බිඳ වැටීම", "පාන් මිල ඉහළ යාම."] },
+                    { id: 39, text: "1917 රුසියානු රජු ඉවත් කිරීමෙන් පසු බලයට පත් වූ පාලකයා වූයේ,", options: ["ඇලෙක්සැන්ඩර් රජු", "කෙරෙන්ස්කි", "රිචලියු", "ජේම්ස් රජු"] },
+                    { id: 40, text: "ධනවාදයේ ආරක්ෂකයා බවට පත්වූ රට වූයේ,", options: ["රුසියාව", "කැනඩාව", "ඇමරිකාව", "ප්‍රංශය"] }
+                ]
+            },
+            8: {
+                id: 8,
+                number: "08",
+                title: "ලෝක මහා සංග්‍රාම හා සම්මුතීන්",
+                totalQuestions: 40,
+                durationSeconds: 3600,
+                answerKey: {
+                    1: 2,  2: 1,  3: 1,  4: 4,  5: 3,  6: 1,  7: 4,  8: 1,  9: 3,  10: 2,
+                    11: 2, 12: 4, 13: 3, 14: 1, 15: 3, 16: 4, 17: 1, 18: 1, 19: 2, 20: 4,
+                    21: 1, 22: 1, 23: 3, 24: 2, 25: 3, 26: 4, 27: 1, 28: 3, 29: 1, 30: 3,
+                    31: 4, 32: 1, 33: 3, 34: 1, 35: 1, 36: 2, 37: 3, 38: 1, 39: 1, 40: 4
+                },
+                questions: [
+                    { id: 1, text: "I වන ලෝක මහා සංග්‍රාමය පැතිර ගිය කාල වකවානුව නිවැරදිව දක්වා ඇත්තේ,", options: ["1939 - 1945", "1914 - 1918", "1918 - 1926", "1939 - 1947"] },
+                    { id: 2, text: "ජර්මනිය එක්සත් ජර්මනියක් බවට පත් කිරීමට ක්‍රියා කළ නායකයා වූයේ,", options: ["ඔටෝ වොන් බිස්මාක්", "ඇඩොල්ෆ් හිට්ලර්", "බෙනිටෝ මුසොලිනි", "II විලියම් අධිරාජ්‍යයා"] },
+                    { id: 3, text: "ජර්මනිය යටත් විජිත පිහිටුවාගෙන ජර්මන් අධිරාජ්‍යය ගොඩනැගීමට ක්‍රියා කළ නායකයා වූයේ,", options: ["II විලියම් අධිරාජ්‍යයා (කයිසර්)", "ඔටෝ වොන් බිස්මාක්", "ඇඩොල්ෆ් හිට්ලර්", "ගොබෙල්ස්"] },
+                    { id: 4, text: "\"අවි ආයුධ බලයෙන් වසර 5කදී ලබාගත් දේ ආරක්ෂා කර ගැනීමට තවත් වසර 50ක් සන්නද්ධව සිටිය යුතුය.\" ඉහත ප්‍රකාශය හා සම්බන්ධ ජර්මන් සෙන්පතිවරයා වූයේ,", options: ["ගොබෙල්ස්", "ඇඩොල්ෆ් හිට්ලර්", "වොන් හින්ඩෙන්බර්ග්", "වොන් මොල්ට්කේ"] },
+                    { id: 5, text: "ගල් අඟුරු බහුල සරුසාර ඇල්සාස් - ලොරේන් ප්‍රදේශය අයත් වූ රට වන්නේ,", options: ["බ්‍රිතාන්‍යය", "ජර්මනිය", "ප්‍රංශය", "ඉතාලිය"] },
+                    { id: 6, text: "සරාජේවෝ සිද්ධිය හා සම්බන්ධ ඔස්ට්‍රියාවේ ඔටුන්න හිමි කුමාරයා වූයේ,", options: ["ෆ්‍රාන්ස් ෆර්ඩිනන්ඩ්", "II විලියම්", "වොන් හින්ඩෙන්බර්ග්", "වුඩ්රෝ විල්සන්"] },
+                    { id: 7, text: "මධ්‍ය බලවතුන්ගේ පිලට අයත් රටවල් පමණක් ඇතුළත් පිළිතුර වන්නේ,", options: ["ප්‍රංශය, මහා බ්‍රිතාන්‍යය, රුසියාව", "ජර්මනිය, බ්‍රිතාන්‍යය, ප්‍රංශය", "ප්‍රංශය, තුර්කිය, රුසියාව", "ජර්මනිය, ඔස්ට්‍රියාව, තුර්කිය"] },
+                    { id: 8, text: "ජර්මනිය විසින් ගිල්වා විනාශ කරන ලද නෞකාව වූයේ,", options: ["ලුසිටානියා නැව", "ටයිටැනික් නැව", "බිස්මාක් නැව", "අත්ලාන්තික් නැව"] },
+                    { id: 9, text: "I ලෝක යුද්ධය අතරතුර මධ්‍ය බලවතුන්ගේ පිල හැර මිත්‍ර බලවතුන්ගේ පිලට සහය දුන් යුරෝපීය රට වූයේ,", options: ["තුර්කිය", "බෙල්ජියම", "ඉතාලිය", "පෝලන්තය"] },
+                    { id: 10, text: "I ලෝක යුද්ධය අවසානයේ ඇති කළ සාම ගිවිසුම හැඳින්වූයේ,", options: ["රෝම ගිවිසුම", "වර්සේල්ස් ගිවිසුම", "ජිනීවා ගිවිසුම", "බර්ලින් ගිවිසුම"] },
+                    { id: 11, text: "I ලෝක යුද්ධය සමයේ සිටි ඇ.එ.ජ. ජනාධිපතිවරයා වූයේ,", options: ["ෆ්‍රෑන්ක්ලින් රූස්වෙල්ට්", "වුඩ්රෝ විල්සන්", "ව්ලැඩිමීර් ලෙනින්", "ලොයිඩ් ජෝර්ජ්"] },
+                    { id: 12, text: "I ලෝක යුද්ධය අවසානයේ මෙවැනි යුද්ධයක් නැවත ඇතිවීම වැළැක්වීමට ලොව බලවත් නායකයින් එකතු වී පිහිටුවා ගත් සංවිධානයකි,", options: ["එක්සත් ජාතීන්ගේ සංවිධානය", "නොබැඳි ජාතීන්ගේ සංවිධානය", "යුනිසෙෆ් සංවිධානය", "ජාතීන්ගේ සංගමය"] },
+                    { id: 13, text: "එම සංවිධානයේ සාමාජිකත්වය නොගත් ප්‍රබල රාජ්‍යය වූයේ,", options: ["බ්‍රිතාන්‍යය", "ප්‍රංශය", "ඇ.එ.ජ.", "ඉතාලිය"] },
+                    { id: 14, text: "ඇඩොල්ෆ් හිට්ලර් කුමන ජාතිකයෙකුද?", options: ["ඔස්ට්‍රියානු", "ජර්මන්", "ප්‍රංශ", "බ්‍රිතාන්‍ය"] },
+                    { id: 15, text: "'මගේ සටන' (Mein Kampf) නැමති කෘතිය රචනා කරන ලද්දේ,", options: ["වුඩ්රෝ විල්සන්", "බෙනිටෝ මුසොලිනි", "ඇඩොල්ෆ් හිට්ලර්", "ව්ලැඩිමීර් ලෙනින්"] },
+                    { id: 16, text: "ඇඩොල්ෆ් හිට්ලර්ගේ ජනමාධ්‍ය ඇමතිවරයා වූයේ,", options: ["වොන් හින්ඩෙන්බර්ග්", "බිස්මාක්", "යූ තාන්ට්", "ගොබෙල්ස්"] },
+                    { id: 17, text: "II ලෝක යුද්ධය ආරම්භ වූයේ,", options: ["හිට්ලර් පෝලන්තය ආක්‍රමණය කිරීමත් සමඟය", "හිට්ලර් ප්‍රංශය ආක්‍රමණය කිරීමත් සමඟය", "හිට්ලර් බ්‍රිතාන්‍යයට ගුවන් ප්‍රහාර එල්ල කිරීමත් සමඟය", "ප්‍රංශයේ ගල් අඟුරු පතල්වලට පහර දීමත් සමඟය"] },
+                    { id: 18, text: "ඇඩොල්ෆ් හිට්ලර් තම සතුරන් සේ සලකා ලක්ෂ ගණන් ඝාතනය කළේ කුමන ජාතීන් දෙකද?", options: ["යුදෙව්වන් හා රුසියානුවන්", "ඉංග්‍රීසීන් හා ඇමරිකානුවන්", "ඇමරිකානුවන් හා ඉතාලි ජාතීන්", "යුදෙව්වන් හා ඉස්ලාම් ජාතින්"] },
+                    { id: 19, text: "බෙනිටෝ මුසොලිනිගේ දේශපාලන දර්ශනය වූයේ,", options: ["නට්සිවාදය", "පැසිස්ට්වාදය", "ප්‍රජාතන්ත්‍රවාදය", "සමාජවාදය"] },
+                    { id: 20, text: "II ලෝක යුද්ධයේ යුද්ධ ගිනි දැල් ආසියාවට පැතිරීමට බලපෑවේ කවර රටක ක්‍රියා කලාපය ලෙස සලකයිද?", options: ["ඉන්දියාව", "සිංගප්පූරුව", "චීනය", "ජපානය"] },
+                    { id: 21, text: "II ලෝක යුද්ධයට ඇමරිකා එක්සත් ජනපදය මැදිහත් වීමට බලපෑ ප්‍රධානම සාධකය වූයේ,", options: ["පර්ල් වරායට ජපානය පහර දීම", "පර්ල් වරායට ජපානය පරමාණු බෝම්බ දැමීම", "යුදෙව්වන් ඝාතනය කිරීම", "ගුවන් යානා 54ක් බිම හෙළීම"] },
+                    { id: 22, text: "ජපානය විසින් ශ්‍රී ලංකාවේ කොළඹට බෝම්බ හෙළන ලද දිනය නිවැරදිව දක්වා ඇත්තේ,", options: ["1942 අප්‍රේල් 5", "1942 අප්‍රේල් 7", "1945 මාර්තු 3", "1945 අප්‍රේල් 5"] },
+                    { id: 23, text: "1961 නොබැඳි ජාතීන්ගේ සංවිධානය පිහිටුවීමට පුරෝගාමීව කටයුතු කළ නායකයා වූයේ,", options: ["ෆ්‍රෑන්ක්ලින් රූස්වෙල්ට්", "වුඩ්රෝ විල්සන්", "ජවහර්ලාල් නේරු", "ලොයිඩ් ජෝර්ජ්"] },
+                    { id: 24, text: "එක්සත් ජාතීන්ගේ සංවිධානයේ මූලස්ථානය පිහිටි නගරය වන්නේ,", options: ["සැන් ෆ්‍රැන්සිස්කෝ", "නිව්යෝර්ක්", "වොෂින්ටන්", "ජිනීවා"] },
+                    { id: 25, text: "එක්සත් ජාතීන්ගේ සංවිධානයට අයත් ප්‍රධානතම මණ්ඩලය වන්නේ,", options: ["භාරකාර මණ්ඩලය", "ආර්ථික හා සමාජීය මණ්ඩලය", "මහා මණ්ඩලය", "ජාත්‍යන්තර අධිකරණය"] },
+                    { id: 26, text: "ආරක්ෂක මණ්ඩලයේ නිත්‍ය සාමාජික රටවල් පිළිවෙලින් දක්වා ඇත්තේ,", options: ["ඇ.එ.ජ., බ්‍රිතාන්‍යය, චීනය, ඉන්දියාව, ප්‍රංශය", "ඇ.එ.ජ., ජපානය, ඉන්දියාව, රුසියාව, බ්‍රසීලය", "ඇ.එ.ජ., ජපානය, ප්‍රංශය, චීනය, රුසියාව", "ඇ.එ.ජ., බ්‍රිතාන්‍යය, ප්‍රංශය, චීනය, රුසියාව"] },
+                    { id: 27, text: "අන්තර්ජාතික අධිකරණයේ මූලස්ථානය පිහිටා ඇත්තේ,", options: ["නෙදර්ලන්තයේ හේග් නුවර", "ස්විට්සර්ලන්තයේ ජිනීවා නුවර", "ඇ.එ.ජ. නිව්යෝර්ක් නුවර", "ඉතාලියේ රෝම නගරය"] },
+                    { id: 28, text: "අවුෂ්විට්ස්, බර්ගන්, බෙල්සන්, බුකෙන්වාල්ඩ්, සොබිබෝර් - ඉහතින් දක්වා ඇත්තේ,", options: ["බෙනිටෝ මුසොලිනි විසින් පවත්වාගෙන ගිය වදකාගාර", "II ලෝක යුද්ධයෙන් වඩාත් විනාශ වූ නගර", "හිට්ලර් විසින් පවත්වාගෙන ගිය වදකාගාර", "I ලෝක යුද්ධයේ යුද්ධ මධ්‍යස්ථාන"] },
+                    { id: 29, text: "පැසිස්ට්වාදයට එරෙහි වූවන් විනාශ කිරීම සඳහා 'කළු කමිස' හමුදාව යොදාගත් ඒකාධිපති පාලකයා,", options: ["බෙනිටෝ මුසොලිනි", "ඇඩොල්ෆ් හිට්ලර්", "වුඩ්රෝ විල්සන්", "වින්සන්ට් චර්චිල්"] },
+                    { id: 30, text: "ජර්මන් අධිරාජ්‍යය ගොඩනැගීමේ අරමුණින් කටයුතු කළ ප්‍රථම පාලකයා වූයේ,", options: ["වොන් මොල්ට්කේ", "ඔටෝ වොන් බිස්මාක්", "II විලියම් කයිසර්", "ඇඩොල්ෆ් හිට්ලර්"] },
+                    { id: 31, header: "පහත A, B, C, D වලින් දැක්වෙන ප්‍රකාශ / පද යුගල අධ්‍යයනය කර 31 සිට 33 දක්වා ප්‍රශ්නවලට පිළිතුරු සපයන්න.<div class='overflow-x-auto my-3'><table class='w-full text-xs md:text-sm border border-slate-300 text-left'><thead class='bg-slate-100'><tr><th class='border p-2'>කාණ්ඩය</th><th class='border p-2'>පළමු පදය</th><th class='border p-2'>දෙවන පදය</th></tr></thead><tbody><tr><td class='border p-2 font-bold'>A</td><td class='border p-2'>ජාතීන්ගේ සංගමය</td><td class='border p-2'>එක්සත් ජාතීන්ගේ සංවිධානය</td></tr><tr><td class='border p-2 font-bold'>B</td><td class='border p-2'>ලෝක සාමය</td><td class='border p-2'>ආර්ථික සම්බාධක</td></tr><tr><td class='border p-2 font-bold'>C</td><td class='border p-2'>II ලෝක මහා සංග්‍රාමය</td><td class='border p-2'>ඊශ්‍රායලය</td></tr><tr><td class='border p-2 font-bold'>D</td><td class='border p-2'>පරිසර දූෂණය</td><td class='border p-2'>කාර්මීකරණය</td></tr></tbody></table></div>", text: "පළවැන්නේ වැඩිවීමට දෙවැන්නේ වැඩිවීම හේතු දැක්වෙන ප්‍රකාශ / පද යුගලය කුමක්ද?", options: ["A", "B", "C", "D"] },
+                    { id: 32, text: "පළවැන්නේ අසාර්ථකත්වය දෙවැන්නේ ආරම්භයට හේතුවන බව දැක්වෙන පද / ප්‍රකාශ යුගලය කුමක්ද?", options: ["A", "B", "C", "D"] },
+                    { id: 33, text: "දෙවැන්න පළවැන්නේ ප්‍රතිඵලයක් බව දැක්වෙන ප්‍රකාශ / පද යුගලය කුමක්ද?", options: ["A", "B", "C", "D"] },
+                    { id: 34, text: "II ලෝක යුද්ධයෙන් පසුව මාර්ෂල් සැලැස්ම හඳුන්වාදීමේ අරමුණක් වූයේ,", options: ["විනාශයට පත් වූ යුරෝපයේ රටවල් නගා සිටුවීමය", "යටත් විජිතවල සමාජ ආර්ථික කටයුතු ඉහළ නැංවීමය", "මිත්‍ර රටවල් ලෝක යුද්ධවලට අවතීර්ණ වීමට හේතු පහදා දීමය", "න්‍යෂ්ටික අවි නිෂ්පාදනය හා භාවිතය සීමා කිරීමය"] },
+                    { id: 35, text: "සීතල හෙවත් නිරවි යුද්ධය යනුවෙන් හඳුන්වන්නේ,", options: ["බලවත් ඇ.එ.ජ. සහ සෝවියට් රුසියාව ආයුධ භාවිතා නොකොට තම කඳවුර බලවත් කිරීමට කරන ලද යුද්ධයයි", "ශීත දේශගුණික රටවල් අතර ඇති වූ යුද්ධයයි", "ඇ.එ.ජ. හොර රහසේ රසායනික අවි නිෂ්පාදනය කිරීමය", "මැද පෙරදිග රටවල් සහ ඇ.එ.ජ. අතර කාලාන්තරයක් මුළුල්ලේ පවතින යුද්ධ වාතාවරණයයි"] },
+                    { id: 36, text: "මධ්‍යම රහස් ඔත්තු සේවාව (CIA) පවත්වාගෙන යනු ලබන රට වන්නේ,", options: ["රුසියාව", "ඇ.එ.ජ.", "බ්‍රිතාන්‍යය", "චීනය"] },
+                    { id: 37, text: "ලෝක සෞඛ්‍ය සංවිධානය (WHO) සහ ආහාර හා කෘෂිකර්ම සංවිධානය (FAO) පිහිටි ස්ථාන පිළිවෙලින් දක්වා ඇත්තේ,", options: ["නිව්යෝර්ක්, ලන්ඩන්", "ජිනීවා, ඇඩිස් අබාබා", "ජිනීවා, රෝමය", "නිව්යෝර්ක්, රෝමය"] },
+                    { id: 38, text: "සූවස් ඇල ජනසතු කිරීමෙහිලා පුරෝගාමී මෙහෙවරක් කළ නායකයා වූයේ,", options: ["අබ්දුල් ගමාල් නසාර්", "ෆිදෙල් කැස්ත්‍රෝ", "වුඩ්රෝ විල්සන්", "ෆ්‍රෑන්ක්ලින් රූස්වෙල්ට්"] },
+                    { id: 39, text: "එක්සත් ජාතීන්ගේ සංවිධානයේ මහ ලේකම්වරයා පත් කිරීමේ බලය පැවරී ඇති මණ්ඩලය වන්නේ,", options: ["ආරක්ෂක මණ්ඩලය (නිර්දේශ මත මහා මණ්ඩලය)", "භාරකාර මණ්ඩලය", "මහා මණ්ඩලය", "ආර්ථික හා සමාජීය මණ්ඩලය"] },
+                    { id: 40, text: "'මගේ සටන' නැමති කෘතිය තුළ අඩංගු වූයේ,", options: ["ඉතාලියේ පැසිස්ට්වාදය පිළිබඳ අදහස්ය", "රුසියාවේ සමාජවාදය පිළිබඳ අදහස්ය", "ඇමරිකාවේ ධනවාදය පිළිබඳ අදහස්ය", "ජර්මනියේ නට්සිවාදය පිළිබඳ අදහස්ය"] }
+                ]
+            }
+        };
+
+        // Application State
+        let currentUnitId = 1;
+        let currentStudent = { name: '', school: '', year: '2026' };
+        let userAnswers = {};
+        let timerInterval = null;
+        let timeRemaining = 3600;
+        let examStartTime = null;
+        let examSubmitted = false;
+
+        // Check URL parameter ?unit=X on load to pre-select unit
+        window.onload = function () {
+            const params = new URLSearchParams(window.location.search);
+            const paramUnit = Number(params.get("unit"));
+            if (ALL_UNITS_DATA[paramUnit]) {
+                currentUnitId = paramUnit;
+                const radio = document.querySelector(`input[name="selected-unit"][value="${paramUnit}"]`);
+                if (radio) radio.checked = true;
+            }
+        };
+
+        function getSettings() {
+            const saved = localStorage.getItem(STORAGE_SETTINGS_KEY);
+            if (saved) {
+                try { return JSON.parse(saved); } catch (e) {}
+            }
+            return { pin: '1234', minutes: 60 };
+        }
+
+        function saveSettings(settings) {
+            localStorage.setItem(STORAGE_SETTINGS_KEY, JSON.stringify(settings));
+        }
+
+        function getResultsList() {
+            const saved = localStorage.getItem(STORAGE_RESULTS_KEY);
+            if (saved) {
+                try { return JSON.parse(saved); } catch (e) {}
+            }
+            return [];
+        }
+
+        function saveResultRecord(record) {
+            const list = getResultsList();
+            list.unshift(record);
+            localStorage.setItem(STORAGE_RESULTS_KEY, JSON.stringify(list));
+        }
+
+        function saveScoreToDashboard(unitId, score) {
+            try {
+                const existing = JSON.parse(localStorage.getItem(STORAGE_DASHBOARD_KEY)) || {};
+                existing[unitId] = score;
+                localStorage.setItem(STORAGE_DASHBOARD_KEY, JSON.stringify(existing));
+            } catch (e) {
+                console.warn('Could not save score to dashboard storage:', e);
+            }
+        }
+
+        function sendScoreToGoogleSheet(payload) {
+            const statusEl = document.getElementById('sheet-sync-status');
+            if (statusEl) {
+                statusEl.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200";
+                statusEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Google Sheet වෙත ලකුණු යවමින් පවතී...</span>`;
+            }
+
+            fetch(GOOGLE_SHEET_WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                if (statusEl) {
+                    statusEl.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200";
+                    statusEl.innerHTML = `<i class="fa-solid fa-circle-check"></i><span>ලකුණු සාර්ථකව Google Sheet වෙත සුරකින ලදී</span>`;
+                }
+            })
+            .catch((err) => {
+                console.warn("Google Sheet sync failed:", err);
+                if (statusEl) {
+                    statusEl.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-rose-50 text-rose-800 border border-rose-200";
+                    statusEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i><span>Google Sheet වෙත යැවීමේදී දෝෂයක් ඇති විය (දේශීයව සුරකින ලදී)</span>`;
+                }
+            });
+        }
+
+        // Start Student Exam from Login Form
+        function startStudentExam(event) {
+            event.preventDefault();
+            const name = document.getElementById('student-name').value.trim();
+            const school = document.getElementById('student-school').value.trim();
+            const year = document.getElementById('student-year').value.trim();
+            const selectedUnit = Number(document.querySelector('input[name="selected-unit"]:checked').value);
+
+            if (!name || !school || !year) {
+                alert("කරුණාකර ඔබගේ නම, පාසල/පන්තිය සහ වසර ඇතුළත් කරන්න.");
+                return;
+            }
+
+            currentStudent = { name, school, year };
+            currentUnitId = selectedUnit;
+
+            // Update URL param cleanly
+            const url = new URL(window.location);
+            url.searchParams.set('unit', currentUnitId);
+            window.history.replaceState({}, '', url);
+
+            // Switch Views
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('exam-screen').classList.remove('hidden');
+            document.getElementById('exam-status-bar').classList.remove('hidden');
+
+            document.getElementById('disp-name').innerText = name;
+            document.getElementById('disp-school').innerText = school;
+            document.getElementById('disp-year').innerText = year;
+
+            renderUnitSwitcher();
+            initUnitExam(currentUnitId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderUnitSwitcher() {
+            const switcher = document.getElementById('unit-switcher');
+            switcher.innerHTML = '';
+            for (let i = 1; i <= 8; i++) {
+                const u = ALL_UNITS_DATA[i];
+                const btn = document.createElement('button');
+                const isActive = i === currentUnitId;
+                btn.className = `text-xs font-bold px-2.5 py-1 rounded transition shrink-0 ${
+                    isActive
+                        ? 'bg-amber-400 text-blue-950 shadow'
+                        : 'bg-blue-950/70 text-blue-100 hover:bg-blue-800 border border-blue-700/60'
+                }`;
+                btn.innerText = u.number;
+                btn.title = `${u.number} වන ඒකකය: ${u.title}`;
+                btn.onclick = () => switchUnit(i);
+                switcher.appendChild(btn);
+            }
+        }
+
+        function switchUnit(unitId) {
+            if (unitId === currentUnitId) return;
+            if (!examSubmitted && Object.keys(userAnswers).length > 0) {
+                if (!confirm("ඒකකය මාරු කළහොත් දැනට ලබා දී ඇති පිළිතුරු යළි සැකසේ. ඉදිරියට යාමට අවශ්‍යද?")) {
+                    return;
+                }
+            }
+            currentUnitId = unitId;
+            const url = new URL(window.location);
+            url.searchParams.set('unit', unitId);
+            window.history.replaceState({}, '', url);
+
+            renderUnitSwitcher();
+            initUnitExam(unitId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initUnitExam(unitId) {
+            clearInterval(timerInterval);
+            const unitData = ALL_UNITS_DATA[unitId];
+            userAnswers = {};
+            examSubmitted = false;
+
+            const settings = getSettings();
+            timeRemaining = (settings.minutes || 60) * 60;
+            examStartTime = Date.now();
+
+            const fullLabel = `${unitData.number} වන ඒකකය: ${unitData.title}`;
+            document.title = `11 ශ්‍රේණිය - ඉතිහාසය (${fullLabel})`;
+            document.getElementById('header-unit-label').innerText = `11 ශ්‍රේණිය - ඉතිහාසය (${unitData.number} වන ඒකකය)`;
+            document.getElementById('header-lesson-title').innerText = `${unitData.title} (ප්‍රශ්න ${unitData.totalQuestions})`;
+            document.getElementById('banner-main-title').innerText = `අ.පො.ස. (සාමාන්‍ය පෙළ) - 11 ශ්‍රේණිය ඉතිහාසය`;
+            document.getElementById('banner-sub-title').innerText = `${fullLabel} - කාලය: මිනිත්තු ${settings.minutes || 60}`;
+            document.getElementById('progress-text').innerText = `0 / ${unitData.totalQuestions}`;
+
+            document.getElementById('results-section').classList.add('hidden');
+            document.getElementById('submit-box').classList.remove('hidden');
+
+            renderNavGrid();
+            renderQuestions();
+            startTimer();
+        }
+
+        // Return to Login / Lesson Switch Screen
+        function returnToHome() {
+            if (!examSubmitted && Object.keys(userAnswers).length > 0) {
+                if (!confirm("ඔබ දැනට සපයා ඇති පිළිතුරු මැකී යනු ඇත. ආපසු යාමට අවශ්‍යද?")) {
+                    return;
+                }
+            }
+            clearInterval(timerInterval);
+            document.getElementById('exam-screen').classList.add('hidden');
+            document.getElementById('exam-status-bar').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('header-unit-label').innerText = "11 ශ්‍රේණිය - ඉතිහාසය";
+            document.getElementById('header-lesson-title').innerText = "මාර්ගගත බහුවරණ ඇගයීම් පද්ධතිය (ඒකක 01 - 08)";
+            const radio = document.querySelector(`input[name="selected-unit"][value="${currentUnitId}"]`);
+            if (radio) radio.checked = true;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Render Question Jump Buttons
+        function renderNavGrid() {
+            const grid = document.getElementById('nav-grid');
+            grid.innerHTML = '';
+            const total = ALL_UNITS_DATA[currentUnitId].totalQuestions;
+            for (let i = 1; i <= total; i++) {
+                const btn = document.createElement('button');
+                btn.id = `nav-btn-${i}`;
+                btn.className = 'text-xs font-bold py-1.5 rounded border border-slate-300 bg-slate-100 text-slate-600 hover:bg-slate-200 transition';
+                btn.innerText = i < 10 ? `0${i}` : `${i}`;
+                btn.onclick = () => scrollToQuestion(i);
+                grid.appendChild(btn);
+            }
+        }
+
+        // Render Questions list for Selected Unit
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            const questions = ALL_UNITS_DATA[currentUnitId].questions;
+
+            questions.forEach((q) => {
+                const qCard = document.createElement('div');
+                qCard.id = `q-card-${q.id}`;
+                qCard.className = 'bg-white rounded-xl shadow-md p-5 border border-slate-200 scroll-mt-24';
+
+                let html = '';
+                
+                if (q.header) {
+                    html += `<div class="mb-3 text-slate-800 font-medium">${q.header}</div>`;
+                }
+
+                html += `
+                    <div class="flex items-start gap-2 mb-3">
+                        <span class="bg-blue-900 text-white font-bold text-sm px-2.5 py-1 rounded-lg shrink-0">
+                            ${q.id < 10 ? '0' + q.id : q.id}
+                        </span>
+                        <div class="text-slate-800 font-semibold text-base md:text-lg leading-relaxed pt-0.5">
+                            ${q.text}
+                        </div>
+                    </div>
+                `;
+
+                if (q.tableHtml) {
+                    html += q.tableHtml;
+                }
+
+                html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 mt-4">`;
+                q.options.forEach((opt, idx) => {
+                    const optNum = idx + 1;
+                    html += `
+                        <button 
+                            onclick="selectOption(${q.id}, ${optNum})" 
+                            id="opt-btn-${q.id}-${optNum}"
+                            class="option-btn text-left p-3 rounded-lg border border-slate-300 text-slate-700 text-sm md:text-base flex items-center gap-3 bg-slate-50 hover:bg-blue-50">
+                            <span class="w-7 h-7 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-xs shrink-0 no-select border">
+                                (${optNum})
+                            </span>
+                            <span class="flex-grow">${opt}</span>
+                        </button>
+                    `;
+                });
+                html += `</div>`;
+
+                qCard.innerHTML = html;
+                container.appendChild(qCard);
+            });
+        }
+
+        // Handle Option Selection
+        function selectOption(qId, optNum) {
+            if (examSubmitted) return;
+            userAnswers[qId] = optNum;
+
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById(`opt-btn-${qId}-${i}`);
+                if (btn) {
+                    if (i === optNum) {
+                        btn.classList.add('selected', 'bg-blue-100', 'border-blue-600', 'text-blue-900');
+                        btn.classList.remove('bg-slate-50');
+                    } else {
+                        btn.classList.remove('selected', 'bg-blue-100', 'border-blue-600', 'text-blue-900');
+                        btn.classList.add('bg-slate-50');
+                    }
+                }
+            }
+
+            const navBtn = document.getElementById(`nav-btn-${qId}`);
+            if (navBtn) {
+                navBtn.classList.remove('bg-slate-100', 'text-slate-600');
+                navBtn.classList.add('bg-blue-600', 'text-white', 'border-blue-700');
+            }
+
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = ALL_UNITS_DATA[currentUnitId].totalQuestions;
+            document.getElementById('progress-text').innerText = `${answeredCount} / ${total}`;
+        }
+
+        function scrollToQuestion(qId) {
+            const el = document.getElementById(`q-card-${qId}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Countdown Timer Logic
+        function startTimer() {
+            clearInterval(timerInterval);
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("කාලය අවසන් විය! ඔබගේ පිළිතුරු ස්වයංක්‍රීයව පරීක්ෂාවට යොමු කෙරේ.");
+                    submitExam();
+                } else {
+                    timeRemaining--;
+                    updateTimerDisplay();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('timer').innerText = 
+                `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        }
+
+        function confirmSubmit() {
+            const count = Object.keys(userAnswers).length;
+            const total = ALL_UNITS_DATA[currentUnitId].totalQuestions;
+            if (count < total) {
+                if (confirm(`ඔබ ප්‍රශ්න ${total}න් ${count}කට පමණක් පිළිතුරු සපයා ඇත. ඔබට විභාගය අවසන් කිරීමට අවශ්‍යද?`)) {
+                    submitExam();
+                }
+            } else {
+                if (confirm("ඔබ සියලුම ප්‍රශ්න සඳහා පිළිතුරු සපයා ඇත. ඔබට විභාගය අවසන් කිරීමට අවශ්‍යද?")) {
+                    submitExam();
+                }
+            }
+        }
+
+        // Submit and Calculate Results
+        function submitExam() {
+            if (examSubmitted) return;
+            examSubmitted = true;
+            clearInterval(timerInterval);
+
+            const unitData = ALL_UNITS_DATA[currentUnitId];
+            const total = unitData.totalQuestions;
+            const answerKey = unitData.answerKey;
+
+            let score = 0;
+            for (let i = 1; i <= total; i++) {
+                if (userAnswers[i] === answerKey[i]) {
+                    score++;
+                }
+            }
+
+            const percentage = Math.round((score / total) * 100);
+
+            let grade = 'F';
+            if (percentage >= 75) grade = 'A';
+            else if (percentage >= 65) grade = 'B';
+            else if (percentage >= 55) grade = 'C';
+            else if (percentage >= 35) grade = 'S';
+
+            // Calculate Time Taken
+            const elapsedSec = Math.max(1, Math.round((Date.now() - examStartTime) / 1000));
+            const minsTaken = Math.floor(elapsedSec / 60);
+            const secsTaken = elapsedSec % 60;
+            const timeTakenStr = `${minsTaken} මිනි. ${secsTaken} තත්.`;
+
+            const unitShortLabel = `${unitData.number} වන ඒකකය`;
+            const unitFullTitle = `${unitData.number} වන ඒකකය - ${unitData.title}`;
+
+            // 1. Save to Dashboard localStorage (grade11_history_scores_v1)
+            saveScoreToDashboard(unitData.id, score);
+
+            // 2. Save Record for Teacher Control Panel (ol_history_grade11_results_v1)
+            saveResultRecord({
+                id: 'REC-' + Date.now(),
+                name: currentStudent.name,
+                school: currentStudent.school,
+                year: currentStudent.year,
+                unitId: unitData.id,
+                unitKey: String(unitData.id),
+                unitName: unitShortLabel,
+                unitFullTitle: unitFullTitle,
+                score: score,
+                total: total,
+                percentage: percentage,
+                grade: grade,
+                timeTaken: timeTakenStr,
+                timestamp: new Date().toLocaleString('si-LK'),
+                answers: { ...userAnswers }
+            });
+
+            // 3. Send Score to Google Sheet Web App (Grade 11 History Quiz Scores)
+            sendScoreToGoogleSheet({
+                studentName: currentStudent.name,
+                studentClass: currentStudent.school,
+                year: currentStudent.year,
+                unitId: unitData.id,
+                unitTitle: unitFullTitle,
+                score: score,
+                total: total,
+                percentage: percentage,
+                grade: grade,
+                timeSpentSeconds: elapsedSec
+            });
+
+            // Populate Results Summary
+            document.getElementById('result-unit-subtitle').innerText = `11 ශ්‍රේණිය - ඉතිහාසය (${unitFullTitle})`;
+            document.getElementById('res-student-name').innerText = currentStudent.name;
+            document.getElementById('res-student-school').innerText = currentStudent.school;
+            document.getElementById('res-student-year').innerText = currentStudent.year;
+
+            document.getElementById('score-text').innerText = `${score} / ${total}`;
+            document.getElementById('percentage-text').innerText = `${percentage}%`;
+            document.getElementById('grade-text').innerText = grade;
+
+            document.getElementById('submit-box').classList.add('hidden');
+
+            renderAnswerMatrix();
+            renderReviewSection();
+
+            const resultsSection = document.getElementById('results-section');
+            resultsSection.classList.remove('hidden');
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Populate Official Answer Sheet Table
+        function renderAnswerMatrix() {
+            const tbody = document.getElementById('answer-matrix-body');
+            tbody.innerHTML = '';
+            const answerKey = ALL_UNITS_DATA[currentUnitId].answerKey;
+
+            for (let row = 1; row <= 10; row++) {
+                const tr = document.createElement('tr');
+                let html = '';
+
+                for (let col = 0; col < 4; col++) {
+                    const qNum = row + col * 10;
+                    const ans = answerKey[qNum] ?? '-';
+                    html += `
+                        <td class="border border-slate-300 p-1.5 font-bold text-slate-600 bg-slate-50">${qNum < 10 ? '0' + qNum : qNum}</td>
+                        <td class="border border-slate-300 p-1.5 font-extrabold text-blue-700 bg-blue-50">${ans}</td>
+                    `;
+                }
+                tr.innerHTML = html;
+                tbody.appendChild(tr);
+            }
+        }
+
+        // Render Detailed Review Section
+        function renderReviewSection() {
+            const container = document.getElementById('review-container');
+            container.innerHTML = '';
+            const unitData = ALL_UNITS_DATA[currentUnitId];
+            const questions = unitData.questions;
+            const answerKey = unitData.answerKey;
+
+            questions.forEach((q) => {
+                const userAns = userAnswers[q.id];
+                const correctAns = answerKey[q.id];
+                const isCorrect = userAns === correctAns;
+
+                const card = document.createElement('div');
+                card.className = `p-4 md:p-5 rounded-xl border-2 ${
+                    isCorrect ? 'border-emerald-500 bg-emerald-50/30' : 'border-rose-400 bg-rose-50/30'
+                }`;
+
+                let html = `
+                    <div class="flex items-start justify-between gap-2 mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-slate-800 text-white font-bold text-xs px-2.5 py-1 rounded">
+                                ප්‍රශ්නය ${q.id < 10 ? '0' + q.id : q.id}
+                            </span>
+                            ${
+                                isCorrect 
+                                ? '<span class="bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-full"><i class="fa-solid fa-check mr-1"></i> නිවැරදියි</span>'
+                                : '<span class="bg-rose-600 text-white text-xs font-bold px-2.5 py-1 rounded-full"><i class="fa-solid fa-xmark mr-1"></i> වැරදියි</span>'
+                            }
+                        </div>
+                    </div>
+                    <p class="font-semibold text-slate-800 mb-3 text-sm md:text-base">${q.text}</p>
+                `;
+
+                if (q.tableHtml) {
+                    html += q.tableHtml;
+                }
+
+                html += `<div class="space-y-1.5 mt-3 text-xs md:text-sm">`;
+                q.options.forEach((opt, idx) => {
+                    const optNum = idx + 1;
+                    let optStyle = 'bg-white border-slate-200 text-slate-700';
+
+                    if (optNum === correctAns) {
+                        optStyle = 'bg-emerald-100 border-emerald-500 font-bold text-emerald-900 border-2';
+                    } else if (optNum === userAns && !isCorrect) {
+                        optStyle = 'bg-rose-100 border-rose-500 font-bold text-rose-900 border-2';
+                    }
+
+                    html += `
+                        <div class="p-2.5 rounded-lg border flex items-center justify-between ${optStyle}">
+                            <span>(${optNum}) ${opt}</span>
+                            ${
+                                optNum === correctAns 
+                                ? '<span class="text-emerald-700 font-bold text-xs"><i class="fa-solid fa-check"></i> නිවැරදි පිළිතුර</span>' 
+                                : (optNum === userAns ? '<span class="text-rose-700 font-bold text-xs"><i class="fa-solid fa-user-xmark"></i> ඔබගේ පිළිතුර</span>' : '')
+                            }
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+
+                card.innerHTML = html;
+                container.appendChild(card);
+            });
+        }
+
+        // =====================================================================
+        // TEACHER CONTROL PANEL LOGIC
+        // =====================================================================
+        function openTeacherLogin() {
+            document.getElementById('teacher-pin-input').value = '';
+            document.getElementById('teacher-pin-modal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('teacher-pin-input').focus(), 100);
+        }
+
+        function closeTeacherLogin() {
+            document.getElementById('teacher-pin-modal').classList.add('hidden');
+        }
+
+        function verifyTeacherPin() {
+            const entered = document.getElementById('teacher-pin-input').value.trim();
+            const settings = getSettings();
+            if (entered === settings.pin) {
+                closeTeacherLogin();
+                openTeacherPanel();
+            } else {
+                alert("වැරදි PIN අංකයකි! නැවත උත්සාහ කරන්න.");
+            }
+        }
+
+        function openTeacherPanel() {
+            const settings = getSettings();
+            document.getElementById('tp-exam-minutes').value = settings.minutes || 60;
+            document.getElementById('tp-new-pin').value = '';
+            document.getElementById('tp-student-detail-box').classList.add('hidden');
+            renderTeacherTable();
+            document.getElementById('teacher-panel-modal').classList.remove('hidden');
+        }
+
+        function closeTeacherPanel() {
+            document.getElementById('teacher-panel-modal').classList.add('hidden');
+        }
+
+        function saveExamSettings() {
+            const mins = parseInt(document.getElementById('tp-exam-minutes').value, 10);
+            if (isNaN(mins) || mins < 5 || mins > 180) {
+                alert("මිනිත්තු 5 ත් 180 ත් අතර අගයක් ඇතුළත් කරන්න.");
+                return;
+            }
+            const settings = getSettings();
+            settings.minutes = mins;
+            saveSettings(settings);
+            alert(`විභාග කාලය මිනිත්තු ${mins} ලෙස යාවත්කාලීන කරන ලදී.`);
+        }
+
+        function updateTeacherPin() {
+            const newPin = document.getElementById('tp-new-pin').value.trim();
+            if (newPin.length < 4) {
+                alert("අවම වශයෙන් අංක 4ක නව PIN අංකයක් ඇතුළත් කරන්න.");
+                return;
+            }
+            const settings = getSettings();
+            settings.pin = newPin;
+            saveSettings(settings);
+            document.getElementById('tp-new-pin').value = '';
+            alert("ගුරු පාලන PIN අංකය සාර්ථකව වෙනස් කරන ලදී!");
+        }
+
+        function normalizeUnitId(rec) {
+            if (rec.unitId) return Number(rec.unitId);
+            if (rec.unitKey) {
+                const stripped = String(rec.unitKey).replace('unit', '');
+                return Number(stripped);
+            }
+            return 1;
+        }
+
+        function renderTeacherTable() {
+            const allRecords = getResultsList();
+            const filterUnit = document.getElementById('tp-filter-unit').value;
+            const filtered = filterUnit === 'all' 
+                ? allRecords 
+                : allRecords.filter(r => String(normalizeUnitId(r)) === filterUnit);
+
+            // Update Stats
+            document.getElementById('tp-total-students').innerText = filtered.length;
+            if (filtered.length > 0) {
+                const totalScore = filtered.reduce((acc, r) => acc + r.score, 0);
+                const avg = (totalScore / filtered.length).toFixed(1);
+                const aCount = filtered.filter(r => r.grade === 'A').length;
+                const maxScore = Math.max(...filtered.map(r => r.score));
+
+                document.getElementById('tp-avg-score').innerText = `${avg} / 40`;
+                document.getElementById('tp-a-count').innerText = aCount;
+                document.getElementById('tp-max-score').innerText = `${maxScore} / 40`;
+            } else {
+                document.getElementById('tp-avg-score').innerText = `0 / 40`;
+                document.getElementById('tp-a-count').innerText = `0`;
+                document.getElementById('tp-max-score').innerText = `0`;
+            }
+
+            const tbody = document.getElementById('tp-results-body');
+            tbody.innerHTML = '';
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="10" class="p-6 text-center text-slate-500">තවමත් සිසුන්ගේ ප්‍රතිඵල වාර්තා වී නොමැත.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach((rec, index) => {
+                const gradeBadge = rec.grade === 'A' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                                   rec.grade === 'B' ? 'bg-blue-100 text-blue-800 border-blue-300' :
+                                   rec.grade === 'C' ? 'bg-amber-100 text-amber-800 border-amber-300' :
+                                   rec.grade === 'S' ? 'bg-purple-100 text-purple-800 border-purple-300' :
+                                   'bg-rose-100 text-rose-800 border-rose-300';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50';
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-slate-600">${index + 1}</td>
+                    <td class="p-3 font-bold text-slate-900">${rec.name}</td>
+                    <td class="p-3 text-slate-700">${rec.school}</td>
+                    <td class="p-3 text-slate-700">${rec.year}</td>
+                    <td class="p-3 font-semibold text-blue-800">${rec.unitName}</td>
+                    <td class="p-3 text-center font-extrabold text-slate-900">${rec.score} / 40</td>
+                    <td class="p-3 text-center font-bold">${rec.percentage}%</td>
+                    <td class="p-3 text-center"><span class="px-2.5 py-0.5 rounded-full border font-extrabold text-xs ${gradeBadge}">${rec.grade}</span></td>
+                    <td class="p-3 text-xs text-slate-500">${rec.timestamp}<br><span class="text-slate-400">(${rec.timeTaken || '-'})</span></td>
+                    <td class="p-3 text-center space-x-1">
+                        <button onclick="inspectStudentAnswers('${rec.id}')" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded text-xs font-bold" title="පිළිතුරු බලන්න">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                        <button onclick="deleteSingleRecord('${rec.id}')" class="bg-rose-600 hover:bg-rose-700 text-white px-2.5 py-1 rounded text-xs font-bold" title="මකන්න">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function inspectStudentAnswers(recId) {
+            const rec = getResultsList().find(r => r.id === recId);
+            if (!rec) return;
+
+            const uId = normalizeUnitId(rec);
+            const unitData = ALL_UNITS_DATA[uId];
+            if (!unitData) return;
+
+            const ansKey = unitData.answerKey;
+            const detailBox = document.getElementById('tp-student-detail-box');
+            const detailGrid = document.getElementById('tp-detail-grid');
+
+            document.getElementById('tp-detail-title').innerText = `${rec.name} (${rec.school}) - ${rec.unitName} පිළිතුරු පත්‍රය (${rec.score}/40)`;
+            detailGrid.innerHTML = '';
+
+            for (let i = 1; i <= 40; i++) {
+                const uAns = rec.answers ? rec.answers[i] : null;
+                const cAns = ansKey[i];
+                const isOk = uAns === cAns;
+
+                const cell = document.createElement('div');
+                cell.className = `p-2 rounded border text-center ${isOk ? 'bg-emerald-100 border-emerald-400 text-emerald-900' : 'bg-rose-100 border-rose-400 text-rose-900'}`;
+                cell.innerHTML = `
+                    <div class="font-bold">ප්‍රශ්න ${i < 10 ? '0' + i : i}</div>
+                    <div>සිසුවා: <strong>${uAns || '-'}</strong> | නිවැරදි: <strong>${cAns}</strong></div>
+                `;
+                detailGrid.appendChild(cell);
+            }
+
+            detailBox.classList.remove('hidden');
+            detailBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function deleteSingleRecord(recId) {
+            if (!confirm("මෙම සිසුවාගේ ප්‍රතිඵල වාර්තාව මැකීමට අවශ්‍යද?")) return;
+            const updated = getResultsList().filter(r => r.id !== recId);
+            localStorage.setItem(STORAGE_RESULTS_KEY, JSON.stringify(updated));
+            document.getElementById('tp-student-detail-box').classList.add('hidden');
+            renderTeacherTable();
+        }
+
+        function clearAllResults() {
+            if (!confirm("සියලුම සිසුන්ගේ ප්‍රතිඵල වාර්තා ස්ථිරවම මැකීමට අවශ්‍යද?")) return;
+            localStorage.removeItem(STORAGE_RESULTS_KEY);
+            document.getElementById('tp-student-detail-box').classList.add('hidden');
+            renderTeacherTable();
+        }
+
+        function exportResultsCSV() {
+            const allRecords = getResultsList();
+            if (allRecords.length === 0) {
+                alert("බාගත කිරීමට ප්‍රතිඵල වාර්තා නොමැත.");
+                return;
+            }
+
+            let csv = "\uFEFFඅංකය,සිසුවාගේ නම,පාසල/පන්තිය,වසර,ඒකකය,ලබාගත් ලකුණු,මුළු ලකුණු,ප්‍රතිශතය,සාමාර්ථය,ගත කළ කාලය,දිනය සහ වේලාව\n";
+            allRecords.forEach((r, idx) => {
+                const row = [
+                    idx + 1,
+                    `"${r.name.replace(/"/g, '""')}"`,
+                    `"${r.school.replace(/"/g, '""')}"`,
+                    `"${r.year}"`,
+                    `"${r.unitFullTitle || r.unitName}"`,
+                    r.score,
+                    r.total,
+                    `${r.percentage}%`,
+                    r.grade,
+                    `"${r.timeTaken || '-'}"`,
+                    `"${r.timestamp}"`
+                ];
+                csv += row.join(",") + "\n";
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Grade11_History_Units_1_to_8_Results_${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
